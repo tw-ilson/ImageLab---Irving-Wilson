@@ -14,7 +14,7 @@ public interface Image {
   public int[] pixArray() throws IllegalStateException;
 
   /**
-   * gets the widf of this image (in pixels).
+   * gets the width of this image (in pixels).
    * @return the width of this image
    */
   public int getWidth();

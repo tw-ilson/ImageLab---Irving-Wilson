@@ -10,7 +10,7 @@ public interface ImageProcessorIO {
   /**
    * Imports the specified image file to the model.
    * NOTE: is readable the right parameter type to use here? Change to void method?
-   * @return message detailing sucessful import.
+   * @return message detailing successful import.
    * @throws IllegalArgumentException if the file passed as argument is not supported.
    */
   public String importImage(Readable file) throws IllegalArgumentException;
