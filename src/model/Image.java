@@ -1,5 +1,7 @@
 package model;
 
+import java.awt.Color;
+
 /**
  * Represents an image as a width, a height and an array of pixels.
  * NOTE: could add fields representing effects applied such as +1 blur +2 gray
@@ -12,6 +14,14 @@ public interface Image {
    * @throws IllegalStateException if pixels cannot be produced
    */
   public int[] pixArray() throws IllegalStateException;
+
+  /**
+   * Gets the pixel at the specific coordinate in the image array.
+   * @param x the horizontal coordinate (0 <= x < width)
+   * @param y the vertical coordinate (0 <= y < height)
+   * @return the integer representation of the color requested
+   */
+  public int getPixel(int x, int y);
 
   /**
    * gets the width of this image (in pixels).
