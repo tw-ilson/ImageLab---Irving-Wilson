@@ -1,2 +1,13 @@
+Tom Wilson and Ben Irving - IME processing
 
 The general purpose of this assignment is to successfully process images of all different formats,
+and perform various transformations to those files. In this assignment, we handled the blurring
+and sharpening of images, and support for monochrome and sepia images. The image format that we
+primarily worked with was the PPM format, though we ensured that we had support for other formats.
+
+The operations in our ImageProcessor
+
+The images themselves are represented by our Image interface, which represents an Image with a
+width, height, and an array of pixels, where each value in array represents the color of that pixel.
+(IMPLEMENTATION DETAILS)
+

@@ -5,7 +5,7 @@ package model;
  * NOTE: could add fields representing effects applied such as +1 blur +2 gray
  */
 public interface Image {
-
+  
   /**
    * Gets the array of this image's pixels.
    * @return the array of this image's pixels
