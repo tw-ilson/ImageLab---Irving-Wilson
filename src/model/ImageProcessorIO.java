@@ -3,7 +3,6 @@ package model;
 /**
  * This is an interface to handle Input/Output operations for an image Processing model. Enables
  * images to be imported and exported to and from the model in this API.
- * NOTE: generalized type?
  */
 public interface ImageProcessorIO {
 
