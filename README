@@ -7,6 +7,8 @@ primarily worked with was the PPM format, though we ensured that we had support 
 
 The operations in our ImageProcessor are handled by the ImageProcessorIO interface, which contains
 3 methods.
+The importImage method, which
+
 
 The images themselves are represented by our Image interface, which represents an Image with a
 width, height, and an array of pixels, where each value in array represents the color of that pixel.

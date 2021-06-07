@@ -11,7 +11,7 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO{
   }
 
   @Override
-  public String export() throws IllegalStateException {
+  public String export(FileType f) throws IllegalStateException {
     return null;
   }
 }
