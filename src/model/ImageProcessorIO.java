@@ -12,7 +12,7 @@ public interface ImageProcessorIO {
    *
    * @throws IllegalArgumentException if the file passed as argument is not supported.
    */
-  public void importImage(Readable file) throws IllegalArgumentException;
+  public void importImage(String filename) throws IllegalArgumentException;
 
   /**
    * Exports the stored image as a ??? NOTE: possibly add enumerated argument to represent supported

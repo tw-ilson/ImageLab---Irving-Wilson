@@ -6,8 +6,10 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO{
   Image mainImage;
 
   @Override
-  public void importImage(Readable file) throws IllegalArgumentException {
-    return null;
+  public void importImage(String  fileName) throws IllegalArgumentException {
+    ImageUtil util = new ImageUtil();
+
+
   }
 
   @Override

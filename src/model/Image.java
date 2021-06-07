@@ -13,7 +13,7 @@ public interface Image {
    * @return the array of this image's pixels
    * @throws IllegalStateException if pixels cannot be produced
    */
-  public int[] pixArray() throws IllegalStateException;
+  public Color[] pixArray() throws IllegalStateException;
 
   /**
    * Gets the pixel at the specific coordinate in the image array.
@@ -21,7 +21,7 @@ public interface Image {
    * @param y the vertical coordinate (0 <= y < height)
    * @return the integer representation of the color requested
    */
-  public int getPixel(int x, int y);
+  public Color getPixel(int x, int y);
 
   /**
    * gets the width of this image (in pixels).

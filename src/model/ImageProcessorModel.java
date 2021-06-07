@@ -1,5 +1,7 @@
 package model;
 
+import java.awt.Color;
+
 /**
  * The model for applying Filters to an image.
  */
@@ -12,7 +14,11 @@ public interface ImageProcessorModel extends ImageProcessorIO {
    * @return pixel array
    * @throws IllegalStateException if the pixels cannot be read from the current image
    */
-  public int[] getImageState() throws IllegalStateException;
+  public Color[] getImageState() throws IllegalStateException;
 
+  /**
+   * Applys the specified filter to the current image.
+   * @param filter
+   */
   public void applyFilter(Filter filter);
 }
