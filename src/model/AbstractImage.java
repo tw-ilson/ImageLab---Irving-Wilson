@@ -3,7 +3,7 @@ package model;
 /**
  * Abstract class solidifies general properties of Image implementations.
  */
-public class AbstractImage implements Image {
+public abstract class AbstractImage implements Image {
 
   protected int width;
   protected int height;
