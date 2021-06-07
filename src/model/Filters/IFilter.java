@@ -1,5 +1,8 @@
 package model.Filters;
 
-public interface IFilter {
+import model.Image;
+import model.ImageProcessorModel;
 
+public interface IFilter {
+  public void apply(Image i);
 }

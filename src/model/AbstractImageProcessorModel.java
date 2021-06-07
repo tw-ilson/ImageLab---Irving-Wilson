@@ -12,6 +12,6 @@ public class AbstractImageProcessorModel extends AbstractImageProcessorIO implem
 
   @Override
   public void applyFilter(Filter filter) {
-
+    
   }
 }
