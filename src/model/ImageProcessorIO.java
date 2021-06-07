@@ -7,13 +7,12 @@ package model;
 public interface ImageProcessorIO {
 
   /**
-   * Imports the specified image file to the model. NOTE: is readable the right parameter type to
-   * use here? Change to void method?
+   * Imports the specified image file to be stored locally.
+   * NOTE: Change to void method?
    *
-   * @return message detailing successful import.
    * @throws IllegalArgumentException if the file passed as argument is not supported.
    */
-  public String importImage(Readable file) throws IllegalArgumentException;
+  public void importImage(Readable file) throws IllegalArgumentException;
 
   /**
    * Exports the stored image as a ??? NOTE: possibly add enumerated argument to represent supported

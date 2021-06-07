@@ -14,4 +14,5 @@ public interface ImageProcessorModel extends ImageProcessorIO {
    */
   public int[] getImageState() throws IllegalStateException;
 
+  public void applyFilter(Filter filter);
 }
