@@ -23,13 +23,4 @@ public interface ImageProcessorIO {
    * @throws IllegalStateException if the export requested is not possible
    */
   public String export() throws IllegalStateException;
-
-  /**
-   * Gets the current image state as an array of hexadecimal integers representing the pixels of the
-   * image
-   *
-   * @return pixel array
-   * @throws IllegalStateException if the pixels cannot be read from the current image
-   */
-  public int[] getImageState() throws IllegalStateException;
 }
