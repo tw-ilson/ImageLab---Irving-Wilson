@@ -3,7 +3,7 @@ package model;
 
 public abstract class AbstractImageProcessorIO implements ImageProcessorIO{
 
-  Image mainImage;
+  Image sourceImage;
 
   @Override
   public void importImage(String  fileName) throws IllegalArgumentException {
