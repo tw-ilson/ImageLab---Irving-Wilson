@@ -2,8 +2,8 @@ package model;
 
 import java.util.Stack;
 import model.ColorUtils.Color;
-import model.Filters.IFilter;
 import model.image.Image;
+import model.image.SimpleImage;
 
 public class SimpleImageProcessorModel extends AbstractImageProcessorModel{
   Stack<Image> imageVersions;
@@ -19,15 +19,11 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel{
     if(!filters.containsKey(filter)) {
       throw new IllegalArgumentException("Filter does not exist.");
     }
-    IFilter toApply = filters.get(filter);
+    Image nextVersion = new SimpleImage(i);
 
-    if(!imageVersions.contains(i)) {
-      imageVersions.push(i);
-    }
+    nextVersion = filters.get(filter).apply(i);
 
-    Image newVersion = toApply.apply(i);
-    imageVersions.add(newVersion);
-
+    imageVersions.push(nextVersion);
   }
 
   @Override

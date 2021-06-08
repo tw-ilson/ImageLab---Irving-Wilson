@@ -3,6 +3,7 @@ package model.image;
 
 import model.ColorUtils.Color;
 
+
 /**
  * Abstract class solidifies general properties of Image implementations.
  */
@@ -25,6 +26,13 @@ public abstract class AbstractImage implements Image {
     this.height = height;
   }
 
+  /**
+   * empty default constructor.
+   */
+  public AbstractImage() {
+    super();
+  }
+
   @Override
   public model.ColorUtils.Color[] pixArray() throws IllegalStateException {
     return pixArray.clone();
@@ -44,4 +52,5 @@ public abstract class AbstractImage implements Image {
   public int getHeight() {
     return height;
   }
+
 }

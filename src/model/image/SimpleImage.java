@@ -1,6 +1,7 @@
 package model.image;
 
 import model.ColorUtils.Color;
+import model.Filters.Filter;
 
 public class SimpleImage extends AbstractImage{
 
@@ -13,5 +14,21 @@ public class SimpleImage extends AbstractImage{
    */
   public SimpleImage(Color[] pixels, int width, int height) {
     super(pixels, width, height);
+  }
+
+  /**
+   * Copy constructor
+   * @param that the image to make a copy of.
+   */
+  public SimpleImage(Image that) {
+    super();
+    this.width = that.getWidth();
+    this.height = that.getHeight();
+    this.pixArray = new Color[width * height];
+    for (int i = 0; i < width; i++) {
+      for (int j = 0; j < height; j++) {
+        pixArray[width * j + i] = new Color(that.getPixel(i, j));
+      }
+    }
   }
 }

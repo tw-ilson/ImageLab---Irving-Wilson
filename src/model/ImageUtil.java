@@ -83,6 +83,7 @@ public class ImageUtil {
       i.getBlue() + " ");
       writer.append(System.lineSeparator());
     }
+    writer.close();
   }
 
   //demo main

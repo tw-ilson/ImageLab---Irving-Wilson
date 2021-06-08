@@ -3,7 +3,7 @@ package model.Filters;
 import java.util.Objects;
 import model.image.Image;
 
-public class Sharpen implements IFilter{
+public class Sharpen implements Filter {
   @Override
   public Image apply(Image i) {
     Objects.requireNonNull(i);

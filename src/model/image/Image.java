@@ -2,6 +2,7 @@ package model.image;
 
 
 import model.ColorUtils.Color;
+import model.Filters.Filter;
 
 /**
  * Represents an image as a width, a height and an array of pixels.
@@ -35,4 +36,6 @@ public interface Image {
    * @return the height of this image
    */
   public int getHeight();
+
+
 }
