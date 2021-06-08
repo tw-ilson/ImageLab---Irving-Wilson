@@ -19,6 +19,12 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel{
       throw new IllegalArgumentException("Filter does not exist.");
     }
     IFilter toApply = filters.get(filter);
-    toApply.apply(i);
+
+    if(!imageVersions.contains(i)) {
+      imageVersions.add(i);
+    }
+    Image newVersion = toApply.apply(i);
+    imageVersions.add(newVersion);
+
   }
 }
