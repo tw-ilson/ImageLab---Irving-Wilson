@@ -10,8 +10,8 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel{
 
 
   @Override
-  public Color[] getImageState() throws IllegalStateException {
-    return imageVersions.peek().pixArray();
+  public Image getImageState() throws IllegalStateException {
+    return imageVersions.peek();
   }
 
   @Override
