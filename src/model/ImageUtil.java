@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.FileInputStream;
+import model.ColorUtils.Color;
 import model.image.Image;
 import model.image.SimpleImage;
 

@@ -1,5 +1,6 @@
 package model;
 
+import model.ColorUtils.Color;
 import model.IO.ImageProcessorIO;
 import model.image.Image;
 

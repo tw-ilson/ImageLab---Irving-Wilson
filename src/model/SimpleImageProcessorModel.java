@@ -1,7 +1,7 @@
 package model;
 
-import java.awt.Color;
 import java.util.Stack;
+import model.ColorUtils.Color;
 import model.Filters.IFilter;
 import model.image.Image;
 
@@ -29,4 +29,8 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel{
 
   }
 
+  @Override
+  public String export(FileType f, String name) throws IllegalStateException {
+    return null;
+  }
 }

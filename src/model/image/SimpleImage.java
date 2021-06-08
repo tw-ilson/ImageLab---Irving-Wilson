@@ -1,6 +1,6 @@
 package model.image;
 
-import java.awt.Color;
+import model.ColorUtils.Color;
 
 public class SimpleImage extends AbstractImage{
 

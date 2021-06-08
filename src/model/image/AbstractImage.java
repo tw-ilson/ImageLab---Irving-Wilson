@@ -1,6 +1,7 @@
 package model.image;
 
-import java.awt.Color;
+
+import model.ColorUtils.Color;
 
 /**
  * Abstract class solidifies general properties of Image implementations.
@@ -25,7 +26,7 @@ public abstract class AbstractImage implements Image {
   }
 
   @Override
-  public Color[] pixArray() throws IllegalStateException {
+  public model.ColorUtils.Color[] pixArray() throws IllegalStateException {
     return pixArray.clone();
   }
 
