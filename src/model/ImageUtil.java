@@ -1,6 +1,8 @@
 package model;
 
-import java.awt.Color;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.FileInputStream;
@@ -61,6 +63,25 @@ public class ImageUtil {
       }
     }
     return new SimpleImage(pixels, width, height);
+  }
+
+  public static void writePPM(File file, Image image) throws IOException {
+    if (!file.exists() || file.length() !=0) {
+      throw new IOException();
+    }
+    FileWriter writer = new FileWriter(file);
+    writer.append("P3" + System.lineSeparator());
+    writer.append("# " + file.getName());
+    writer.append(image.getWidth() + " " + image.getHeight() + System.lineSeparator());
+    writer.append("" + 256 + System.lineSeparator());
+    Color[] pixels = image.pixArray();
+    for (Color i: pixels) {
+      writer.append(
+      i.getRed() + " " +
+      i.getGreen() + " " +
+      i.getBlue() + " ");
+      writer.append(System.lineSeparator());
+    }
   }
 
   //demo main
