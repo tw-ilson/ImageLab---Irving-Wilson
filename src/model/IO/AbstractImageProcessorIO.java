@@ -10,7 +10,7 @@ import model.image.Image;
 
 public abstract class AbstractImageProcessorIO implements ImageProcessorIO{
 
-  Image sourceImage;
+  protected Image sourceImage;
 
   @Override
   public void importImage(String  fileName) throws IllegalArgumentException {

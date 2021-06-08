@@ -8,6 +8,7 @@ import model.image.Image;
 public class SimpleImageProcessorModel extends AbstractImageProcessorModel{
   Stack<Image> imageVersions;
 
+
   @Override
   public Color[] getImageState() throws IllegalStateException {
     return imageVersions.peek().pixArray();
@@ -21,12 +22,18 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel{
     IFilter toApply = filters.get(filter);
 
     if(!imageVersions.contains(i)) {
-      imageVersions.add(i);
+      imageVersions.push(i);
     }
 
     Image newVersion = toApply.apply(i);
     imageVersions.add(newVersion);
 
+  }
+
+  @Override
+  public void importImage(String fileName) {
+    super.importImage(fileName);
+    imageVersions.push(this.sourceImage);
   }
 
   @Override
