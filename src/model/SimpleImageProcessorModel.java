@@ -23,8 +23,10 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel{
     if(!imageVersions.contains(i)) {
       imageVersions.add(i);
     }
+
     Image newVersion = toApply.apply(i);
     imageVersions.add(newVersion);
 
   }
+
 }
