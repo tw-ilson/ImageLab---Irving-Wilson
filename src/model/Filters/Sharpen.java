@@ -11,5 +11,7 @@ public class Sharpen implements IFilter{
     Image toReturn = null;
 
     // execute matrix transformation
+    for(int j = 0; j < i.getHeight(); j++){
+    }
   }
 }
