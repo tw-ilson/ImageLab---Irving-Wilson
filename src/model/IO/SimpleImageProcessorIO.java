@@ -1,6 +1,4 @@
-package model;
-
-import model.AbstractImageProcessorIO;
+package model.IO;
 
 public class SimpleImageProcessorIO extends AbstractImageProcessorIO {
 

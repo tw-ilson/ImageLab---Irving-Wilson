@@ -1,7 +1,6 @@
 package model.Filters;
 
-import model.Image;
-import model.ImageProcessorModel;
+import model.image.Image;
 
 public class Sharpen implements IFilter{
   @Override

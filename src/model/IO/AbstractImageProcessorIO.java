@@ -1,5 +1,9 @@
-package model;
+package model.IO;
 
+
+import model.FileType;
+import model.ImageUtil;
+import model.image.Image;
 
 public abstract class AbstractImageProcessorIO implements ImageProcessorIO{
 

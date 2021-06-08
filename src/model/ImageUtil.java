@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.FileInputStream;
+import model.image.Image;
+import model.image.SimpleImage;
 
 
 /**
@@ -17,7 +19,7 @@ public class ImageUtil {
    *
    * @param filename the path of the file.
    */
-  public static Color[] readPPM(String filename) throws FileNotFoundException {
+  public static Image readPPM(String filename) throws FileNotFoundException {
     Scanner sc;
 
     sc = new Scanner(new FileInputStream(filename));
@@ -47,7 +49,7 @@ public class ImageUtil {
     int maxValue = sc.nextInt();
     System.out.println("Maximum value of a color in this file (usually 256): " + maxValue);
 
-    Color[] toReturn = new Color[width * height];
+    Color[] pixels = new Color[width * height];
 
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
@@ -55,10 +57,10 @@ public class ImageUtil {
         int g = sc.nextInt();
         int b = sc.nextInt();
         System.out.println("Color of pixel (" + j + "," + i + "): " + r + "," + g + "," + b);
-        toReturn[height * i + j] = new Color(r, g, b);
+        pixels[height * i + j] = new Color(r, g, b);
       }
     }
-    return toReturn;
+    return new SimpleImage(pixels, width, height);
   }
 
   //demo main

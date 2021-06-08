@@ -2,6 +2,7 @@ package model;
 
 import java.awt.Color;
 import java.util.Stack;
+import model.image.Image;
 
 public class SimpleImageProcessorModel extends AbstractImageProcessorModel{
   Stack<Image> imageVersions;
@@ -12,7 +13,7 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel{
   }
 
   @Override
-  public void applyFilter(Filter filter) {
+  public void applyFilter(String filter) {
 
   }
 }

@@ -1,4 +1,6 @@
-package model;
+package model.IO;
+
+import model.FileType;
 
 /**
  * This is an interface to handle Input/Output operations for an image Processing model. Enables

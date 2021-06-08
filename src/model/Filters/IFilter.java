@@ -1,9 +1,8 @@
 package model.Filters;
 
-import model.Image;
-import model.ImageProcessorModel;
+import model.image.Image;
 
 public interface IFilter {
   public void apply(Image i);
-  int max = 255;
+  int MAX = 255;
 }

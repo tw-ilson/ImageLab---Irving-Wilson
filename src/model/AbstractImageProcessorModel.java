@@ -1,6 +1,6 @@
 package model;
 
-import java.awt.Color;
+import model.IO.AbstractImageProcessorIO;
 
 public abstract class AbstractImageProcessorModel extends AbstractImageProcessorIO implements
     ImageProcessorModel {
