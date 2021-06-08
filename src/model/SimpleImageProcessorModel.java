@@ -1,9 +1,8 @@
 package model;
 
 import java.awt.Color;
-import java.io.File;
-import java.io.IOException;
 import java.util.Stack;
+import model.Filters.IFilter;
 import model.image.Image;
 
 public class SimpleImageProcessorModel extends AbstractImageProcessorModel{
@@ -15,22 +14,19 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel{
   }
 
   @Override
-  public void applyFilter(String filter) {
-
-  }
-
-  @Override
-  public String export(FileType f, String name) throws IllegalStateException {
-    try {
-      File toWrite = new File(name);
-      switch (f) {
-        case PPM:
-          toWrite.createNewFile();
-          ImageUtil.writePPM(toWrite, imageVersions.peek());
-          System.out.println("Successfully saved new " + f + " file: " + name);
-      }
-    } catch (IOException e) {
-
+  public void applyFilter(String filter, Image i) {
+    if(!filters.containsKey(filter)) {
+      throw new IllegalArgumentException("Filter does not exist.");
     }
+    IFilter toApply = filters.get(filter);
+
+    if(!imageVersions.contains(i)) {
+      imageVersions.add(i);
+    }
+
+    Image newVersion = toApply.apply(i);
+    imageVersions.add(newVersion);
+
   }
+
 }

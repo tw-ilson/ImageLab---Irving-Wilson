@@ -1,6 +1,7 @@
 package model;
 
 import model.IO.ImageProcessorIO;
+import model.image.Image;
 
 /**
  * The model for applying Filters to an image.
@@ -20,5 +21,5 @@ public interface ImageProcessorModel extends ImageProcessorIO {
    * Applys the specified filter to the current image.
    * @param filter
    */
-  public void applyFilter(String filter);
+  public void applyFilter(String filter, Image i);
 }
