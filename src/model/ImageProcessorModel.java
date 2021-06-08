@@ -1,6 +1,5 @@
 package model;
 
-import java.awt.Color;
 import model.IO.ImageProcessorIO;
 
 /**
