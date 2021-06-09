@@ -29,8 +29,7 @@ class KernelFilter implements Filter {
 
     Color[] finalColors = new Color[widthBound * heightBound];
     Image toReturn = new SimpleImage(finalColors, widthBound, heightBound);
-    int trackX = 0;
-    int trackY = 0;
+
 
     for (int x = 0; x < i.getWidth(); x++) {
       for (int y = 0; y < i.getHeight(); y++) {
@@ -46,7 +45,7 @@ class KernelFilter implements Filter {
               sumBlue += i.getPixel(x + c, y + g).getBlue() * kernel[c][g];
             }
           }
-          // possibly abstract
+          // possibly abstract (duplicate code with color filter)
           if (sumRed > MAX) {
             sumRed = MAX;
           } else if (sumRed < MIN) {
@@ -63,11 +62,12 @@ class KernelFilter implements Filter {
             sumBlue = MIN;
           }
           toAdd = new Color(sumRed, sumGreen, sumBlue);
-          toReturn.setPixel(trackX + edgeDist, trackY + edgeDist, toAdd);
+          toReturn.setPixel(x + edgeDist, y + edgeDist, toAdd);
+        } else {
+          // set color of pixel to black?
         }
-        trackY++;
+
       }
-      trackX++;
     }
     return toReturn;
   }
