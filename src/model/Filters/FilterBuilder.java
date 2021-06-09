@@ -15,10 +15,12 @@ public class FilterBuilder {
           {1 / 16, 1 / 8, 1 / 16}});
   private static Filter SHARPEN;
   private static Filter GRAYSCALE = createColorFilter(new double[][]{{0.212, .7152,.0722}});
-  private static Filter SEPIA;
+  private static Filter SEPIA = createKernelFilter(new double[][]{{0.393, 0.769, 0.189},
+      {0.349, 0.686, 0.189},
+      {0.272, 0.534, 0.131}});
+
 
   public FilterBuilder() {
-
   }
 
   private static Filter createKernelFilter(double[][] kernel) {
@@ -26,6 +28,5 @@ public class FilterBuilder {
   }
 
   private static Filter createColorFilter(double[][] shift) {
-    return new ColorFilter(shift);
   }
 }
