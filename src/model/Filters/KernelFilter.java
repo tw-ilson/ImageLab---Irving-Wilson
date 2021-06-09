@@ -23,7 +23,7 @@ class KernelFilter implements Filter {
     Objects.requireNonNull(i);
     Color[] toEdit = i.pixArray();
 
-    int edgeDist = (kernel.length / 2);
+    int edgeDist = (int) Math.ceil(kernel.length / 2);
     int widthBound = (i.getWidth() % kernel.length) * kernel.length;
     int heightBound = (i.getHeight() % kernel.length) * kernel.length;
 
@@ -46,6 +46,7 @@ class KernelFilter implements Filter {
               sumBlue += i.getPixel(x + c, y + g).getBlue() * kernel[c][g];
             }
           }
+          // possibly abstract
           if (sumRed > MAX) {
             sumRed = MAX;
           } else if (sumRed < MIN) {
