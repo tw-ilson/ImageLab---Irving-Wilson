@@ -26,6 +26,7 @@ public abstract class AbstractImage implements Image {
     this.height = height;
   }
 
+
   /**
    * empty default constructor.
    */
@@ -41,6 +42,11 @@ public abstract class AbstractImage implements Image {
   @Override
   public Color getPixel(int x, int y) {
     return pixArray[width * y + x];
+  }
+
+  @Override
+  public void setPixel(int x, int y, Color c) {
+    pixArray[width*y + x] = c;
   }
 
   @Override

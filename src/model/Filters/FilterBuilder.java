@@ -26,6 +26,6 @@ public class FilterBuilder {
   }
 
   private static Filter createColorFilter(double[][] shift) {
-
+    return new ColorFilter(shift);
   }
 }
