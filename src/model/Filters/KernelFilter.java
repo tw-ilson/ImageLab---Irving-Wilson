@@ -46,6 +46,21 @@ class KernelFilter implements Filter {
               sumBlue += i.getPixel(x + c, y + g).getBlue() * kernel[c][g];
             }
           }
+          if (sumRed > MAX) {
+            sumRed = MAX;
+          } else if (sumRed < MIN) {
+            sumRed = MIN;
+          }
+          if (sumGreen > MAX) {
+            sumGreen = MAX;
+          } else if (sumGreen < MIN) {
+            sumGreen = MIN;
+          }
+          if (sumBlue > MAX) {
+            sumBlue = MAX;
+          } else if (sumBlue < MIN) {
+            sumBlue = MIN;
+          }
           toAdd = new Color(sumRed, sumGreen, sumBlue);
           toReturn.setPixel(trackX + edgeDist, trackY + edgeDist, toAdd);
         }
