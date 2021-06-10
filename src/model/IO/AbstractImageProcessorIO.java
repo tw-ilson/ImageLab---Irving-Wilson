@@ -10,7 +10,7 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO{
   protected Image sourceImage;
 
   @Override
-  public void importImage(String  fileName) throws IllegalArgumentException {
+  public void importImage(String fileName) throws IllegalArgumentException {
     try {
       sourceImage = ImageUtil.readPPM(fileName);
     } catch (FileNotFoundException e) {
