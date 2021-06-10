@@ -2,6 +2,7 @@ package model.image;
 
 
 import model.ColorUtils.Color;
+import model.ColorUtils.LightColor;
 
 
 /**
@@ -14,20 +15,6 @@ public abstract class AbstractImage implements Image {
   protected Color[] pixArray;
 
   /**
-   * Constructs an image given an array of pixels and a width and a height, constructs an image.
-   *
-   * @param pixels the array of pixels
-   * @param width  the width of the image
-   * @param height the height of the image
-   */
-  public AbstractImage(Color[] pixels, int width, int height) {
-    this.pixArray = pixels;
-    this.width = width;
-    this.height = height;
-  }
-
-
-  /**
    * empty default constructor.
    */
   public AbstractImage() {
@@ -35,7 +22,7 @@ public abstract class AbstractImage implements Image {
   }
 
   @Override
-  public model.ColorUtils.Color[] pixArray() throws IllegalStateException {
+  public Color[] pixArray() throws IllegalStateException {
     return pixArray.clone();
   }
 

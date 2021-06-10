@@ -29,6 +29,12 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel {
   }
 
   @Override
+  public void importImage(String filename) {
+    super.importImage(filename);
+    imageVersions.push(sourceImage);
+  }
+
+  @Override
   public String export(FileType f, String name) throws IllegalStateException {
     return null;
   }

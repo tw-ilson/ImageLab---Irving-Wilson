@@ -1,4 +1,4 @@
-package model.IO;
+package model;
 
 import model.FileType;
 

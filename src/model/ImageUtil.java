@@ -3,10 +3,13 @@ package model;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.FileInputStream;
 import model.ColorUtils.Color;
+import model.ColorUtils.HeavyColor;
+import model.ColorUtils.LightColor;
 import model.image.Image;
 import model.image.SimpleImage;
 
@@ -50,19 +53,24 @@ public class ImageUtil {
     int height = sc.nextInt();
     System.out.println("Height of image: " + height);
     int maxValue = sc.nextInt();
-    System.out.println("Maximum value of a color in this file (usually 256): " + maxValue);
+    //System.out.println("Maximum value of a color in this file (usually 256): " + maxValue);
 
-    Color[] pixels = new Color[width * height];
+    Color[] pixels = new LightColor[width * height];
 
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         int r = sc.nextInt();
         int g = sc.nextInt();
         int b = sc.nextInt();
-        System.out.println("Color of pixel (" + j + "," + i + "): " + r + "," + g + "," + b);
-        pixels[height * i + j] = new Color(r, g, b);
+        //System.out.println("Color of pixel (" + j + "," + i + "): " + r + "," + g + "," + b);
+        pixels[width * i + j] = new LightColor(r, g, b);
       }
     }
+
+    for (Color c: pixels) {
+      Objects.requireNonNull(c);
+    }
+
     return new SimpleImage(pixels, width, height);
   }
 

@@ -1,6 +1,7 @@
 package model.Filters;
 
 import model.ColorUtils.Color;
+import model.ColorUtils.LightColor;
 import model.image.Image;
 import model.image.SimpleImage;
 
@@ -44,7 +45,7 @@ public class ColorFilter implements Filter {
         } else if (newBlue < MIN) {
           newBlue = MIN;
         }
-        alteredImage.setPixel(i, j, new Color(newRed, newGreen, newBlue));
+        alteredImage.setPixel(i, j, new LightColor(newRed, newGreen, newBlue));
       }
     }
     return alteredImage;

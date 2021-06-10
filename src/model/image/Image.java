@@ -2,7 +2,7 @@ package model.image;
 
 
 import model.ColorUtils.Color;
-import model.Filters.Filter;
+import model.ColorUtils.LightColor;
 
 /**
  * Represents an image as a width, a height and an array of pixels.
@@ -15,7 +15,7 @@ public interface Image {
    * @return the array of this image's pixels
    * @throws IllegalStateException if pixels cannot be produced
    */
-  public model.ColorUtils.Color[] pixArray() throws IllegalStateException;
+  public Color[] pixArray() throws IllegalStateException;
 
   /**
    * Gets the pixel at the specific coordinate in the image array.
