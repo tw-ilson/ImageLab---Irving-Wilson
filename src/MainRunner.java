@@ -19,7 +19,7 @@ public class MainRunner {
     }
 
     try {
-      model.importImage(new CheckerboardImage(2, 2));
+      model.importImage(new CheckerboardImage(10, 10));
     } catch (IllegalArgumentException e) {
       System.out.println("File " + filename + " not found!");
     }
