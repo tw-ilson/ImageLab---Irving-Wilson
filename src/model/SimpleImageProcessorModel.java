@@ -1,8 +1,7 @@
 package model;
 
-import java.util.Objects;
+import java.io.File;
 import java.util.Stack;
-import model.ColorUtils.Color;
 import model.Filters.Filter;
 import model.Filters.FilterBuilder;
 import model.image.Image;
@@ -31,11 +30,26 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel {
   @Override
   public void importImage(String filename) {
     super.importImage(filename);
+    imageVersions.clear();
     imageVersions.push(sourceImage);
   }
 
   @Override
+  public void importImage(Image image) throws IllegalArgumentException {
+    this.sourceImage = image;
+    imageVersions.clear();
+    imageVersions.push(image);
+  }
+
+  @Override
   public String export(FileType f, String name) throws IllegalStateException {
-    return null;
+    try {
+      switch (f) {
+        File toWrite = new File(name);
+        toWrite.createNewFile();
+        case PPM:
+          ImageUtil.writePPM();
+      }
+    }
   }
 }
