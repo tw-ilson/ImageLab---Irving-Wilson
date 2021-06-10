@@ -28,7 +28,7 @@ public class ColorFilter implements Filter {
             + cur.getBlue() * shift[2][1]);
         int newBlue = (int) (cur.getRed() * shift[0][2] + cur.getGreen() * shift[1][2]
             + cur.getBlue() * shift[2][2]);
-
+        // clamping
         if (newRed > MAX) {
           newRed = MAX;
         } else if (newRed < MIN) {
