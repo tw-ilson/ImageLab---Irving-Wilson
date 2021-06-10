@@ -1,9 +1,8 @@
 package model.Filters;
 
-import java.util.Arrays;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import model.ColorUtils.Color;
+import model.ColorUtils.LightColor;
 import model.image.Image;
 import model.image.SimpleImage;
 
@@ -41,7 +40,7 @@ class KernelFilter implements Filter {
 
         // checks if the complete "square" of pixels legitimately resides within the scope
         if (x + kernel.length < i.getWidth() && y + kernel.length < i.getHeight()) {
-          Color toAdd = new Color(0);
+          Color toAdd;
           double sumRed = 0;
           double sumGreen = 0;
           double sumBlue = 0;
@@ -69,10 +68,10 @@ class KernelFilter implements Filter {
           } else if (sumBlue < MIN) {
             sumBlue = MIN;
           }
-          toAdd = new Color((int) sumRed, (int) sumGreen, (int) sumBlue);
+          toAdd = new LightColor((int) sumRed, (int) sumGreen, (int) sumBlue);
           toReturn.setPixel(x + edgeDist, y + edgeDist, toAdd);
         } else {
-          Color toAdd = new Color(0, 0, 0);
+          Color toAdd = new LightColor(0, 0, 0);
           toReturn.setPixel(x, y, toAdd);
         }
       }

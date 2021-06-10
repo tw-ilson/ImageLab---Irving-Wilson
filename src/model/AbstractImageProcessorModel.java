@@ -1,15 +1,20 @@
 package model;
 
-import java.util.HashMap;
-import java.util.Map;
-import model.Filters.Filter;
-import model.IO.AbstractImageProcessorIO;
+import java.io.FileNotFoundException;
+import model.image.Image;
 
 
-public abstract class AbstractImageProcessorModel extends AbstractImageProcessorIO implements
-    ImageProcessorModel {
+public abstract class AbstractImageProcessorModel implements ImageProcessorModel {
 
-  public AbstractImageProcessorModel() {
+  protected Image sourceImage;
+
+  @Override
+  public void importImage(String fileName) throws IllegalArgumentException {
+    try {
+      sourceImage = ImageUtil.readPPM(fileName);
+    } catch (FileNotFoundException e) {
+      System.out.println("File \"" + fileName + "\" can not be found.");
+    }
   }
 
 }

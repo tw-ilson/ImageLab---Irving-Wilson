@@ -1,7 +1,7 @@
 package model.image;
 
 import model.ColorUtils.Color;
-import model.Filters.Filter;
+import model.ColorUtils.LightColor;
 
 public class SimpleImage extends AbstractImage{
 
@@ -13,7 +13,9 @@ public class SimpleImage extends AbstractImage{
    * @param height the height of the image
    */
   public SimpleImage(Color[] pixels, int width, int height) {
-    super(pixels, width, height);
+    this.pixArray = pixels;
+    this.width = width;
+    this.height = height;
   }
 
   /**
@@ -25,9 +27,10 @@ public class SimpleImage extends AbstractImage{
     this.width = that.getWidth();
     this.height = that.getHeight();
     this.pixArray = new Color[width * height];
-    for (int i = 0; i < width; i++) {
-      for (int j = 0; j < height; j++) {
-        pixArray[width * j + i] = new Color(that.getPixel(i, j));
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        Color pixel = that.getPixel(j, i);
+        pixArray[width * i + j] = new LightColor(pixel.getRGB());
       }
     }
   }

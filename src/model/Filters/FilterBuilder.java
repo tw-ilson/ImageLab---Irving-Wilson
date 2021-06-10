@@ -43,6 +43,7 @@ public class FilterBuilder {
 
 
   private static Filter createKernelFilter(double[][] kernel) {
+
     return new KernelFilter(kernel);
   }
 
