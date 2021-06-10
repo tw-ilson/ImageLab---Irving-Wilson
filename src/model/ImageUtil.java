@@ -75,14 +75,21 @@ public class ImageUtil {
   }
 
   public static void writePPM(File file, Image image) throws IOException {
-    if (!file.exists() || file.length() !=0) {
+    if (!file.exists()) {
       throw new IOException();
     }
+
     FileWriter writer = new FileWriter(file);
+
+    if (file.length() > 0) {
+      writer.flush();
+    }
+
     writer.append("P3" + System.lineSeparator());
-    writer.append("# " + file.getName());
+    writer.append("# " + file.getName() + System.lineSeparator());
     writer.append(image.getWidth() + " " + image.getHeight() + System.lineSeparator());
     writer.append("" + 256 + System.lineSeparator());
+
     Color[] pixels = image.pixArray();
     for (Color i: pixels) {
       writer.append(

@@ -1,6 +1,7 @@
 package model;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Stack;
 import model.Filters.Filter;
 import model.Filters.FilterBuilder;
@@ -42,14 +43,16 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel {
   }
 
   @Override
-  public String export(FileType f, String name) throws IllegalStateException {
-    try {
+  public String export(FileType f, String name) throws IllegalStateException, IOException {
+      File toWrite = new File(name);
+      toWrite.createNewFile();
       switch (f) {
-        File toWrite = new File(name);
-        toWrite.createNewFile();
         case PPM:
-          ImageUtil.writePPM();
+          ImageUtil.writePPM(toWrite, this.imageVersions.peek());
+          break;
+        default:
+          throw new IOException("unsupported export type.");
       }
-    }
+      return "Successfully exported " + f + " image: " + name;
   }
 }
