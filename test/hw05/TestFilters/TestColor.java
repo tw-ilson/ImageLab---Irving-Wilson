@@ -16,7 +16,9 @@ public class TestColor {
     assertEquals(255, c.getRed());
     assertEquals(153, c.getGreen());
     assertEquals(0, c.getBlue());
+    assertEquals(0xff9900, c.getRGB());
   }
+
   @Test
   public void testColorRGBConstructor() {
     LightColor c = new LightColor(204, 51, 255);

@@ -3,14 +3,18 @@ package hw05;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 import model.ColorUtils.Color;
 import model.ColorUtils.LightColor;
+import model.FileType;
 import model.ImageProcessorModel;
 import model.SimpleImageProcessorModel;
 import model.image.Image;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -18,12 +22,20 @@ import org.junit.Test;
  */
 public class TestImageProcessorIO {
 
+  String filename;
+  ImageProcessorModel importer;
+  Image imported;
+
+  @Before
+  public void setup() {
+    filename = "Koala.ppm";
+    importer = new SimpleImageProcessorModel();
+    importer.importImage(filename);
+    imported = importer.getImageState();
+  }
+
   @Test
   public void testImportPPM() {
-    String filename = "Koala.ppm";
-    ImageProcessorModel importer = new SimpleImageProcessorModel();
-    importer.importImage(filename);
-    Image imported = importer.getImageState();
     Scanner sc = new Scanner("hello");
 
     try {
@@ -59,6 +71,25 @@ public class TestImageProcessorIO {
 
   @Test
   public void testExport() {
+    try {
+      ImageProcessorModel importFromExport = new SimpleImageProcessorModel();
+      try {
+        importer.export(FileType.PPM, "Koala2.ppm");
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      importFromExport.importImage("Koala2.ppm");
+      Image importedExportedImported = importFromExport.getImageState();
 
+      for (int x = 0; x < imported.getWidth(); x++) {
+        for (int y = 0; y < imported.getHeight(); y++) {
+          assertEquals(imported.getPixel(x, y).getRGB(),
+              importedExportedImported.getPixel(x, y).getRGB());
+        }
+      }
+    }
+    finally {
+      new File("Koala2.ppm").delete();
+    }
   }
 }

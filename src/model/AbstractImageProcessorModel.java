@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import model.image.Image;
 
 
-public abstract class AbstractImageProcessorModel implements ImageProcessorModel {
+public abstract class AbstractImageProcessorModel implements ImageProcessorModel, ImageProcessorIO {
 
   protected Image sourceImage;
 
