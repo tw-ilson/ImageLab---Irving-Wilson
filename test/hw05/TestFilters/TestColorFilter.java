@@ -1,4 +1,4 @@
-package hw05;
+package hw05.TestFilters;
 
 import model.ImageProcessorModel;
 import model.SimpleImageProcessorModel;

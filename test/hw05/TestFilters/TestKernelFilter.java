@@ -1,4 +1,4 @@
-package hw05;
+package hw05.TestFilters;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
