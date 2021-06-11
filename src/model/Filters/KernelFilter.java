@@ -19,18 +19,18 @@ class KernelFilter implements Filter {
 
   @Override
   public Image apply(Image i) throws IllegalStateException{
-    if (kernel.length * kernel.length > i.pixArray().length) {
+    if (kernel.length * kernel[0].length > i.pixArray().length) {
       throw new IllegalStateException("Image is too small for the filter.");
     }
     Objects.requireNonNull(i);
 
     // sets it to the length of the image pixel array
-    Color[] toEdit = new Color[i.pixArray().length];
+    Color[] toEdit = new LightColor[i.pixArray().length];
 
     int edgeDist = (int) Math.ceil(kernel.length / 2);
     int widthBound = (i.getWidth() % kernel.length) * kernel.length;
     int heightBound = (i.getHeight() % kernel.length) * kernel.length;
-    Color[] finalColors = new Color[widthBound * heightBound];
+    Color[] finalColors = new LightColor[widthBound * heightBound];
 
     // crop, or does return obey the bounds?
     Image toReturn = new SimpleImage(toEdit, i.getWidth(), i.getHeight());

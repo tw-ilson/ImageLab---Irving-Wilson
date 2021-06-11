@@ -21,11 +21,14 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel {
   }
 
   @Override
-  public void applyFilter(String filter, Image i) {
-    Image deepCopyImage = new SimpleImage(i.pixArray(), i.getWidth(), i.getHeight());
+  public void applyFilter(String filter) throws IllegalStateException{
+    if (imageVersions.isEmpty()) {
+      throw new IllegalStateException();
+    }
     FilterBuilder filterBuilder = new FilterBuilder();
     Filter toApply = filterBuilder.getFilter(filter);
-    imageVersions.add(toApply.apply(deepCopyImage));
+    Image nextImage = new SimpleImage(imageVersions.peek());
+    imageVersions.add(toApply.apply(nextImage));
   }
 
   @Override

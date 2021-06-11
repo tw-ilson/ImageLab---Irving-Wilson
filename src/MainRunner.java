@@ -1,8 +1,6 @@
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import model.FileType;
 import model.ImageProcessorModel;
-import model.ImageUtil;
 import model.SimpleImageProcessorModel;
 import model.image.CheckerboardImage;
 
@@ -19,11 +17,11 @@ public class MainRunner {
     }
 
     try {
-      model.importImage(new CheckerboardImage(10, 10));
+      model.importImage("Koala.ppm");
     } catch (IllegalArgumentException e) {
       System.out.println("File " + filename + " not found!");
     }
-
+    model.applyFilter("blur");
     try {
       model.export(FileType.PPM, "checker.ppm");
     } catch (IOException e) {

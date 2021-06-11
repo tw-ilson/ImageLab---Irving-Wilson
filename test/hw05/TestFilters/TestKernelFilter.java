@@ -62,39 +62,44 @@ public class TestKernelFilter {
 
   @Test
   public void testKernelFilterNullImage() {
-    expectedEx.expect(NullPointerException.class);
-    model.applyFilter("sharpen", null);
+    expectedEx.expect(IllegalStateException.class);
+    model.applyFilter("sharpen");
   }
 
   @Test
   public void testKernelFilterSharpenWithTooSmallImage() {
     expectedEx.expect(IllegalStateException.class);
     expectedEx.expectMessage("Image is too small for the filter.");
-    model.applyFilter("sharpen", image1);
+    model.importImage(image1);
+    model.applyFilter("sharpen");
   }
 
   @Test
   public void testKernelFilterBlurWithTooSmallImage() {
     expectedEx.expect(IllegalStateException.class);
     expectedEx.expectMessage("Image is too small for the filter.");
-    model.applyFilter("blur", image2);
+    model.importImage(image2);
+    model.applyFilter("blur");
   }
 
   @Test
   public void testBlur() {
-    model.applyFilter("blur", image1);
+    model.importImage(image1);
+    model.applyFilter("blur");
     assertEquals(image1.getPixel(1,2).getRed(), new LightColor(2, 0, 0).getRed());
   }
 
   @Test
   public void testBlurAddition() {
-    model.applyFilter("blur", image1);
+    model.importImage(image1);
+    model.applyFilter("blur");
     assertEquals(image1.getPixel(1,2).getRed(), new LightColor(2, 0, 0).getRed());
   }
 
   @Test
   public void testBLURRR() {
-    model.applyFilter("blur", image3);
+    model.importImage(image3);
+    model.applyFilter("blur");
     assertEquals(image3.getPixel(1,1).getRed(), new LightColor(5, 0, 0).getRed());
   }
 
