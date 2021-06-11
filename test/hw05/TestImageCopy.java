@@ -8,6 +8,9 @@ import model.image.Image;
 import model.image.SimpleImage;
 import org.junit.Test;
 
+/**
+ * Tests that the copy constructor for Image works and makes a deep copy of the image.
+ */
 public class TestImageCopy {
 
   @Test

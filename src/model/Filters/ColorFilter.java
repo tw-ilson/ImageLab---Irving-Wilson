@@ -10,7 +10,7 @@ import model.image.SimpleImage;
  */
 public class ColorFilter implements Filter {
 
-  private static double[][] shift;
+  private double[][] shift;
 
   public ColorFilter(double[][] shift) {
     this.shift = shift;
@@ -22,6 +22,7 @@ public class ColorFilter implements Filter {
     for (int i = 0; i < image.getWidth(); i++) {
       for (int j = 0; j < image.getHeight(); j++) {
         Color cur = image.getPixel(i, j);
+
         int newRed = (int) (cur.getRed() * shift[0][0] + cur.getGreen() * shift[0][1]
             + cur.getBlue() * shift[0][2]);
         int newGreen = (int) (cur.getRed() * shift[1][0] + cur.getGreen() * shift[1][1]

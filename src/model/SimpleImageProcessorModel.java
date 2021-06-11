@@ -8,6 +8,10 @@ import model.Filters.FilterBuilder;
 import model.image.Image;
 import model.image.SimpleImage;
 
+/**
+ * An Image processor model that sores a stack of revision versions of the image provided as a
+ * source.
+ */
 public class SimpleImageProcessorModel extends AbstractImageProcessorModel {
 
   Stack<Image> imageVersions = new Stack<>();
@@ -21,12 +25,13 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel {
   }
 
   @Override
-  public void applyFilter(String filter) throws IllegalStateException{
+  public void applyFilter(String filter) throws IllegalStateException {
     if (imageVersions.isEmpty()) {
       throw new IllegalStateException();
     }
 
-    Filter toApply = FilterBuilder.getFilter(filter);
+    FilterBuilder filterBuilder = new FilterBuilder();
+    Filter toApply = filterBuilder.getFilter(filter);
     Image nextImage = new SimpleImage(imageVersions.peek());
     imageVersions.add(toApply.apply(nextImage));
   }
@@ -40,22 +45,22 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel {
 
   @Override
   public void importImage(Image image) throws IllegalArgumentException {
-    this.sourceImage = image;
+    super.importImage(image);
     imageVersions.clear();
     imageVersions.push(image);
   }
 
   @Override
   public String export(FileType f, String name) throws IllegalStateException, IOException {
-      File toWrite = new File(name);
-      toWrite.createNewFile();
-      switch (f) {
-        case PPM:
-          writePPM(toWrite, this.imageVersions.peek());
-          break;
-        default:
-          throw new IOException("unsupported export type.");
-      }
-      return "Successfully exported " + f + " image: " + name;
+    File toWrite = new File(name);
+    toWrite.createNewFile();
+    switch (f) {
+      case PPM:
+        writePPM(toWrite, this.imageVersions.peek());
+        break;
+      default:
+        throw new IOException("unsupported export type.");
+    }
+    return "Successfully exported " + f + " image: " + name;
   }
 }
