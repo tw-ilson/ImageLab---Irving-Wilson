@@ -2,6 +2,7 @@ package model;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Stack;
 import model.Filters.Filter;
 import model.Filters.FilterBuilder;
@@ -18,7 +19,7 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel {
 
   @Override
   public Image getImageState() throws IllegalStateException {
-    if (imageVersions == null) {
+    if (imageVersions == null || imageVersions.isEmpty()) {
       throw new IllegalStateException("There is no image to work with yet.");
     }
     return imageVersions.peek();
@@ -45,6 +46,7 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel {
 
   @Override
   public void importImage(Image image) throws IllegalArgumentException {
+    Objects.requireNonNull(image);
     super.importImage(image);
     imageVersions.clear();
     imageVersions.push(image);

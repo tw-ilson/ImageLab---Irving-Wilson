@@ -20,7 +20,7 @@ public class MainRunner {
     } catch (IllegalArgumentException e) {
       System.out.println("File " + filename + " not found!");
     }
-    model.applyFilter("greyscale");
+    model.applyFilter("blur");
     try {
       model.export(FileType.PPM, "grey.ppm");
     } catch (IOException e) {
