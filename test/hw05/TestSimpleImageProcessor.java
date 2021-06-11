@@ -64,12 +64,4 @@ public class TestSimpleImageProcessor {
     model.getImageState();
   }
 
-  @Test
-  public void testPeekReturnsRightImage() {
-    model.importImage(image3);
-    assertEquals(model.getImageState().toString(), "model.image.SimpleImage@587d1d39");
-    model.applyFilter("blur");
-    assertEquals(model.getImageState().toString(), "model.image.SimpleImage@687080dc");
-  }
-
 }

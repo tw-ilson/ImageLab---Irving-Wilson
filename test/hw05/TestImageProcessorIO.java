@@ -28,7 +28,7 @@ public class TestImageProcessorIO {
 
   @Before
   public void setup() {
-    filename = "Koala.ppm";
+    filename = "bay.ppm";
     importer = new SimpleImageProcessorModel();
     importer.importImage(filename);
     imported = importer.getImageState();
@@ -56,7 +56,7 @@ public class TestImageProcessorIO {
     assertEquals("P3", sc.next());
     assertEquals(imported.getWidth(), sc.nextInt());
     assertEquals(imported.getHeight(), sc.nextInt());
-    assertEquals(255, sc.nextInt());
+    assertEquals(256, sc.nextInt());
     for (int i = 0; i < imported.getHeight(); i++) {
       for (int j = 0; j < imported.getWidth(); j++) {
         Color cur = imported.getPixel(j, i);
@@ -74,11 +74,11 @@ public class TestImageProcessorIO {
     try {
       ImageProcessorModel importFromExport = new SimpleImageProcessorModel();
       try {
-        importer.export(FileType.PPM, "Koala2.ppm");
+        importer.export(FileType.PPM, "bay2.ppm");
       } catch (IOException e) {
         e.printStackTrace();
       }
-      importFromExport.importImage("Koala2.ppm");
+      importFromExport.importImage("bay2.ppm");
       Image importedExportedImported = importFromExport.getImageState();
 
       for (int x = 0; x < imported.getWidth(); x++) {
@@ -89,7 +89,7 @@ public class TestImageProcessorIO {
       }
     }
     finally {
-      new File("Koala2.ppm").delete();
+      new File("bay2.ppm").delete();
     }
   }
 }

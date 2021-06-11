@@ -16,7 +16,7 @@ public class TestColorFilter {
   @Test
   public void testGrayScale() {
     ImageProcessorModel model = new SimpleImageProcessorModel();
-    model.importImage("manhattan-small.ppm");
+    model.importImage("bay.ppm");
     Image original = model.getImageState();
     model.applyFilter("greyscale");
     Image grey = model.getImageState();
@@ -38,7 +38,7 @@ public class TestColorFilter {
   public void testSepia() {
     //hello this is an important change
     ImageProcessorModel model = new SimpleImageProcessorModel();
-    model.importImage("manhattan-small.ppm");
+    model.importImage("bay.ppm");
     Image original = model.getImageState();
     model.applyFilter("sepia");
     Image sepi = model.getImageState();

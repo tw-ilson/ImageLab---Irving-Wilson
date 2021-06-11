@@ -16,15 +16,17 @@ public class MainRunner {
     }
 
     try {
-      model.importImage("manhattan-small.ppm");
+      model.importImage("glacier.ppm");
     } catch (IllegalArgumentException e) {
       System.out.println("File " + filename + " not found!");
     }
-    model.applyFilter("blur");
+
+    model.applyFilter("sepia");
     try {
-      model.export(FileType.PPM, "grey.ppm");
+      model.export(FileType.PPM, "glacier_sepia.ppm");
     } catch (IOException e) {
       e.printStackTrace();
     }
+
   }
 }

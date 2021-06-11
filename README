@@ -53,5 +53,9 @@ image with the given kernel filter applied to it. The ColorFilter implements our
 as well, and supports the construction of a new image with the given color filter applied to it.
 
 
+"bay.ppm" and "glacier.ppm" are the property of Benjamin Irving and Thomas Wilson.
+We approve of their use for this project.
+
+
 
 
