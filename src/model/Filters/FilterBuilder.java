@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Creates filters.
+ * Builder type for Filter objects.
  */
 public class FilterBuilder {
 
@@ -50,11 +50,20 @@ public class FilterBuilder {
     return filters.get(filter);
   }
 
-
+  /**
+   * Produces a new kernel filter instance.
+   * @param kernel the kernel matrix to use for the new kernelfilter object
+   * @return the Filter produced.
+   */
   private static Filter createKernelFilter(double[][] kernel) {
     return new KernelFilter(kernel);
   }
 
+  /**
+   * Produces a new Color filter instance.
+   * @param shift the color shift matrix to create the new Filter with
+   * @return the Filter produced.
+   */
   private static Filter createColorFilter(double[][] shift) {
     return new ColorFilter(shift);
   }

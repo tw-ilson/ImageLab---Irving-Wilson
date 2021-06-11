@@ -1,5 +1,8 @@
 package model.ColorUtils;
 
+/**
+ * represents a color with a red, green, and blue channel.
+ */
 public interface Color {
 
   /**

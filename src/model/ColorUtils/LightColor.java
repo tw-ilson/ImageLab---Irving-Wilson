@@ -1,5 +1,8 @@
 package model.ColorUtils;
 
+/**
+ * A type of color that utilises a single 32-bit number to represent its rgb channels.
+ */
 public class LightColor implements Color {
 
   private int color;

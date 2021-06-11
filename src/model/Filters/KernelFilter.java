@@ -13,6 +13,10 @@ class KernelFilter implements Filter {
 
   private double[][] kernel;
 
+  /**
+   * Constructs a kernel filter.
+   * @param kernel the kernel matrix.
+   */
   public KernelFilter(double[][] kernel) {
     this.kernel = kernel;
   }

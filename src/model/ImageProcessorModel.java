@@ -17,7 +17,7 @@ public interface ImageProcessorModel extends ImageProcessorIO {
 
   /**
    * Applys the specified filter to the current image.
-   * @param filter
+   * @param filter the filter object to apply to the current working image.
    */
   public void applyFilter(String filter) throws IllegalStateException;
 }

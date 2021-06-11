@@ -12,6 +12,10 @@ public class ColorFilter implements Filter {
 
   private double[][] shift;
 
+  /**
+   * Constructs a color filter.
+   * @param shift the color shift matrix.
+   */
   public ColorFilter(double[][] shift) {
     this.shift = shift;
   }

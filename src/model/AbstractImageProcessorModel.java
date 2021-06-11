@@ -23,5 +23,4 @@ public abstract class AbstractImageProcessorModel extends AbstractImageProcessor
   public void importImage(Image image) throws IllegalArgumentException {
     this.sourceImage = image;
   }
-
 }

@@ -1,5 +1,8 @@
 package model.ColorUtils;
 
+/**
+ * A type of color that utilises 3 32-bit numbers to represent its rgb channels.
+ */
 public class HeavyColor implements Color {
   int r;
   int g;
