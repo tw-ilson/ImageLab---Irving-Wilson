@@ -14,14 +14,19 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+/**
+ * TestKernel filter is a test class for the KernelFilter class.
+ */
 public class TestKernelFilter {
 
   private Image image1;
   private Image image2;
   private Image image3;
+  private Image image4;
   private LightColor[] toTest = new LightColor[9];
   private LightColor[] tooSmall = new LightColor[1];
   private LightColor[] another = new LightColor[9];
+  private LightColor[] larger = new LightColor[20];
   private ImageProcessorModel model;
   private ImageProcessorModel model2;
 
@@ -38,6 +43,15 @@ public class TestKernelFilter {
     for (int i = 0; i < 9; i++) {
       toTest[i] = new LightColor(2, 1, 1);
     }
+
+    for (int i = 0; i < 5; i++) {
+      larger[i] = new LightColor(1, 1, 1);
+    }
+    larger[5] = new LightColor(300, 300, 300);
+    for (int i = 6; i < 20; i++) {
+      larger[i] = new LightColor(1, 1, 1);
+    }
+
 
     tooSmall[0] = new LightColor(300);
 
@@ -57,6 +71,7 @@ public class TestKernelFilter {
 
     this.image3 = new SimpleImage(another, 3, 3);
 
+    this.image4 = new SimpleImage(larger, 10, 10);
 
   }
 
@@ -77,7 +92,7 @@ public class TestKernelFilter {
   @Test
   public void testKernelFilterBlurWithTooSmallImage() {
     expectedEx.expect(IllegalStateException.class);
-    expectedEx.expectMessage("Image is too small for the filter.");
+    expectedEx.expectMessage("The width and height are invalid.");
     model.importImage(image2);
     model.applyFilter("blur");
   }
@@ -102,5 +117,41 @@ public class TestKernelFilter {
     model.applyFilter("blur");
     assertEquals(image3.getPixel(1,1).getRed(), new LightColor(5, 0, 0).getRed());
   }
+
+  /**
+   * Tests to confirm that if the pixels are on the border, they are not changed.
+   */
+  @Test
+  public void testBlurNotChange() {
+    model.importImage(image3);
+    model.applyFilter("blur");
+    assertEquals(image3.getPixel(0,0).getRed(), new LightColor(1, 0, 0).getRed());
+  }
+
+  @Test
+  public void testBlurBottomRight() {
+    model.importImage(image3);
+    model.applyFilter("blur");
+    assertEquals(image3.getPixel(2,2).getRed(), new LightColor(9, 0, 0).getRed());
+  }
+
+  /**
+   * Test clamping functionality.
+   */
+  @Test
+  public void testOverClamping() {
+    another[5] = new LightColor(300, 300, 300);
+    model.importImage(image3);
+    model.applyFilter("blur");
+    assertEquals(new LightColor(255, 255, 255).getRed(), image3.getPixel(2,1).getRed());
+  }
+
+  @Test
+  public void testUnderClamping() {
+    model.importImage(image3);
+    model.applyFilter("blur");
+    assertEquals(image3.getPixel(2,2).getRed(), new LightColor(9, 0, 0).getRed());
+  }
+
 
 }

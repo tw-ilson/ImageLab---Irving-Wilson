@@ -1,5 +1,6 @@
 package model.image;
 
+import java.util.Objects;
 import model.ColorUtils.LightColor;
 
 /**
@@ -10,8 +11,8 @@ public class CheckerboardImage extends AbstractImage {
   /**
    * Constructs a checkerboard where each tile is 10x10 pixels.
    *
-   * @param widthTiles  the width in tiles to
-   * @param heightTiles
+   * @param widthTiles  the width in tiles to produce
+   * @param heightTiles the height in tiles to produce
    */
   public CheckerboardImage(int widthTiles, int heightTiles) {
     this.width = 10 * widthTiles;

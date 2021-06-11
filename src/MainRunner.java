@@ -3,8 +3,15 @@ import model.FileType;
 import model.ImageProcessorModel;
 import model.SimpleImageProcessorModel;
 
+/**
+ * Main method class for the purpose of testing.
+ */
 public class MainRunner {
 
+  /**
+   * Main method for the purpose of testing.
+   * @param args
+   */
   public static void main(String[] args) {
     String filename;
     ImageProcessorModel model = new SimpleImageProcessorModel();
@@ -20,7 +27,10 @@ public class MainRunner {
     } catch (IllegalArgumentException e) {
       System.out.println("File " + filename + " not found!");
     }
-    model.applyFilter("sharpen");
+
+    model.applyFilter("sepia");
+
+
     try {
       model.export(FileType.PPM, "sharp.ppm");
     } catch (IOException e) {

@@ -10,6 +10,9 @@ public abstract class AbstractImageProcessorModel extends AbstractImageProcessor
 
   @Override
   public void importImage(String fileName) throws IllegalArgumentException {
+    if (fileName == null) {
+      throw new IllegalArgumentException("Cannot pass a null argument for filename.");
+    }
     try {
       sourceImage = readPPM(fileName);
     } catch (FileNotFoundException e) {

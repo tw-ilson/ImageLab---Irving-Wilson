@@ -1,5 +1,7 @@
 package model.ColorUtils;
 
+import java.util.Objects;
+
 public class HeavyColor implements Color {
   int r;
   int g;

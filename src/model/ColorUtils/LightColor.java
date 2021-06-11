@@ -1,5 +1,7 @@
 package model.ColorUtils;
 
+import java.util.Objects;
+
 public class LightColor implements Color {
 
   private int color;
@@ -19,7 +21,8 @@ public class LightColor implements Color {
    * @param that
    */
   public LightColor(LightColor that) {
-      this.color = that.color;
+    Objects.requireNonNull(that);
+    this.color = that.color;
   }
 
   /**

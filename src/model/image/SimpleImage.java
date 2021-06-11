@@ -1,5 +1,6 @@
 package model.image;
 
+import java.util.Objects;
 import model.ColorUtils.Color;
 import model.ColorUtils.LightColor;
 
@@ -13,6 +14,10 @@ public class SimpleImage extends AbstractImage{
    * @param height the height of the image
    */
   public SimpleImage(Color[] pixels, int width, int height) {
+    Objects.requireNonNull(pixels);
+    if (width * height != pixels.length) {
+      throw new IllegalArgumentException("Width and height are invalid.");
+    }
     this.pixArray = pixels;
     this.width = width;
     this.height = height;
@@ -24,6 +29,9 @@ public class SimpleImage extends AbstractImage{
    */
   public SimpleImage(Image that) {
     super();
+    if (that.getWidth() * that.getHeight() > that.pixArray().length) {
+      throw new IllegalStateException("The width and height are invalid.");
+    }
     this.width = that.getWidth();
     this.height = that.getHeight();
     this.pixArray = new Color[width * height];
