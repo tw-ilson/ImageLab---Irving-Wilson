@@ -23,12 +23,13 @@ public class ColorFilter implements Filter {
     for (int i = 0; i < image.getWidth(); i++) {
       for (int j = 0; j < image.getHeight(); j++) {
         Color cur = image.getPixel(i, j);
-        int newRed = (int) (cur.getRed() * shift[0][0] + cur.getGreen() * shift[1][0]
-            + cur.getBlue() * shift[2][0]);
-        int newGreen = (int) (cur.getRed() * shift[0][1] + cur.getGreen() * shift[1][1]
-            + cur.getBlue() * shift[2][1]);
-        int newBlue = (int) (cur.getRed() * shift[0][2] + cur.getGreen() * shift[1][2]
+        int newRed = (int) (cur.getRed() * shift[0][0] + cur.getGreen() * shift[0][1]
+            + cur.getBlue() * shift[0][2]);
+        int newGreen = (int) (cur.getRed() * shift[1][0] + cur.getGreen() * shift[1][1]
+            + cur.getBlue() * shift[1][2]);
+        int newBlue = (int) (cur.getRed() * shift[2][0] + cur.getGreen() * shift[2][1]
             + cur.getBlue() * shift[2][2]);
+
         // clamping
         if (newRed > MAX) {
           newRed = MAX;

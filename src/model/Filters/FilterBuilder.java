@@ -10,34 +10,43 @@ public class FilterBuilder {
 
   private static Map<String, Filter> filters = new HashMap<>();
   private static Filter BLUR = createKernelFilter(
-      new double[][]{{1 / 16, 1 / 8, 1 / 16},
+      new double[][]{
+          {1 / 16, 1 / 8, 1 / 16},
           {1 / 8, 1 / 4, 1 / 8},
           {1 / 16, 1 / 8, 1 / 16}});
   private static Filter SHARPEN = createKernelFilter(
-      new double[][]{{-1 / 8, -1 / 8, -1 / 8, -1 / 8, -1 / 8},
+      new double[][]{
+          {-1 / 8, -1 / 8, -1 / 8, -1 / 8, -1 / 8},
           {-1 / 8, 1 / 4, 1 / 4, 1 / 4, -1 / 8},
           {-1 / 8, 1 / 4, 1, 1 / 4, -1 / 8},
           {-1 / 8, 1 / 4, 1 / 4, 1 / 4, -1 / 8},
           {-1 / 8, -1 / 8, -1 / 8, -1 / 8, -1 / 8}});
-  private static Filter GREYSCALE = createColorFilter(new double[][]{{0.212, .7152, .0722}});
-  private static Filter SEPIA = createColorFilter(new double[][]{{0.393, 0.769, 0.189},
-      {0.349, 0.686, 0.189},
-      {0.272, 0.534, 0.131}});
+  private static Filter GREYSCALE = createColorFilter(
+      new double[][]{
+          {0.212, .7152, .0722},
+          {0.212, .7152, .0722},
+          {0.212, .7152, .0722}});
+  private static Filter SEPIA = createColorFilter(
+      new double[][]{
+          {0.393, 0.769, 0.189},
+          {0.349, 0.686, 0.189},
+          {0.272, 0.534, 0.131}});
 
 
   public FilterBuilder() {
-    filters.put("blur",BLUR);
-    filters.put("sharpen",SHARPEN);
-    filters.put("greyscale",GREYSCALE);
-    filters.put("sepia",SEPIA);
+    filters.put("blur", BLUR);
+    filters.put("sharpen", SHARPEN);
+    filters.put("greyscale", GREYSCALE);
+    filters.put("sepia", SEPIA);
   }
 
   /**
    * returns the filter to be applied to the image
+   *
    * @param filter
    * @return
    */
-  public static Filter getFilter(String filter){
+  public static Filter getFilter(String filter) {
     return filters.get(filter);
   }
 
