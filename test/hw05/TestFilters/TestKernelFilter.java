@@ -23,10 +23,12 @@ public class TestKernelFilter {
   private Image image2;
   private Image image3;
   private Image image4;
+  private Image image5;
   private LightColor[] toTest = new LightColor[9];
   private LightColor[] tooSmall = new LightColor[1];
   private LightColor[] another = new LightColor[9];
   private LightColor[] another2 = new LightColor[9];
+  private LightColor[] large = new LightColor[25];
   private ImageProcessorModel model;
   private ImageProcessorModel model2;
 
@@ -40,16 +42,21 @@ public class TestKernelFilter {
   @Before
   public void initialize() {
     model = new SimpleImageProcessorModel();
+    model2 = new SimpleImageProcessorModel();
     for (int i = 0; i < 9; i++) {
       toTest[i] = new LightColor(2, 1, 1);
     }
 
     for (int i = 0; i < 4; i++) {
-      another2[i] = new LightColor(2, 1, 1);
+      another2[i] = new LightColor(1, 1, 1);
     }
-    another2[4] = new LightColor(256, 256, 256);
+    another2[4] = new LightColor(2000, 256, 256);
     for (int i = 5; i < 9; i++) {
-      another2[i] = new LightColor(2, 1, 1);
+      another2[i] = new LightColor(1, 1, 1);
+    }
+
+    for(int i = 0; i < 25; i++) {
+      large[i] = new LightColor(1, 1, 1);
     }
 
     tooSmall[0] = new LightColor(300);
@@ -68,6 +75,7 @@ public class TestKernelFilter {
     this.image2 = new SimpleImage(tooSmall, 3, 3);
     this.image3 = new SimpleImage(another, 3, 3);
     this.image4 = new SimpleImage(another2, 3, 3);
+    this.image5 = new SimpleImage(large, 9, 9);
 
   }
 
@@ -120,6 +128,27 @@ public class TestKernelFilter {
   }
 
   /**
+   * Testing the sharpen filter.
+   */
+  @Test (expected = IllegalStateException.class)
+  public void testSharpen() {
+    model.importImage(image5);
+    model.applyFilter("sharpen");
+    assertEquals(image3.getPixel(1, 1).getRed(), new LightColor(5, 0, 0).getRed());
+  }
+  @Test
+  // with too small an image
+  public void testSharpen1() {
+    expectedEx.expect(IllegalStateException.class);
+    expectedEx.expectMessage("Image is too small for the filter.");
+    model.importImage(image3);
+    model.applyFilter("sharpen");
+    assertEquals(image3.getPixel(1, 1).getRed(), new LightColor(5, 0, 0).getRed());
+  }
+
+
+
+  /**
    * Tests to confirm that if the pixels are on the border, they are not changed.
    */
   @Test
@@ -141,16 +170,40 @@ public class TestKernelFilter {
    */
   @Test
   public void testOverClamping() {
-    model.importImage(image4);
-    model.applyFilter("blur");
-    assertEquals(image4.getPixel(1, 1).getRed(), new LightColor(255, 9, 9).getRed());
+    model2.importImage(image4);
+    model2.applyFilter("blur");
+    assertEquals(model2.getImageState().getPixel(1,1).getRed(), new LightColor(255, 9, 9).getRed());
   }
 
   @Test
   public void testUnderClamping() {
-    model.importImage(image3);
-    model.applyFilter("blur");
-    assertEquals(image3.getPixel(2, 2).getRed(), new LightColor(9, 0, 0).getRed());
+    another2[4] = new LightColor(-2000, 1, 1);
+    image4 = new SimpleImage(another2, 3, 3);
+    model2.importImage(image4);
+    model2.applyFilter("blur");
+    assertEquals(model2.getImageState().getPixel(1, 1).getRed(), new LightColor(0, 9, 9).getRed());
+  }
+
+  // clamping with sharpen
+  @Test
+  public void testSharpen2() {
+    large[5] = new LightColor(25000, 0, 0);
+    image5 = new SimpleImage(large, 5, 5);
+    model.importImage(image5);
+    model.applyFilter("sharpen");
+    assertEquals(model.getImageState().getPixel(3, 3).getRed(),
+        new LightColor(0, 0, 0).getRed());
+  }
+
+  // minimum clamp
+  @Test
+  public void testSharpen3() {
+    large[5] = new LightColor(-25000, 0, 0);
+    image5 = new SimpleImage(large, 5, 5);
+    model.importImage(image5);
+    model.applyFilter("sharpen");
+    assertEquals(model.getImageState().getPixel(3, 3).getRed(),
+        new LightColor(255, 0, 0).getRed());
   }
 
 
