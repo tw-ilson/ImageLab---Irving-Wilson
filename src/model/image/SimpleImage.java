@@ -14,10 +14,6 @@ public class SimpleImage extends AbstractImage{
    * @param height the height of the image
    */
   public SimpleImage(Color[] pixels, int width, int height) {
-    Objects.requireNonNull(pixels);
-    if (width * height != pixels.length) {
-      throw new IllegalArgumentException("Width and height are invalid.");
-    }
     this.pixArray = pixels;
     this.width = width;
     this.height = height;

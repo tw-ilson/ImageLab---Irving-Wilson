@@ -28,7 +28,7 @@ public class MainRunner {
       System.out.println("File " + filename + " not found!");
     }
 
-    model.applyFilter("sepia");
+    model.applyFilter("blur");
 
 
     try {
