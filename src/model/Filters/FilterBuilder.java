@@ -2,21 +2,18 @@ package model.Filters;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
- * A singleton Accessor class for Image Filters.
- * Designed so that the static final field "filters" is the only public facing part of this class.
+ * Builder type for Filter objects.
  */
 public class FilterBuilder {
-  private static Map<String, Filter> filters = initFilters();
 
+  private static Map<String, Filter> filters = new HashMap<>();
   private static Filter BLUR = createKernelFilter(
       new double[][]{
           {1.0 / 16.0, 1.0 / 8.0, 1.0 / 16.0},
           {1.0 / 8.0, 1.0 / 4.0, 1.0 / 8.0},
           {1.0 / 16.0, 1.0 / 8.0, 1.0 / 16.0}});
-
   private static Filter SHARPEN = createKernelFilter(
       new double[][]{
           {-1.0 / 8.0, -1.0 / 8.0, -1.0 / 8.0, -1.0 / 8.0, -1.0 / 8.0},
@@ -24,19 +21,11 @@ public class FilterBuilder {
           {-1.0 / 8.0, 1.0 / 4.0, 1.0, 1.0 / 4.0, -1.0 / 8.0},
           {-1.0 / 8.0, 1.0 / 4.0, 1.0 / 4.0, 1.0 / 4.0, -1.0 / 8.0},
           {-1.0 / 8.0, -1.0 / 8.0, -1.0 / 8.0, -1.0 / 8.0, -1.0 / 8.0}});
-
   private static Filter GREYSCALE = createColorFilter(
       new double[][]{
           {0.212, .7152, .0722},
           {0.212, .7152, .0722},
           {0.212, .7152, .0722}});
-
-  private static Filter BRUH = createColorFilter(
-      new double[][]{
-          {0.5, 0.5, 0.5},
-          {0.5, 0.5, 0.5},
-          {0.5, 0.5, 0.5}});
-
   private static Filter SEPIA = createColorFilter(
       new double[][]{
           {0.393, 0.769, 0.189},
@@ -44,14 +33,11 @@ public class FilterBuilder {
           {0.272, 0.534, 0.131}});
 
 
-  private static HashMap<String, Filter> initFilters() {
-    HashMap<String, Filter> r = new HashMap<String, Filter>();
-    r.put("blur", BLUR);
-    r.put("sharpen", SHARPEN);
-    r.put("greyscale", GREYSCALE);
-    r.put("sepia", SEPIA);
-    r.put("bruh", BRUH);
-    return r;
+  public FilterBuilder() {
+    filters.put("blur", BLUR);
+    filters.put("sharpen", SHARPEN);
+    filters.put("greyscale", GREYSCALE);
+    filters.put("sepia", SEPIA);
   }
 
   /**
@@ -61,17 +47,23 @@ public class FilterBuilder {
    * @return
    */
   public static Filter getFilter(String filter) {
-    filters = initFilters();
-    Filter f = filters.get(filter);
-    Objects.requireNonNull(f);
-    return f;
+    return filters.get(filter);
   }
 
-
+  /**
+   * Produces a new kernel filter instance.
+   * @param kernel the kernel matrix to use for the new kernelfilter object
+   * @return the Filter produced.
+   */
   private static Filter createKernelFilter(double[][] kernel) {
     return new KernelFilter(kernel);
   }
 
+  /**
+   * Produces a new Color filter instance.
+   * @param shift the color shift matrix to create the new Filter with
+   * @return the Filter produced.
+   */
   private static Filter createColorFilter(double[][] shift) {
     return new ColorFilter(shift);
   }

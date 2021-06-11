@@ -1,7 +1,8 @@
 package model.ColorUtils;
 
-import java.util.Objects;
-
+/**
+ * A type of color that utilises a single 32-bit number to represent its rgb channels.
+ */
 public class LightColor implements Color {
 
   private int color;
@@ -21,8 +22,7 @@ public class LightColor implements Color {
    * @param that
    */
   public LightColor(LightColor that) {
-    Objects.requireNonNull(that);
-    this.color = that.color;
+      this.color = that.color;
   }
 
   /**
