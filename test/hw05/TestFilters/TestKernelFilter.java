@@ -44,7 +44,7 @@ public class TestKernelFilter {
       toTest[i] = new LightColor(2, 1, 1);
     }
 
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 4; i++) {
       another2[i] = new LightColor(2, 1, 1);
     }
     another2[4] = new LightColor(256, 256, 256);
@@ -65,11 +65,8 @@ public class TestKernelFilter {
     another[8] = new LightColor(9, 8, 8);
 
     this.image1 = new SimpleImage(toTest, 3, 3);
-
     this.image2 = new SimpleImage(tooSmall, 3, 3);
-
     this.image3 = new SimpleImage(another, 3, 3);
-
     this.image4 = new SimpleImage(another2, 3, 3);
 
   }
@@ -146,7 +143,7 @@ public class TestKernelFilter {
   public void testOverClamping() {
     model.importImage(image4);
     model.applyFilter("blur");
-    assertEquals(image3.getPixel(1, 1).getRed(), new LightColor(9, 9, 9).getRed());
+    assertEquals(image4.getPixel(1, 1).getRed(), new LightColor(255, 9, 9).getRed());
   }
 
   @Test

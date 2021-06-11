@@ -9,7 +9,6 @@ import java.util.Objects;
  * Designed so that the static final field "filters" is the only public facing part of this class.
  */
 public class FilterBuilder {
-  // hello
   private static Map<String, Filter> filters = initFilters();
 
   private static Filter BLUR = createKernelFilter(
@@ -17,6 +16,7 @@ public class FilterBuilder {
           {1.0 / 16.0, 1.0 / 8.0, 1.0 / 16.0},
           {1.0 / 8.0, 1.0 / 4.0, 1.0 / 8.0},
           {1.0 / 16.0, 1.0 / 8.0, 1.0 / 16.0}});
+
   private static Filter SHARPEN = createKernelFilter(
       new double[][]{
           {-1.0 / 8.0, -1.0 / 8.0, -1.0 / 8.0, -1.0 / 8.0, -1.0 / 8.0},
@@ -24,11 +24,19 @@ public class FilterBuilder {
           {-1.0 / 8.0, 1.0 / 4.0, 1.0, 1.0 / 4.0, -1.0 / 8.0},
           {-1.0 / 8.0, 1.0 / 4.0, 1.0 / 4.0, 1.0 / 4.0, -1.0 / 8.0},
           {-1.0 / 8.0, -1.0 / 8.0, -1.0 / 8.0, -1.0 / 8.0, -1.0 / 8.0}});
+
   private static Filter GREYSCALE = createColorFilter(
       new double[][]{
           {0.212, .7152, .0722},
           {0.212, .7152, .0722},
           {0.212, .7152, .0722}});
+
+  private static Filter BRUH = createColorFilter(
+      new double[][]{
+          {0.5, 0.5, 0.5},
+          {0.5, 0.5, 0.5},
+          {0.5, 0.5, 0.5}});
+
   private static Filter SEPIA = createColorFilter(
       new double[][]{
           {0.393, 0.769, 0.189},
@@ -42,6 +50,7 @@ public class FilterBuilder {
     r.put("sharpen", SHARPEN);
     r.put("greyscale", GREYSCALE);
     r.put("sepia", SEPIA);
+    r.put("bruh", BRUH);
     return r;
   }
 

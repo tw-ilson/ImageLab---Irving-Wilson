@@ -68,7 +68,6 @@ class KernelFilter implements Filter {
           kx = 0;
           ky++;
         }
-
         // clamping
         if (sumRed > MAX) {
           sumRed = MAX;

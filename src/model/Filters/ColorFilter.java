@@ -16,7 +16,6 @@ public class ColorFilter implements Filter {
     this.shift = shift;
   }
 
-
   @Override
   public Image apply(Image image) {
     Image alteredImage = new SimpleImage(image);
@@ -29,7 +28,6 @@ public class ColorFilter implements Filter {
             + cur.getBlue() * shift[1][2]);
         int newBlue = (int) (cur.getRed() * shift[2][0] + cur.getGreen() * shift[2][1]
             + cur.getBlue() * shift[2][2]);
-
         // clamping
         if (newRed > MAX) {
           newRed = MAX;
