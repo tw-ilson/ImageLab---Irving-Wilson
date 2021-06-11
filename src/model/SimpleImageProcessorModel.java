@@ -25,6 +25,7 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel {
     if (imageVersions.isEmpty()) {
       throw new IllegalStateException();
     }
+
     FilterBuilder filterBuilder = new FilterBuilder();
     Filter toApply = filterBuilder.getFilter(filter);
     Image nextImage = new SimpleImage(imageVersions.peek());

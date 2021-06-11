@@ -10,6 +10,7 @@ public class TestColorFilter {
   public void testGrayScale() {
     ImageProcessorModel model = new SimpleImageProcessorModel();
     model.importImage("");
+
   }
 
   @Test
