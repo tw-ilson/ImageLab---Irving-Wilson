@@ -26,8 +26,7 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel {
       throw new IllegalStateException();
     }
 
-    FilterBuilder filterBuilder = new FilterBuilder();
-    Filter toApply = filterBuilder.getFilter(filter);
+    Filter toApply = FilterBuilder.getFilter(filter);
     Image nextImage = new SimpleImage(imageVersions.peek());
     imageVersions.add(toApply.apply(nextImage));
   }
@@ -52,7 +51,7 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel {
       toWrite.createNewFile();
       switch (f) {
         case PPM:
-          ImageUtil.writePPM(toWrite, this.imageVersions.peek());
+          writePPM(toWrite, this.imageVersions.peek());
           break;
         default:
           throw new IOException("unsupported export type.");

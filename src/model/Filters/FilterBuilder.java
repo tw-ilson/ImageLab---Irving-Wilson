@@ -2,13 +2,15 @@ package model.Filters;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
- * Creates filters.
+ * A singleton Accessor class for Image Filters.
+ * Designed so that the static final field "filters" is the only public facing part of this class.
  */
 public class FilterBuilder {
+  private static Map<String, Filter> filters = initFilters();
 
-  private static Map<String, Filter> filters = new HashMap<>();
   private static Filter BLUR = createKernelFilter(
       new double[][]{
           {1.0 / 16.0, 1.0 / 8.0, 1.0 / 16.0},
@@ -33,11 +35,13 @@ public class FilterBuilder {
           {0.272, 0.534, 0.131}});
 
 
-  public FilterBuilder() {
-    filters.put("blur", BLUR);
-    filters.put("sharpen", SHARPEN);
-    filters.put("greyscale", GREYSCALE);
-    filters.put("sepia", SEPIA);
+  private static HashMap<String, Filter> initFilters() {
+    HashMap<String, Filter> r = new HashMap<String, Filter>();
+    r.put("blur", BLUR);
+    r.put("sharpen", SHARPEN);
+    r.put("greyscale", GREYSCALE);
+    r.put("sepia", SEPIA);
+    return r;
   }
 
   /**
@@ -47,7 +51,10 @@ public class FilterBuilder {
    * @return
    */
   public static Filter getFilter(String filter) {
-    return filters.get(filter);
+    filters = initFilters();
+    Filter f = filters.get(filter);
+    Objects.requireNonNull(f);
+    return f;
   }
 
 
