@@ -1,25 +1,18 @@
 package model;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
-import java.io.FileNotFoundException;
-import java.io.FileInputStream;
 import model.ColorUtils.Color;
-import model.ColorUtils.HeavyColor;
 import model.ColorUtils.LightColor;
 import model.image.Image;
 import model.image.SimpleImage;
 
-
-/**
- * This class contains utility methods to read a PPM image from file and simply print its contents.
- * Feel free to change this method as required.
- */
-public class ImageUtil {
-
+public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
   /**
    * Read an image file in the PPM format and print the colors.
    *
@@ -74,6 +67,12 @@ public class ImageUtil {
     return new SimpleImage(pixels, width, height);
   }
 
+  /**
+   * Writes the contents of an image to PPM file.
+   * @param file the file to write to
+   * @param image the image to write
+   * @throws IOException
+   */
   public static void writePPM(File file, Image image) throws IOException {
     if (!file.exists()) {
       throw new IOException();
@@ -93,16 +92,11 @@ public class ImageUtil {
     Color[] pixels = image.pixArray();
     for (Color i: pixels) {
       writer.append(
-      i.getRed() + " " +
-      i.getGreen() + " " +
-      i.getBlue() + " ");
+          i.getRed() + " " +
+              i.getGreen() + " " +
+              i.getBlue() + " ");
       writer.append(System.lineSeparator());
     }
     writer.close();
   }
-
-  //demo main
-
-
 }
-

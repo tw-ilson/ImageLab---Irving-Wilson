@@ -52,7 +52,7 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel {
       toWrite.createNewFile();
       switch (f) {
         case PPM:
-          ImageUtil.writePPM(toWrite, this.imageVersions.peek());
+          writePPM(toWrite, this.imageVersions.peek());
           break;
         default:
           throw new IOException("unsupported export type.");
