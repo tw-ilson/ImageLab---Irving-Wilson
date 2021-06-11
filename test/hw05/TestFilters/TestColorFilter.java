@@ -8,6 +8,9 @@ import model.SimpleImageProcessorModel;
 import model.image.Image;
 import org.junit.Test;
 
+/**
+ * Tests that color filter works properly by checking grayscale and sepia.
+ */
 public class TestColorFilter {
 
   @Test

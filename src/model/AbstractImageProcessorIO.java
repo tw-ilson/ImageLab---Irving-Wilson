@@ -12,13 +12,18 @@ import model.ColorUtils.LightColor;
 import model.image.Image;
 import model.image.SimpleImage;
 
+/**
+ * Abstract class for IO operations in an Image Processor. Contains methods for reading and writing
+ * to a PPM file (as of HW5).
+ */
 public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
+
   /**
    * Read an image file in the PPM format and print the colors.
    *
    * @param filename the path of the file.
    */
-  public static Image readPPM(String filename) throws FileNotFoundException {
+  protected static Image readPPM(String filename) throws FileNotFoundException {
     Scanner sc;
 
     sc = new Scanner(new FileInputStream(filename));
@@ -60,7 +65,7 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
       }
     }
 
-    for (Color c: pixels) {
+    for (Color c : pixels) {
       Objects.requireNonNull(c);
     }
 
@@ -69,11 +74,12 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
 
   /**
    * Writes the contents of an image to PPM file.
-   * @param file the file to write to
+   *
+   * @param file  the file to write to
    * @param image the image to write
    * @throws IOException
    */
-  public static void writePPM(File file, Image image) throws IOException {
+  protected static void writePPM(File file, Image image) throws IOException {
     if (!file.exists()) {
       throw new IOException();
     }
@@ -90,7 +96,7 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
     writer.append("" + 256 + System.lineSeparator());
 
     Color[] pixels = image.pixArray();
-    for (Color i: pixels) {
+    for (Color i : pixels) {
       writer.append(
           i.getRed() + " " +
               i.getGreen() + " " +
