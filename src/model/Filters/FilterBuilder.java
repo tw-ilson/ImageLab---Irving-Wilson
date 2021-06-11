@@ -9,6 +9,7 @@ import java.util.Objects;
  * Designed so that the static final field "filters" is the only public facing part of this class.
  */
 public class FilterBuilder {
+  // hello
   private static Map<String, Filter> filters = initFilters();
 
   private static Filter BLUR = createKernelFilter(
