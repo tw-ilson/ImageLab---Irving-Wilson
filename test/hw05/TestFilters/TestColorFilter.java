@@ -1,43 +1,62 @@
 package hw05.TestFilters;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
 
 import model.ColorUtils.Color;
-import model.Filters.Filter;
-import model.Filters.FilterBuilder;
 import model.ImageProcessorModel;
 import model.SimpleImageProcessorModel;
 import model.image.Image;
-import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Tests that color filter works properly by checking grayscale and sepia.
+ */
 public class TestColorFilter {
-  ImageProcessorModel model;
-  Image image;
-
-  @Before
-  public void setup() {
-    model = new SimpleImageProcessorModel();
-    model.importImage("manhattan-small.ppm");
-    image = model.getImageState();
-  }
 
   @Test
   public void testGrayScale() {
-    Filter filter = FilterBuilder.getFilter("greyscale");
-    Image grey = filter.apply(image);
-
-    for (int i = 0; i < grey.getHeight(); i++) {
-      for (int j = 0; j < grey.getWidth(); j++) {
-
+    ImageProcessorModel model = new SimpleImageProcessorModel();
+    model.importImage("manhattan-small.ppm");
+    Image original = model.getImageState();
+    model.applyFilter("greyscale");
+    Image grey = model.getImageState();
+    for (int y = 0; y < grey.getHeight(); y++) {
+      for (int x = 0; x < grey.getWidth(); x++) {
+        Color greyPixel = grey.getPixel(x, y);
+        Color origPixel = original.getPixel(x, y);
+        assertEquals((origPixel.getRed() * 0.2126 + origPixel.getGreen() * 0.7152
+            + origPixel.getBlue() * 0.0722), greyPixel.getRed(), 2.0);
+        assertEquals((origPixel.getRed() * 0.2126 + origPixel.getGreen() * 0.7152
+            + origPixel.getBlue() * 0.0722), greyPixel.getGreen(), 2.0);
+        assertEquals((origPixel.getRed() * 0.2126 + origPixel.getGreen() * 0.7152
+            + origPixel.getBlue() * 0.0722), greyPixel.getBlue(), 2.0);
       }
     }
   }
 
   @Test
   public void testSepia() {
-
+    //hello this is an important change
+    ImageProcessorModel model = new SimpleImageProcessorModel();
+    model.importImage("manhattan-small.ppm");
+    Image original = model.getImageState();
+    model.applyFilter("sepia");
+    Image sepi = model.getImageState();
+    for (int y = 0; y < sepi.getHeight(); y++) {
+      for (int x = 0; x < sepi.getWidth(); x++) {
+        Color sepiPixel = sepi.getPixel(x, y);
+        Color origPixel = original.getPixel(x, y);
+        if (sepiPixel.getRed() < 0xff && sepiPixel.getRed() > 0
+        && sepiPixel.getGreen() < 0xff && sepiPixel.getGreen() > 0
+        && sepiPixel.getBlue() < 0xff && sepiPixel.getBlue() > 0)  {
+          assertEquals((origPixel.getRed() * 0.393 + origPixel.getGreen() * 0.769
+              + origPixel.getBlue() * 0.189), sepiPixel.getRed(), 10);
+          assertEquals((origPixel.getRed() * 0.349 + origPixel.getGreen() * 0.686
+              + origPixel.getBlue() * 0.168), sepiPixel.getGreen(), 6);
+          assertEquals((origPixel.getRed() * 0.272 + origPixel.getGreen() * 0.534
+              + origPixel.getBlue() * 0.131), sepiPixel.getBlue(), 6);
+        }
+      }
+    }
   }
 }
