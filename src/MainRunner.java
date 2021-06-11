@@ -2,7 +2,6 @@ import java.io.IOException;
 import model.FileType;
 import model.ImageProcessorModel;
 import model.SimpleImageProcessorModel;
-import model.image.CheckerboardImage;
 
 public class MainRunner {
 
@@ -21,9 +20,9 @@ public class MainRunner {
     } catch (IllegalArgumentException e) {
       System.out.println("File " + filename + " not found!");
     }
-    model.applyFilter("sepia");
+    model.applyFilter("sharpen");
     try {
-      model.export(FileType.PPM, "sepia.ppm");
+      model.export(FileType.PPM, "sharp.ppm");
     } catch (IOException e) {
       e.printStackTrace();
     }

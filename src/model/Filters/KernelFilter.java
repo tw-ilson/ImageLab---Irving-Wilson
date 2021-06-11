@@ -18,40 +18,38 @@ class KernelFilter implements Filter {
   }
 
   @Override
-  public Image apply(Image i) throws IllegalStateException{
-    if (kernel.length * kernel[0].length > i.pixArray().length) {
+  public Image apply(Image image) throws IllegalStateException{
+    if (kernel.length * kernel[0].length > image.pixArray().length) {
       throw new IllegalStateException("Image is too small for the filter.");
     }
-    Objects.requireNonNull(i);
+    Objects.requireNonNull(image);
 
     // sets it to the length of the image pixel array
-    Color[] toEdit = new LightColor[i.pixArray().length];
-
-    int edgeDist = (int) Math.ceil(kernel.length / 2);
-    int widthBound = (i.getWidth() % kernel.length) * kernel.length;
-    int heightBound = (i.getHeight() % kernel.length) * kernel.length;
-    Color[] finalColors = new LightColor[widthBound * heightBound];
+    int edgeDistFloor = (int) Math.floor(kernel.length / 2);
 
     // crop, or does return obey the bounds?
-    Image toReturn = new SimpleImage(toEdit, i.getWidth(), i.getHeight());
+    Image toReturn = new SimpleImage(image);
 
-    for (int x = 0; x < i.getWidth(); x++) {
-      for (int y = 0; y < i.getHeight(); y++) {
-
-        // checks if the complete "square" of pixels legitimately resides within the scope
-        if (x + kernel.length < i.getWidth() && y + kernel.length < i.getHeight()) {
-          Color toAdd;
+    for (int x = edgeDistFloor; x < image.getWidth() - edgeDistFloor; x++) {
+      for (int y = edgeDistFloor; y < image.getHeight() - edgeDistFloor; y++) {
           double sumRed = 0;
           double sumGreen = 0;
           double sumBlue = 0;
-          // moves through the kernel itself
-          for (int c = 0; c < kernel.length; c++) {
-            for (int g = 0; g < kernel.length; g++) {
-              sumRed += i.getPixel(x + c, y + g).getRed() * kernel[c][g];
-              sumGreen += i.getPixel(x + c, y + g).getGreen() * kernel[c][g];
-              sumBlue += i.getPixel(x + c, y + g).getBlue() * kernel[c][g];
+
+          int kx = 0;
+          int ky = 0;
+          for (int i = y - edgeDistFloor; i <= y + edgeDistFloor; i++) {
+            for (int j = x - edgeDistFloor; j <= x + edgeDistFloor; j++) {
+              Color cur = image.getPixel(j, i);
+              sumRed += (double) cur.getRed() * kernel[ky][kx];
+              sumGreen += (double)cur.getGreen() * kernel[ky][kx];
+              sumBlue += (double) cur.getBlue() * kernel[ky][kx];
+              kx++;
             }
+            kx = 0;
+            ky++;
           }
+
           // clamping
           if (sumRed > MAX) {
             sumRed = MAX;
@@ -68,12 +66,8 @@ class KernelFilter implements Filter {
           } else if (sumBlue < MIN) {
             sumBlue = MIN;
           }
-          toAdd = new LightColor((int) sumRed, (int) sumGreen, (int) sumBlue);
-          toReturn.setPixel(x + edgeDist, y + edgeDist, toAdd);
-        } else {
-          Color toAdd = new LightColor(0, 0, 0);
-          toReturn.setPixel(x, y, toAdd);
-        }
+          Color toAdd = new LightColor((int) sumRed, (int) sumGreen, (int) sumBlue);
+          toReturn.setPixel(x + edgeDistFloor, y + edgeDistFloor, toAdd);
       }
     }
     return toReturn;
