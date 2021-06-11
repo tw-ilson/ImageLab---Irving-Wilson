@@ -6,7 +6,8 @@ import model.image.Image;
 /**
  * Abstract class for an Image Processor model. Provides a method to import image from file.
  */
-public abstract class AbstractImageProcessorModel extends AbstractImageProcessorIO implements ImageProcessorModel {
+public abstract class AbstractImageProcessorModel extends AbstractImageProcessorIO implements
+    ImageProcessorModel {
 
   protected Image sourceImage;
 

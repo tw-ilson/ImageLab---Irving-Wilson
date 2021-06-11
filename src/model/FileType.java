@@ -1,8 +1,8 @@
 package model;
 
 /**
- * enumerates image file types that are supported
+ * enumerates image file types that are supported.
  */
 public enum FileType {
-  PPM;
+  PPM, JPEG, PNG;
 }

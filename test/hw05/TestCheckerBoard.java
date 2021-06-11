@@ -6,11 +6,14 @@ import model.image.CheckerboardImage;
 import model.image.Image;
 import org.junit.Test;
 
+/**
+ * Tests for the checkBoard programmatically created image.
+ */
 public class TestCheckerBoard {
 
   @Test
   public void testCheckerBoard() {
-    Image billGates = new CheckerboardImage(2,2);
+    Image billGates = new CheckerboardImage(2, 2);
     assertEquals(20, billGates.getWidth());
     assertEquals(20, billGates.getHeight());
     //top left tile
@@ -40,5 +43,5 @@ public class TestCheckerBoard {
         assertEquals(0x000000, billGates.getPixel(x, y).getRGB());
       }
     }
-   }
+  }
 }

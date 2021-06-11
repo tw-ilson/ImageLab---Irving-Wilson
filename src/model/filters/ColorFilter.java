@@ -1,7 +1,7 @@
-package model.Filters;
+package model.filters;
 
-import model.ColorUtils.Color;
-import model.ColorUtils.LightColor;
+import model.color.Color;
+import model.color.LightColor;
 import model.image.Image;
 import model.image.SimpleImage;
 

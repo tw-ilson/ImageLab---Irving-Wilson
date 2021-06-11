@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Stack;
-import model.Filters.Filter;
-import model.Filters.FilterBuilder;
+import model.filters.Filter;
+import model.filters.FilterBuilder;
 import model.image.Image;
 import model.image.SimpleImage;
 
@@ -60,6 +60,12 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel {
       case PPM:
         writePPM(toWrite, this.imageVersions.peek());
         break;
+      case JPEG:
+        //to be added later, possibly
+        throw new IOException("as of now, unsupported export type.");
+      case PNG:
+        //to be added later, possibly
+        throw new IOException("as of yet, unsupported export type.");
       default:
         throw new IOException("unsupported export type.");
     }

@@ -1,7 +1,7 @@
 package model.image;
 
-import java.util.Objects;
-import model.ColorUtils.LightColor;
+
+import model.color.LightColor;
 
 /**
  * An image with a chekerboard pattern. Generated programatically.

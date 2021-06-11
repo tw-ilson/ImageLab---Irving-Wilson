@@ -7,8 +7,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
-import model.ColorUtils.Color;
-import model.ColorUtils.LightColor;
+import model.color.Color;
+import model.color.LightColor;
 import model.image.Image;
 import model.image.SimpleImage;
 
@@ -77,7 +77,7 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
    *
    * @param file  the file to write to
    * @param image the image to write
-   * @throws IOException
+   * @throws IOException if an IO error occurs
    */
   protected static void writePPM(File file, Image image) throws IOException {
     if (!file.exists()) {

@@ -1,4 +1,4 @@
-package model.Filters;
+package model.filters;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +17,7 @@ public class FilterBuilder {
   private static Filter SHARPEN = createKernelFilter(
       new double[][]{
           {-1.0 / 8.0, -1.0 / 8.0, -1.0 / 8.0, -1.0 / 8.0, -1.0 / 8.0},
-          {-1.0 / 8.0, 1.0 / 4.0, 1.0 / 4.0, 1.0 / 4.0, -1.0/ 8.0},
+          {-1.0 / 8.0, 1.0 / 4.0, 1.0 / 4.0, 1.0 / 4.0, -1.0 / 8.0},
           {-1.0 / 8.0, 1.0 / 4.0, 1.0, 1.0 / 4.0, -1.0 / 8.0},
           {-1.0 / 8.0, 1.0 / 4.0, 1.0 / 4.0, 1.0 / 4.0, -1.0 / 8.0},
           {-1.0 / 8.0, -1.0 / 8.0, -1.0 / 8.0, -1.0 / 8.0, -1.0 / 8.0}});
@@ -33,6 +33,9 @@ public class FilterBuilder {
           {0.272, 0.534, 0.131}});
 
 
+  /**
+   * Constructs a filterBuilder. adds all filters to the hashmap.
+   */
   public FilterBuilder() {
     filters.put("blur", BLUR);
     filters.put("sharpen", SHARPEN);
@@ -41,10 +44,10 @@ public class FilterBuilder {
   }
 
   /**
-   * returns the filter to be applied to the image
+   * returns the filter to be applied to the image.
    *
-   * @param filter
-   * @return
+   * @param filter the name of the filter to get.
+   * @return the requested filter.
    */
   public static Filter getFilter(String filter) {
     return filters.get(filter);
@@ -52,6 +55,7 @@ public class FilterBuilder {
 
   /**
    * Produces a new kernel filter instance.
+   *
    * @param kernel the kernel matrix to use for the new kernelfilter object
    * @return the Filter produced.
    */
@@ -61,6 +65,7 @@ public class FilterBuilder {
 
   /**
    * Produces a new Color filter instance.
+   *
    * @param shift the color shift matrix to create the new Filter with
    * @return the Filter produced.
    */

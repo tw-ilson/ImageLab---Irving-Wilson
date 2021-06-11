@@ -1,4 +1,4 @@
-package model.Filters;
+package model.filters;
 
 import java.util.function.Function;
 import model.image.Image;

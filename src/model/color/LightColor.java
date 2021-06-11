@@ -1,4 +1,4 @@
-package model.ColorUtils;
+package model.color;
 
 /**
  * A type of color that utilises a single 32-bit number to represent its rgb channels.
@@ -19,10 +19,10 @@ public class LightColor implements Color {
   /**
    * Copy constructor.
    *
-   * @param that
+   * @param that the color to copy
    */
-  public LightColor(LightColor that) {
-      this.color = that.color;
+  public LightColor(Color that) {
+    this.color = that.getRGB();
   }
 
   /**

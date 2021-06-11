@@ -1,8 +1,8 @@
-package model.Filters;
+package model.filters;
 
 import java.util.Objects;
-import model.ColorUtils.Color;
-import model.ColorUtils.LightColor;
+import model.color.Color;
+import model.color.LightColor;
 import model.image.Image;
 import model.image.SimpleImage;
 
@@ -16,7 +16,7 @@ class KernelFilter implements Filter {
   private double[][] kernel;
 
   /**
-   * Initializes the kernel filter
+   * Initializes the kernel filter.
    *
    * @param kernel (the filter matrix itself, represented by a 2-D array of doubles)
    */

@@ -2,8 +2,8 @@ package hw05;
 
 import static org.junit.Assert.assertTrue;
 
-import model.ColorUtils.Color;
-import model.ColorUtils.LightColor;
+import model.color.Color;
+import model.color.LightColor;
 import model.image.Image;
 import model.image.SimpleImage;
 import org.junit.Test;

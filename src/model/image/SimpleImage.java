@@ -1,10 +1,13 @@
 package model.image;
 
-import java.util.Objects;
-import model.ColorUtils.Color;
-import model.ColorUtils.LightColor;
+import model.color.Color;
+import model.color.LightColor;
 
-public class SimpleImage extends AbstractImage{
+/**
+ * The simple image class represents the most basic representation of an image, with merely a array
+ * of the pixels, the width, and the height.
+ */
+public class SimpleImage extends AbstractImage {
 
   /**
    * Constructs an image given an array of pixels and a width and a height, constructs an image.
@@ -20,7 +23,8 @@ public class SimpleImage extends AbstractImage{
   }
 
   /**
-   * Copy constructor
+   * Copy constructor.
+   *
    * @param that the image to make a copy of.
    */
   public SimpleImage(Image that) {

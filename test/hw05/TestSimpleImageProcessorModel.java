@@ -3,15 +3,14 @@ package hw05;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-import java.util.EmptyStackException;
-import model.ColorUtils.LightColor;
+import model.color.LightColor;
 import model.SimpleImageProcessorModel;
 import model.image.SimpleImage;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for the SimpleImageProcessorModelClass
+ * Tests for the SimpleImageProcessorModelClass.
  */
 public class TestSimpleImageProcessorModel {
 
@@ -30,7 +29,7 @@ public class TestSimpleImageProcessorModel {
   }
 
   /**
-   * Tests for getImageState
+   * Tests for getImageState.
    */
 
   @Test(expected = IllegalStateException.class)
@@ -40,13 +39,14 @@ public class TestSimpleImageProcessorModel {
 
   @Test
   public void testGetImageState() {
+    image = new SimpleImage(toTest, 3, 3);
     model.importImage(image);
     model.applyFilter("blur");
     assertNotEquals(image, model.getImageState());
   }
 
   /**
-   * Tests for apply filter
+   * Tests for apply filter.
    */
 
   @Test(expected = IllegalStateException.class)
@@ -87,7 +87,7 @@ public class TestSimpleImageProcessorModel {
   }
 
   /**
-   * importImageTests
+   * importImageTests.
    */
 
   @Test(expected = NullPointerException.class)
