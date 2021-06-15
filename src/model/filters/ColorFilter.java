@@ -22,7 +22,9 @@ public class ColorFilter implements Filter {
 
   @Override
   public Image apply(Image image) {
-    Image alteredImage = new SimpleImage(image);
+    Color[] toEdit = image.pixArray();
+    Image alteredImage = new SimpleImage(toEdit, image.getWidth(), image.getHeight());
+
     for (int i = 0; i < image.getWidth(); i++) {
       for (int j = 0; j < image.getHeight(); j++) {
         Color cur = image.getPixel(i, j);
@@ -49,7 +51,7 @@ public class ColorFilter implements Filter {
         } else if (newBlue < MIN) {
           newBlue = MIN;
         }
-        alteredImage.setPixel(i, j, new LightColor(newRed, newGreen, newBlue));
+        toEdit[image.getWidth() * j + i] = new LightColor(newRed, newGreen, newBlue);
       }
     }
     return alteredImage;

@@ -193,7 +193,7 @@ public class TestKernelFilter {
     image5 = new SimpleImage(large, 5, 5);
     model.importImage(image5);
     model.applyFilter("sharpen");
-    assertEquals(model.getImageState().getPixel(3, 3).getRed(),
+    assertEquals(model.getImageState().getPixel(2, 2).getRed(),
         new LightColor(0, 0, 0).getRed());
   }
 
@@ -204,7 +204,7 @@ public class TestKernelFilter {
     image5 = new SimpleImage(large, 5, 5);
     model.importImage(image5);
     model.applyFilter("sharpen");
-    assertEquals(model.getImageState().getPixel(3, 3).getRed(),
+    assertEquals(model.getImageState().getPixel(2, 2).getRed(),
         new LightColor(255, 0, 0).getRed());
   }
 

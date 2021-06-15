@@ -35,15 +35,6 @@ public abstract class AbstractImage implements Image {
   }
 
   @Override
-  public void setPixel(int x, int y, Color c) {
-    if (x > width - 1 || x < 0 || y > height - 1 || y < 0) {
-      throw new IllegalArgumentException("Invalid width or height.");
-    }
-    Objects.requireNonNull(c);
-    pixArray[width * y + x] = c;
-  }
-
-  @Override
   public int getWidth() {
     return width;
   }

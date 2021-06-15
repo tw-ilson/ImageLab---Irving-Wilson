@@ -46,8 +46,10 @@ class KernelFilter implements Filter {
     // sets it to the length of the image pixel array
     int edgeDistFloor = (int) Math.floor(kernel.length / 2);
 
+    Color[] toEdit = image.pixArray();
     // crop, or does return obey the bounds?
-    Image toReturn = new SimpleImage(image);
+    Image toReturn = new SimpleImage(toEdit, image.getWidth(), image.getHeight());
+
 
     for (int x = edgeDistFloor; x < image.getWidth() - edgeDistFloor; x++) {
       for (int y = edgeDistFloor; y < image.getHeight() - edgeDistFloor; y++) {
@@ -85,7 +87,7 @@ class KernelFilter implements Filter {
           sumBlue = MIN;
         }
         Color toAdd = new LightColor((int) sumRed, (int) sumGreen, (int) sumBlue);
-        toReturn.setPixel(x - 1 + edgeDistFloor, y - 1 + edgeDistFloor, toAdd);
+        toEdit[image.getWidth() * y + x] = toAdd;
       }
     }
     return toReturn;

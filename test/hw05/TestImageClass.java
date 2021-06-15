@@ -71,29 +71,6 @@ public class TestImageClass {
     assertNotEquals(image1.getPixel(-5, -5), new LightColor(1, 1, 1));
   }
 
-  /**
-   * Tests for setPixel.
-   */
-  @Test
-  public void testSetPixel() {
-    image1.setPixel(1, 1, new LightColor(200, 200, 200));
-    assertNotEquals(image1.getPixel(1, 1), new LightColor(200, 200, 200));
-  }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void testSetPixelTooLarge() {
-    image1.setPixel(5, 5, new LightColor(200, 200, 200));
-  }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void testSetPixelTooSmall() {
-    image1.setPixel(-5, -5, new LightColor(200, 200, 200));
-  }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void testNullColor() {
-    image1.setPixel(-5, -5, null);
-  }
 
   @Test
   public void testGetWidth() {

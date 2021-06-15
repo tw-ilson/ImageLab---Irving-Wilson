@@ -26,14 +26,6 @@ public interface Image {
    */
   public Color getPixel(int x, int y);
 
-  /**
-   * Sets the pixel at the given position to the specified color.
-   *
-   * @param x the x coordinate of the pixel to set.
-   * @param y the y coordinate of the pixel to set.
-   * @param c the color to set the pixel to.
-   */
-  public void setPixel(int x, int y, Color c);
 
   /**
    * gets the width of this image (in pixels).
