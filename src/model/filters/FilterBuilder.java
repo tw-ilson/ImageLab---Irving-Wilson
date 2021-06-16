@@ -49,7 +49,7 @@ public class FilterBuilder {
    * @param filter the name of the filter to get.
    * @return the requested filter.
    */
-  public static Filter getFilter(String filter) {
+  public Filter getFilter(String filter) {
     return filters.get(filter);
   }
 

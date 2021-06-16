@@ -16,6 +16,7 @@ import model.image.SimpleImage;
 public class SimpleImageProcessorModel extends AbstractImageProcessorModel {
 
   Stack<Image> imageVersions = new Stack<>();
+  FilterBuilder builder = new FilterBuilder();
 
   @Override
   public Image getImageState() throws IllegalStateException {
@@ -31,8 +32,7 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel {
       throw new IllegalStateException();
     }
 
-    FilterBuilder filterBuilder = new FilterBuilder();
-    Filter toApply = filterBuilder.getFilter(filter);
+    Filter toApply = builder.getFilter(filter);
     Image nextImage = new SimpleImage(imageVersions.peek());
     imageVersions.add(toApply.apply(nextImage));
   }

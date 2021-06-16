@@ -18,6 +18,11 @@ import model.image.SimpleImage;
  */
 public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
 
+  protected static Image read(String filename) throws FileNotFoundException {
+    File imageFile = new File(filename);
+    return null;
+  }
+
   /**
    * Read an image file in the PPM format and print the colors.
    *
