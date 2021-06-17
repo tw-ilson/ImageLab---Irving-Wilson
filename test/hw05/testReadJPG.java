@@ -16,6 +16,7 @@ public class testReadJPG {
   public void setUp() {
     ImageProcessorModel processor = new SimpleImageProcessorModel();
     String filename = "Moon.jpeg";
+    processor.importImage(filename);
     newImage = processor.getImageState();
   }
 

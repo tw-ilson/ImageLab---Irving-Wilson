@@ -12,7 +12,6 @@ import javax.imageio.ImageIO;
 import model.color.Color;
 import model.color.LightColor;
 import model.image.Image;
-import model.image.LayeredImage;
 import model.image.SimpleImage;
 
 /**
