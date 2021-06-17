@@ -1,6 +1,7 @@
 package model;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import model.image.Image;
 
 /**
@@ -14,8 +15,8 @@ public abstract class AbstractImageProcessorModel extends AbstractImageProcessor
   @Override
   public void importImage(String fileName) throws IllegalArgumentException {
     try {
-      sourceImage = readPPM(fileName);
-    } catch (FileNotFoundException e) {
+      sourceImage = readJPG(fileName);
+    } catch (IOException e) {
       System.out.println("File \"" + fileName + "\" can not be found.");
     }
   }
