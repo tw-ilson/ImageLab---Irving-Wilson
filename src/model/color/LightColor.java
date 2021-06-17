@@ -32,8 +32,11 @@ public class LightColor implements Color {
    * @param g the blue channel.
    * @param b the green channel.
    */
-  public LightColor(int r, int g, int b) {
-    this.color = (r << 16) ^ (g << 8) ^ b;
+  public LightColor(Number r, Number g, Number b) {
+    int red = (int) r;
+    int green = (int) g;
+    int blue = (int) b;
+    this.color = (red << 16) ^ (green << 8) ^ blue;
   }
 
   @Override
