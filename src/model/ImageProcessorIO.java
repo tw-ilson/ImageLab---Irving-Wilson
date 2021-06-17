@@ -27,9 +27,11 @@ public interface ImageProcessorIO {
   /**
    * Exports the stored image as a ??? NOTE: possibly add enumerated argument to represent supported
    * file formats.
-   *
+   * @param f the type of file to export as.
+   * @param name the name of the image file to be created.
    * @return the compiled image
    * @throws IllegalStateException if the export requested is not possible
    */
   public String export(FileType f, String name) throws IllegalStateException, IOException;
+
 }

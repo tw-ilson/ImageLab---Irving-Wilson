@@ -1,4 +1,4 @@
-package hw05;
+package hw06;
 
 import static org.junit.Assert.assertEquals;
 
@@ -15,14 +15,14 @@ public class testReadJPG {
   @Before
   public void setUp() {
     ImageProcessorModel processor = new SimpleImageProcessorModel();
-    String filename = "Moon.jpeg";
+    String filename = "photos/squidward.png";
     processor.importImage(filename);
     newImage = processor.getImageState();
   }
 
   @Test
   public void plswork() {
-    assertEquals(newImage.getWidth(), 7);
+    assertEquals(newImage.getWidth(), 800);
   }
 
 
