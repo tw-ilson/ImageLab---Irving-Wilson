@@ -45,7 +45,7 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel {
   }
 
   @Override
-  public void importImage(String filename) {
+  public void importImage(String filename) throws IllegalArgumentException {
     super.importImage(filename);
     imageVersions.clear();
     imageVersions.push(sourceImage);
