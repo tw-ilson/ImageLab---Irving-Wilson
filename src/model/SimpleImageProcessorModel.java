@@ -2,6 +2,9 @@ package model;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.Stack;
 import model.filters.Filter;
@@ -15,8 +18,12 @@ import model.image.SimpleImage;
  */
 public class SimpleImageProcessorModel extends AbstractImageProcessorModel {
 
+  // instead, we are working with layers where each layer is an image
+  // so, a hashmap
+
   Stack<Image> imageVersions = new Stack<>();
   FilterBuilder builder = new FilterBuilder();
+
 
   @Override
   public Image getImageState() throws IllegalStateException {
@@ -52,6 +59,7 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel {
     imageVersions.push(image);
   }
 
+  // these should be separate function objects, rather than one big export function
   @Override
   public String export(FileType f, String name) throws IllegalStateException, IOException {
     File toWrite = new File(name);

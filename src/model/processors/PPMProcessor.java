@@ -1,6 +1,5 @@
-package model;
+package model.processors;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,30 +7,30 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
-import javax.imageio.ImageIO;
+import model.ImageProcessorIO;
 import model.color.Color;
 import model.color.LightColor;
 import model.image.Image;
-import model.image.LayeredImage;
 import model.image.SimpleImage;
+
 
 /**
  * Abstract class for IO operations in an Image Processor. Contains methods for reading and writing
  * to a PPM file (as of HW5).
  */
-public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
+public class PPMProcessor implements IProcessor {
 
-  protected static Image read(String filename) throws FileNotFoundException {
-    File imageFile = new File(filename);
-    return null;
-  }
+    /*protected static Image read(String filename) throws FileNotFoundException {
+      File imageFile = new File(filename);
+      return null;
+    }*/
 
   /**
    * Read an image file in the PPM format and print the colors.
    *
    * @param filename the path of the file.
    */
-  protected static Image readPPM(String filename) throws FileNotFoundException {
+  public Image read(String filename) throws FileNotFoundException {
     Scanner sc;
 
     sc = new Scanner(new FileInputStream(filename));
@@ -87,7 +86,7 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
    * @param image the image to write
    * @throws IOException if an IO error occurs
    */
-  protected static void writePPM(File file, Image image) throws IOException {
+  public void write(File file, Image image) throws IOException {
     if (!file.exists()) {
       throw new IOException();
     }
@@ -114,18 +113,5 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
     writer.close();
   }
 
-
-  public static Image readJPG(String filename) throws IOException {
-    BufferedImage image = ImageIO.read(new FileInputStream(filename));
-    Color[] toEdit = new LightColor[image.getWidth() * image.getHeight()];
-    Image toReturn = new SimpleImage(toEdit, image.getWidth(), image.getHeight());
-    for (int i = 0; i < image.getWidth(); i++) {
-      for (int j = 0; j < image.getHeight(); j++) {
-        toEdit[j * image.getWidth() + i] = new LightColor(image.getRGB(i, j));
-      }
-    }
-    return toReturn;
-  }
 }
-
 
