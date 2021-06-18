@@ -18,8 +18,7 @@ public class LayeredImage implements LayeredImageInterface {
   private LayerInfo current;
   private ArrayList<String> layerNamesList;
 
-  private LayeredImage() {
-
+  public LayeredImage() {
   }
 
   public LayeredImage(int w, int h) {
@@ -32,16 +31,19 @@ public class LayeredImage implements LayeredImageInterface {
     layerTable = new HashMap<String, LayerInfo>();
   }
 
+
+  // you import the image to each layer individually, does not have a layer contained within
+  // each at the very beginning
   public LayeredImage(Image... layers) throws IllegalArgumentException {
     this.width = layers[0].getWidth();
     this.height = layers[0].getHeight();
     this.layerTable = new HashMap<>();
-    for (int i = 0; i < layers.length; i++) {
+    /*for (int i = 0; i < layers.length; i++) {
       if (layers[i].getWidth() != width || layers[i].getHeight() != height) {
         throw new IllegalArgumentException("cannot create layer images of varying dimensions.");
       }
       this.layerTable.put("layer" + i, new LayerInfo(i, layers[i], true));
-    }
+    }*/
 
     // how to get the current image
     //this.current = layerTable.get();
@@ -130,8 +132,7 @@ public class LayeredImage implements LayeredImageInterface {
 
   @Override
   public Image getCurrentLayer(String layerName) throws IllegalArgumentException {
-    Objects.requireNonNull(layerName);
-    if (!layerTable.containsKey(layerName)) {
+    if (!layerTable.containsKey(layerName) || layerName == null) {
       throw new IllegalArgumentException("Layer does not exist.");
     }
     this.currentName = layerName;
@@ -140,8 +141,8 @@ public class LayeredImage implements LayeredImageInterface {
   }
 
   @Override
-  public void changeVisibility(String layerName) throws IllegalArgumentException{
-    if (!layerTable.containsKey(layerName)) {
+  public void changeVisibility(String layerName) throws IllegalArgumentException {
+    if (!layerTable.containsKey(layerName) || layerName == null) {
       throw new IllegalArgumentException("Layer does not exist.");
     }
     LayerInfo toEdit = layerTable.get(layerName);
@@ -151,8 +152,11 @@ public class LayeredImage implements LayeredImageInterface {
 
   @Override
   public void setLayer(Image image) throws IllegalArgumentException {
-   /* LayerInfo toEdit = this.
-    image.pixArray();*/
+    if (image == null) {
+      throw new IllegalArgumentException("Cannot pass a null image");
+    }
+    this.current.pixels = image;
+
   }
 
 
