@@ -19,12 +19,4 @@ public class testReadJPG {
     processor.importImage(filename);
     newImage = processor.getImageState();
   }
-
-  @Test
-  public void plswork() {
-    assertEquals(newImage.getWidth(), 800);
-  }
-
-
-
 }

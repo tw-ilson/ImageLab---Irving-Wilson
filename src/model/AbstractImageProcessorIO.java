@@ -33,15 +33,6 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
     sc = new Scanner(new FileInputStream(filename));
 
     StringBuilder builder = new StringBuilder();
-    //read the file line by line, and populate a string. This will throw away any comment lines
-    while (sc.hasNextLine()) {
-      String s = sc.nextLine();
-      if (s.charAt(0) != '#') {
-        builder.append(s + System.lineSeparator());
-      }
-    }
-
-    sc = new Scanner(builder.toString());
 
     String token;
     if (sc.hasNext()) {

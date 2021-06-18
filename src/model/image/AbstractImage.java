@@ -23,6 +23,9 @@ public abstract class AbstractImage implements Image {
 
   @Override
   public Color[] pixArray() throws IllegalStateException {
+    if (pixArray == null) {
+      throw new IllegalStateException("No array of pixels to work with");
+    }
     return pixArray.clone();
   }
 

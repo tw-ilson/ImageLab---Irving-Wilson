@@ -18,9 +18,13 @@ public class SimpleLayeredImage implements LayeredImage {
   private HashMap<String, LayerInfo> layerTable;
   private String current;
 
-  private SimpleLayeredImage() {
+  // the width and the height are set upon the import of the first image
+  // into the program.
+  public SimpleLayeredImage() {
+    // width and height are both equal to 0 at the beginning
+    // only set with the first imported image
+    layerTable = new HashMap<String, LayerInfo>();
   }
-
   public SimpleLayeredImage(int w, int h) {
     if (w < 1 || h < 1) {
       throw new IllegalArgumentException("Cannot pass width and height arguments that are less"
@@ -35,22 +39,21 @@ public class SimpleLayeredImage implements LayeredImage {
     this.width = layers[0].getWidth();
     this.height = layers[0].getHeight();
     this.layerTable = new HashMap<>();
+
+    // doesn't add to the layer until after create layer
     for (int i = 0; i < layers.length; i++) {
       if (layers[i].getWidth() != width || layers[i].getHeight() != height) {
         throw new IllegalArgumentException("cannot create layer images of varying dimensions.");
       }
       this.layerTable.put("layer" + i, new LayerInfo(i, layers[i], true));
     }
-
-    // how to get the current image
-    //this.current = layerTable.get();
-
   }
+
 
   /**
    * A structure to hold the important information about a particular layer.
    */
-  private class LayerInfo implements ILayerInfo{
+  private class LayerInfo implements ILayerInfo {
 
     private int inOrder;
     private Image pixels;
@@ -117,20 +120,22 @@ public class SimpleLayeredImage implements LayeredImage {
   }
 
 
-
   @Override
   public void addLayer(String layerName) {
     Objects.requireNonNull(layerName);
-    layerTable.put(layerName, new LayerInfo(0, null, true));
+    if (layerTable.containsKey(layerName)) {
+      throw new IllegalArgumentException("Layer with the given name already exists.");
+    }
+    layerTable.put(layerName, new LayerInfo(numLayers() + 1, null, true));
   }
 
 
   @Override
   public Image topMostVisibleLayer() throws IllegalStateException {
-    ArrayList layerNamesList = new ArrayList(this.layerTable.keySet());
-    for (int i = layerTable.size(); i >= 0; i--) {
-      if (layerTable.get(layerNamesList.get(i)).visible) {
-        return layerTable.get(layerNamesList.get(i)).pixels;
+    //if (layerTable
+    for (LayerInfo li : this.layerTable.values()) {
+      if (li.inOrder == numLayers()) {
+        return li.pixels;
       }
     }
     throw new IllegalStateException("There are no visible layers.");
@@ -163,10 +168,18 @@ public class SimpleLayeredImage implements LayeredImage {
   }
 
   @Override
+  public boolean getVisibility(String layerName) {
+    LayerInfo toCheck = layerTable.get(layerName);
+    return toCheck.visible;
+  }
+
+
+  @Override
   public void editCurrentLayer(Image img) {
     Objects.requireNonNull(img);
-    if (img.getWidth() != width || img.getHeight() != height) {
-      throw new IllegalArgumentException("Image is not the right size.");
+    if (img.getWidth() != width || img.getHeight() != height || width == 0
+        || height == 0) {
+      throw new IllegalArgumentException("Image is not the right size, or is not instantiated.");
     }
     LayerInfo oldCurrent = layerTable.get(current);
     this.layerTable.put(current, new LayerInfo(oldCurrent.inOrder, img, oldCurrent.visible));

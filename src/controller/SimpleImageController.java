@@ -33,6 +33,7 @@ public class SimpleImageController implements ImageController {
   }
 
   private void operateApplication() {
+    command = null;
 
     Scanner scanner = new Scanner(input);
 
@@ -44,23 +45,23 @@ public class SimpleImageController implements ImageController {
         return;
       }
 
-      switch (token) {
-        case "create":
-          if (scanner.hasNext()) {
-            if (scanner.next().equals("layer")) {
-              return;
-            } else {
-
-            }
-          } else {
-
-          }
-
-          break;
-
+      if (command == null) {
+        // each of these initial tokens extend into a larger command
+        switch (token) {
+          case "create":
+            break;
+          case "current":
+            break;
+          case "load":
+            break;
+          case "save":
+            break;
+          case "invisible":
+            break;
+          case "apply":
+            break;
+        }
       }
     }
   }
-
-
 }

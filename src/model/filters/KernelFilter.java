@@ -56,7 +56,6 @@ class KernelFilter implements Filter {
         double sumRed = 0;
         double sumGreen = 0;
         double sumBlue = 0;
-
         int kx = 0;
         int ky = 0;
         for (int i = y - edgeDistFloor; i <= y + edgeDistFloor; i++) {

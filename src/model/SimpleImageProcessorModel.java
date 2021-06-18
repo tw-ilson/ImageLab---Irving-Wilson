@@ -58,10 +58,9 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel {
     imageVersions.push(image);
   }
 
-  // these should be separate function objects, rather than one big export function
   @Override
   public String export(String f, String name) throws IllegalStateException, IOException {
-    //Objects.requireNonNull(imageVersions.peek());
+    Objects.requireNonNull(imageVersions.peek());
     return exportHelp(f, name, imageVersions.peek());
   }
 }

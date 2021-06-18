@@ -2,7 +2,9 @@ package model.image;
 
 public interface LayeredImage extends Image {
 
-  interface ILayerInfo { }
+  interface ILayerInfo {
+
+  }
 
   /**
    * addLayer adds a new layer to the LayeredImage with the specified filename.
@@ -13,6 +15,7 @@ public interface LayeredImage extends Image {
 
   /**
    * returnTopMostVisibleLayer returns a copy of the top most visible image in the LayeredImage
+   *
    * @return Color[] (the pixel array of colors to be processed by the model)
    * @throws IllegalStateException if there are no visible layers in the layeredImage
    */
@@ -21,8 +24,9 @@ public interface LayeredImage extends Image {
 
   /**
    * gets the image that is the currently selected layer.
-   *  @return
-   *  @throws IllegalStateException
+   *
+   * @return
+   * @throws IllegalStateException
    */
   public Image getCurrentLayer() throws IllegalStateException;
 
@@ -32,25 +36,36 @@ public interface LayeredImage extends Image {
    *
    * @param layerName (the name of the layer)
    * @throws IllegalArgumentException if the layer that the client is trying to grab does not
-   * exist.
+   *                                  exist.
    */
   public void setCurrentLayer(String layerName) throws IllegalArgumentException;
 
   /**
    * Sets the visibility of the current layer to the boolean value passed as argument.
+   *
    * @param visible is this layer visible?
    */
   public void setVisibility(boolean visible);
 
   /**
    * changeVisibility changes the visibility of the specified layer.
+   *
    * @param img
    */
   public void editCurrentLayer(Image img) throws IllegalArgumentException;
 
   /**
    * Gives the number of layers in this layeredImage. 0 if none.
+   *
    * @return the number of layers.
    */
   public int numLayers();
+
+
+  /**
+   * Returns the visibility of the given image.
+   *
+   * @return boolean (visibility of the current image)
+   */
+  public boolean getVisibility(String layerName);
 }
