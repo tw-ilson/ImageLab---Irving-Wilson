@@ -25,7 +25,10 @@ public interface ImageProcessorLayerModel extends ImageProcessorModel {
   public void setCurrentLayer(String layerName);
 
 
-  /* should we be able to load the current layer
-  public void editCurrentLayer();*/
+  /**
+   * edits the current layer based on the image passed to editCurrentLayer.
+   * @param toEdit (the image which the client wishes to base the current layer upon)
+   */
+  public void editCurrentLayer(Image toEdit);
 
 }

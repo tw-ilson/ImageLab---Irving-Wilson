@@ -1,7 +1,5 @@
 package model;
 
-import controller.InputHandler;
-import java.io.IOException;
 import java.util.Objects;
 import model.image.Image;
 import model.image.LayeredImage;
@@ -10,7 +8,6 @@ import model.image.SimpleLayeredImage;
 public class LayerImageModel extends AbstractImageProcessorModel implements
     ImageProcessorLayerModel {
 
-  // so this is obviously null
   private LayeredImage image = new SimpleLayeredImage();
 
   @Override
@@ -20,12 +17,12 @@ public class LayerImageModel extends AbstractImageProcessorModel implements
 
   @Override
   public int getImageWidth() throws IllegalStateException {
-    return 0;
+    return image.getWidth();
   }
 
   @Override
   public int getImageHeight() throws IllegalStateException {
-    return 0;
+    return image.getHeight();
   }
 
   @Override
@@ -38,13 +35,11 @@ public class LayerImageModel extends AbstractImageProcessorModel implements
     image.editCurrentLayer(filtered);
   }
 
-
   @Override
   public void createLayer(String layerName) {
     Objects.requireNonNull(layerName);
     image.addLayer(layerName);
   }
-
 
   @Override
   public void setCurrentLayer(String layerName) {
@@ -52,11 +47,10 @@ public class LayerImageModel extends AbstractImageProcessorModel implements
     image.setCurrentLayer(layerName);
   }
 
-
-
-  // is this functionality necessary, when do we edit the given layer
   @Override
-  public void editCurrentLayer(Image img) {
-
+  public void editCurrentLayer(Image toEdit) {
+    Objects.requireNonNull(toEdit);
+    image.editCurrentLayer(toEdit);
   }
+
 }
