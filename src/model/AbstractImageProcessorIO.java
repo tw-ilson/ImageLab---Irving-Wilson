@@ -32,8 +32,6 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
    * @throws IOException
    */
   protected static Image read(String filename) throws IOException {
-    File imageFile = new File(filename);
-
     Scanner sc;
     sc = new Scanner(new FileInputStream(filename));
 
@@ -46,16 +44,20 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
       }
     }
 
-    String token = sc.next();
-    if (token.equals("P3")) {
-      readPPM(sc);
+    sc = new Scanner(builder.toString());
+
+    String token;
+    if (sc.hasNext()) {
+      token = sc.next();
     } else {
-      readNotPPM(filename);
+      throw new IOException("File is empty. Aborting.");
     }
 
-    //now set up the scanner to read from the string we just built
-    sc = new Scanner(builder.toString());
-    return null;
+    if (token.equals("P3")) {
+      return readPPM(sc);
+    } else {
+      return readNotPPM(filename);
+    }
   }
 
   /**
@@ -181,7 +183,6 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
     write(filetype.toLowerCase(), toWrite, toExport);
     return "Successfully exported " + filetype + " image: " + name;
   }
-
 }
 
 
