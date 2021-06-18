@@ -1,163 +1,47 @@
 package model.image;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-import model.color.Color;
-import model.color.LightColor;
-
-public class LayeredImage implements LayeredImageInterface {
-
-  private int width;
-  private int height;
-  private HashMap<String, LayerInfo> layerTable;
-  private String currentName;
-  private LayerInfo current;
-  private ArrayList<String> layerNamesList;
-
-  public LayeredImage() {
-  }
-
-  public LayeredImage(int w, int h) {
-    if (w < 1 || h < 1) {
-      throw new IllegalArgumentException("Cannot pass width and height arguments that are less"
-          + "than 1.");
-    }
-    this.width = w;
-    this.height = w;
-    layerTable = new HashMap<String, LayerInfo>();
-  }
-
-
-  // you import the image to each layer individually, does not have a layer contained within
-  // each at the very beginning
-  public LayeredImage(Image... layers) throws IllegalArgumentException {
-    this.width = layers[0].getWidth();
-    this.height = layers[0].getHeight();
-    this.layerTable = new HashMap<>();
-    /*for (int i = 0; i < layers.length; i++) {
-      if (layers[i].getWidth() != width || layers[i].getHeight() != height) {
-        throw new IllegalArgumentException("cannot create layer images of varying dimensions.");
-      }
-      this.layerTable.put("layer" + i, new LayerInfo(i, layers[i], true));
-    }*/
-
-    // how to get the current image
-    //this.current = layerTable.get();
-
-  }
-
-  @Override
-  public Color[] pixArray() throws IllegalStateException {
-    List<LayerInfo> layers = new ArrayList<LayerInfo>(
-        layerTable.values().stream()
-            .filter(l -> l.visible).collect(Collectors.toList()));
-    Color[] blended = new LightColor[width * height];
-    for (int y = 0; y < height; y++) {
-      for (int x = 0; x < width; x++) {
-        double r = 0;
-        double g = 0;
-        double b = 0;
-        for (LayerInfo layer : layers) {
-          Color cur = layer.pixels.getPixel(x, y);
-          r += (double) cur.getRed() / layers.size();
-          g += (double) cur.getGreen() / layers.size();
-          b += (double) cur.getBlue() / layers.size();
-        }
-        blended[width * y + x] = new LightColor(r, g, b);
-      }
-    }
-    return new Color[0];
-  }
-
-  @Override
-  public Color getPixel(int x, int y) {
-    return this.returnTopMostVisibleLayer().getPixel(x, y);
-  }
-
-  @Override
-  public int getWidth() {
-    return this.returnTopMostVisibleLayer().getWidth();
-  }
-
-  @Override
-  public int getHeight() {
-    return this.returnTopMostVisibleLayer().getHeight();
-  }
+public interface LayeredImage extends Image {
 
   /**
-   * A structure to hold the important information about a particular layer.
+   * addLayer adds a new layer to the LayeredImage with the specified filename.
+   *
+   * @param layerName (the name of the new layer)
    */
-  private class LayerInfo {
+  public void addLayer(String layerName);
 
-    private int inOrder;
-    private Image pixels;
-    private boolean visible;
-
-    /**
-     * Constructs a LayerInfo object.
-     *
-     * @param inOrder the depth ordering of this layer, with 0 being the "back" and greater numbers
-     *                being closer to the front.
-     * @param pixels  the pixel array of the layer.
-     * @param visible flags whether or not this layer is visible.
-     */
-    public LayerInfo(int inOrder, Image pixels, boolean visible) {
-      this.inOrder = inOrder;
-      this.pixels = pixels;
-      this.visible = visible;
-    }
-  }
-
-  @Override
-  public void addLayer(String layerName) {
-    Objects.requireNonNull(layerName);
-    layerTable.put(layerName, new LayerInfo(0, null, true));
-    layerNamesList.add(layerName);
-  }
+  /**
+   * returnTopMostVisibleLayer returns a copy of the top most visible image in the LayeredImage
+   * @return Color[] (the pixel array of colors to be processed by the model)
+   * @throws IllegalStateException if there are no visible layers in the layeredImage
+   */
+  public Image returnTopMostVisibleLayer() throws IllegalStateException;
 
 
-  @Override
-  public Image returnTopMostVisibleLayer() throws IllegalStateException {
-    for (int i = layerTable.size(); i >= 0; i--) {
-      if (layerTable.get(layerNamesList.get(i)).visible) {
-        return layerTable.get(layerNamesList.get(i)).pixels;
-      }
-    }
-    throw new IllegalStateException("There are no visible layers.");
-  }
+  // the current layer will be set in the model?
+  /**
+   * getLayer sets the "current layer", meaning the one that is being worked with, to the layer with
+   * the specified layername.
+   *
+   * @param layerName (the name of the layer)
+   * @throws IllegalArgumentException if the layer that the client is trying to grab does not
+   * exist.
+   */
+  public Image getCurrentLayer(String layerName) throws IllegalArgumentException;
 
-  @Override
-  public Image getCurrentLayer(String layerName) throws IllegalArgumentException {
-    if (!layerTable.containsKey(layerName) || layerName == null) {
-      throw new IllegalArgumentException("Layer does not exist.");
-    }
-    this.currentName = layerName;
-    this.current = layerTable.get(layerName);
-    return layerTable.get(layerName).pixels;
-  }
 
-  @Override
-  public void changeVisibility(String layerName) throws IllegalArgumentException {
-    if (!layerTable.containsKey(layerName) || layerName == null) {
-      throw new IllegalArgumentException("Layer does not exist.");
-    }
-    LayerInfo toEdit = layerTable.get(layerName);
-    toEdit.visible = !layerTable.get(layerName).visible;
-    layerTable.replace(layerName, toEdit);
-  }
+  /**
+   * changeVisibility changes the visibility of the specified layer.
+   */
+  public void changeVisibility(String layerName) throws IllegalArgumentException;
 
-  @Override
-  public void setLayer(Image image) throws IllegalArgumentException {
-    if (image == null) {
-      throw new IllegalArgumentException("Cannot pass a null image");
-    }
-    this.current.pixels = image;
 
-  }
-
+  /**
+   * setLayer sets the current layer to contain the information within the image
+   * that is passed.
+   *
+   * @param image (the image which the layer is to be set to).
+   * @throws IllegalArgumentException if the given image is false.
+   */
+  public void setLayer(Image image) throws IllegalArgumentException;
 
 }
