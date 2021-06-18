@@ -22,7 +22,6 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel {
   // so, a hashmap
 
   Stack<Image> imageVersions = new Stack<>();
-  FilterBuilder builder = new FilterBuilder();
 
 
   @Override
