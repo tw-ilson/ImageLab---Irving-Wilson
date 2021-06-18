@@ -1,12 +1,12 @@
 package model;
 
-import java.io.IOException;
 import model.image.Image;
 import model.image.LayeredImage;
+import model.image.SimpleLayeredImage;
 
 public abstract class LayerImageModel extends AbstractImageProcessorModel implements ImageProcessorModel{
 
-  private final Image image = new LayeredImage();
+  private LayeredImage image = new SimpleLayeredImage();
 
   @Override
   public Image getImageState() throws IllegalStateException {
