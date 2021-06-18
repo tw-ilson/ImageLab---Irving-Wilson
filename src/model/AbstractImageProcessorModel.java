@@ -18,6 +18,7 @@ public abstract class AbstractImageProcessorModel extends AbstractImageProcessor
       sourceImage = read(fileName);
     } catch (IOException e) {
       System.out.println("File \"" + fileName + "\" can not be found.");
+      e.printStackTrace();
     }
   }
 
