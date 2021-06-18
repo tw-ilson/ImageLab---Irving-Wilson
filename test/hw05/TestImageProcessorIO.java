@@ -9,9 +9,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 import model.color.Color;
-import model.FileType;
 import model.ImageProcessorModel;
-import model.SimpleImageProcessorModel;
+import model.SimpleImageModel;
 import model.image.Image;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,9 +27,9 @@ public class TestImageProcessorIO {
   @Before
   public void setup() {
     filename = "bay.ppm";
-    importer = new SimpleImageProcessorModel();
+    importer = new SimpleImageModel();
     importer.importImage(filename);
-    imported = importer.getImageState();
+    imported = importer.getImagePixels();
   }
 
   @Test
@@ -71,14 +70,14 @@ public class TestImageProcessorIO {
   @Test
   public void testExport() {
     try {
-      ImageProcessorModel importFromExport = new SimpleImageProcessorModel();
+      ImageProcessorModel importFromExport = new SimpleImageModel();
       try {
         importer.export("ppm", "bay2.ppm");
       } catch (IOException e) {
         e.printStackTrace();
       }
       importFromExport.importImage("bay2.ppm");
-      Image importedExportedImported = importFromExport.getImageState();
+      Image importedExportedImported = importFromExport.getImagePixels();
 
       for (int x = 0; x < imported.getWidth(); x++) {
         for (int y = 0; y < imported.getHeight(); y++) {

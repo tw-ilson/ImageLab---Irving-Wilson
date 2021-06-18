@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import model.color.LightColor;
 import model.ImageProcessorModel;
-import model.SimpleImageProcessorModel;
+import model.SimpleImageModel;
 import model.image.Image;
 import model.image.SimpleImage;
 import org.junit.Before;
@@ -39,8 +39,8 @@ public class TestKernelFilter {
 
   @Before
   public void initialize() {
-    model = new SimpleImageProcessorModel();
-    model2 = new SimpleImageProcessorModel();
+    model = new SimpleImageModel();
+    model2 = new SimpleImageModel();
     for (int i = 0; i < 9; i++) {
       toTest[i] = new LightColor(2, 1, 1);
     }
@@ -173,7 +173,7 @@ public class TestKernelFilter {
     image4 = new SimpleImage(another2, 3, 3);
     model2.importImage(image4);
     model2.applyFilter("blur");
-    assertEquals(model2.getImageState().getPixel(1, 1).getRed(),
+    assertEquals(model2.getImagePixels().getPixel(1, 1).getRed(),
         new LightColor(255, 9, 9).getRed());
   }
 
@@ -183,7 +183,7 @@ public class TestKernelFilter {
     image4 = new SimpleImage(another2, 3, 3);
     model2.importImage(image4);
     model2.applyFilter("blur");
-    assertEquals(model2.getImageState().getPixel(1, 1).getRed(), new LightColor(0, 9, 9).getRed());
+    assertEquals(model2.getImagePixels().getPixel(1, 1).getRed(), new LightColor(0, 9, 9).getRed());
   }
 
   // clamping with sharpen
@@ -193,7 +193,7 @@ public class TestKernelFilter {
     image5 = new SimpleImage(large, 5, 5);
     model.importImage(image5);
     model.applyFilter("sharpen");
-    assertEquals(model.getImageState().getPixel(2, 2).getRed(),
+    assertEquals(model.getImagePixels().getPixel(2, 2).getRed(),
         new LightColor(0, 0, 0).getRed());
   }
 
@@ -204,7 +204,7 @@ public class TestKernelFilter {
     image5 = new SimpleImage(large, 5, 5);
     model.importImage(image5);
     model.applyFilter("sharpen");
-    assertEquals(model.getImageState().getPixel(2, 2).getRed(),
+    assertEquals(model.getImagePixels().getPixel(2, 2).getRed(),
         new LightColor(255, 0, 0).getRed());
   }
 

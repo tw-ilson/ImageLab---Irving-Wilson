@@ -1,7 +1,7 @@
 package hw05;
 
 import model.ImageProcessorModel;
-import model.SimpleImageProcessorModel;
+import model.SimpleImageModel;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,7 +14,7 @@ public class TestSimpleImageProcessor {
 
   @Before
   public void initialize() {
-    this.model = new SimpleImageProcessorModel();
+    this.model = new SimpleImageModel();
   }
 
   /**
@@ -22,7 +22,7 @@ public class TestSimpleImageProcessor {
    */
   @Test (expected = IllegalStateException.class)
   public void testImageVersionsNotInstatiated() {
-    model.getImageState();
+    model.getImagePixels();
   }
 
 }

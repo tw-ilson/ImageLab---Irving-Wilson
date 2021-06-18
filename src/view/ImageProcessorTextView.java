@@ -1,12 +1,22 @@
 package view;
 
+import java.io.IOException;
+import java.util.Objects;
+
 /**
  * A text view for an image processing model.
  */
 public class ImageProcessorTextView implements ImageProcessorView {
 
-  @Override
-  public void display() {
+  Appendable output;
 
+  public ImageProcessorTextView(Appendable output) {
+    this.output = output;
+  }
+
+  @Override
+  public void giveMessage(String message) throws IOException {
+    Objects.requireNonNull(message);
+    output.append(message);
   }
 }
