@@ -32,6 +32,6 @@ public interface ImageProcessorIO {
    * @return the compiled image
    * @throws IllegalStateException if the export requested is not possible
    */
-  public String export(FileType f, String name) throws IllegalStateException, IOException;
+  public String export(String f, String name) throws IllegalStateException, IOException;
 
 }

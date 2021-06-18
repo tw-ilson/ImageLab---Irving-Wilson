@@ -73,7 +73,7 @@ public class TestImageProcessorIO {
     try {
       ImageProcessorModel importFromExport = new SimpleImageProcessorModel();
       try {
-        importer.export(FileType.PPM, "bay2.ppm");
+        importer.export("ppm", "bay2.ppm");
       } catch (IOException e) {
         e.printStackTrace();
       }

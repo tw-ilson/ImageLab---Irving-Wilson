@@ -76,9 +76,9 @@ public class LayeredImage implements Image {
    */
   private class LayerInfo {
 
-    int inOrder;
-    Image pixels;
-    boolean visible;
+    private int inOrder;
+    private Image pixels;
+    private boolean visible;
 
     /**
      * Constructs a LayerInfo object.

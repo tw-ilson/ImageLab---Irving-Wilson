@@ -15,7 +15,7 @@ public abstract class AbstractImageProcessorModel extends AbstractImageProcessor
   @Override
   public void importImage(String fileName) throws IllegalArgumentException {
     try {
-      sourceImage = readNotPPM(fileName);
+      sourceImage = read(fileName);
     } catch (IOException e) {
       System.out.println("File \"" + fileName + "\" can not be found.");
     }

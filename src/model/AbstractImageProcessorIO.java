@@ -6,8 +6,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriter;
 import model.color.Color;
@@ -21,6 +24,13 @@ import model.image.SimpleImage;
  */
 public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
 
+  /**
+   * Reads a file specified by the path passed as argument.
+   *
+   * @param filename
+   * @return
+   * @throws IOException
+   */
   protected static Image read(String filename) throws IOException {
     File imageFile = new File(filename);
 
@@ -57,7 +67,7 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
    * @throws IOException
    * @throws IllegalArgumentException
    */
-  protected static void write(String filetype, File toWrite, Image img)
+  private static void write(String filetype, File toWrite, Image img)
       throws IOException, IllegalArgumentException {
 
     if (!toWrite.exists()) {
@@ -66,20 +76,24 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
     if (filetype.equals("ppm")) {
       writePPM(toWrite, img);
     } else {
-      ImageWriter writer = ImageIO.getImageWritersByFormatName(filetype).next();
-
-      if (toWrite.length() > 0) {
-        writer.abort();
-      }
+      BufferedImage buf = new BufferedImage(img.getWidth(), img.getHeight(),
+          BufferedImage.TYPE_INT_RGB);
+      int[] rgbArray = Arrays.stream(img.pixArray())
+          .mapToInt(color -> color.getRGB()
+              ^ 0xff000000) //extracts bytes from Colors ands sets Alpha to 100%
+          .toArray();
+      buf.setRGB(0, 0, buf.getWidth(), buf.getHeight(), rgbArray, 0, buf.getWidth());
+      ImageIO.write(buf, filetype, toWrite);
     }
   }
+
 
   /**
    * Read an image file in the PPM format and print the colors.
    *
    * @param sc a scanner for this ASCII PPM file.
    */
-  protected static Image readPPM(Scanner sc) throws FileNotFoundException {
+  private static Image readPPM(Scanner sc) throws FileNotFoundException {
 
     int width = sc.nextInt();
     System.out.println("Width of image: " + width);
@@ -114,7 +128,7 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
    * @param image the image to write
    * @throws IOException if an IO error occurs
    */
-  protected static void writePPM(File file, Image image) throws IOException {
+  private static void writePPM(File file, Image image) throws IOException {
 
     if (!file.exists()) {
       throw new IOException();
@@ -149,7 +163,7 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
    * @return
    * @throws IOException
    */
-  public static Image readNotPPM(String filename) throws IOException {
+  private static Image readNotPPM(String filename) throws IOException {
     BufferedImage image = ImageIO.read(new FileInputStream(filename));
     Color[] toEdit = new LightColor[image.getWidth() * image.getHeight()];
     Image toReturn = new SimpleImage(toEdit, image.getWidth(), image.getHeight());
@@ -164,17 +178,7 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
   protected String exportHelp(String filetype, String name, Image toExport) throws IOException {
     File toWrite = new File(name);
     toWrite.createNewFile();
-    switch (filetype.toLowerCase()) {
-      case "ppm":
-        writePPM(toWrite, toExport);
-        break;
-      case "jpeg":
-        write(filetype, toWrite, toExport);
-      case "png":
-        write(filetype, toWrite, toExport);
-      default:
-        throw new IOException("unsupported export type.");
-    }
+    write(filetype.toLowerCase(), toWrite, toExport);
     return "Successfully exported " + filetype + " image: " + name;
   }
 
