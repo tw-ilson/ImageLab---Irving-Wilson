@@ -3,7 +3,9 @@ package model;
 import model.image.Image;
 
 /**
- * The model for applying Filters to an image.
+ * This interface represents an ImageProcessorModel, which is meant to handle the functionality
+ * for editing a pre-uploaded image, and then exporting it based on the users desires.
+ * A simple image editing program, with basic functionality, and layers which are self contained.
  */
 public interface ImageProcessorModel extends ImageProcessorIO {
 

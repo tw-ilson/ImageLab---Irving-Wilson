@@ -13,6 +13,7 @@ public class SimpleImageController implements ImageController {
   private final Appendable ap;
   private boolean hasQuit;
   private CreateCommandInterface command;
+  private boolean isActive;
 
   public SimpleImageController(ImageProcessorModel model, Readable rd, Appendable ap) throws
       IllegalArgumentException {
@@ -25,13 +26,13 @@ public class SimpleImageController implements ImageController {
   }
 
   @Override
-  public void appOpen(String filename) throws IllegalArgumentException, IllegalStateException {
-    if (filename == null) {
-      throw new IllegalArgumentException("Cannot provide null arguments");
+  public void appOpen() throws IllegalArgumentException, IllegalStateException {
+
+
+
+    while(isActive) {
+      this.operateApplication();
     }
-    // try catch statement <-- need to throw exception
-    model.importImage(filename);
-    this.operateApplication();
 
 
   }
