@@ -61,22 +61,7 @@ public class SimpleImageProcessorModel extends AbstractImageProcessorModel {
 
   // these should be separate function objects, rather than one big export function
   @Override
-  public String export(FileType f, String name) throws IllegalStateException, IOException {
-    File toWrite = new File(name);
-    toWrite.createNewFile();
-    switch (f) {
-      case PPM:
-        writePPM(toWrite, this.imageVersions.peek());
-        break;
-      case JPEG:
-        //to be added later, possibly
-        throw new IOException("as of now, unsupported export type.");
-      case PNG:
-        //to be added later, possibly
-        throw new IOException("as of yet, unsupported export type.");
-      default:
-        throw new IOException("unsupported export type.");
-    }
-    return "Successfully exported " + f + " image: " + name;
+  public String export(String f, String name) throws IllegalStateException, IOException {
+    return exportHelp(f, name, imageVersions.peek());
   }
 }
