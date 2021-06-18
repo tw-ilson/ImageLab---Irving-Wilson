@@ -1,60 +1,59 @@
 package controller;
 
-import controller.commands.CreateCommandInterface;
-import controller.commands.CreateLayer;
+import controller.commands.ControlCommands;
 import java.util.Scanner;
 import model.ImageProcessorModel;
 
 
 public class SimpleImageController implements ImageController {
 
-  private final ImageProcessorModel model;
-  private final Readable rd;
-  private final Appendable ap;
+  private ImageProcessorModel model;
+  private Readable input;
+  //private Appendable ap;
   private boolean hasQuit;
-  private CreateCommandInterface command;
+  private ControlCommands command;
   private boolean isActive;
 
-  public SimpleImageController(ImageProcessorModel model, Readable rd, Appendable ap) throws
+  public SimpleImageController(ImageProcessorModel model, Readable rd) throws
       IllegalArgumentException {
     this.model = model;
-    this.rd = rd;
-    this.ap = ap;
-    if (this.ap == null || this.rd == null) {
-      throw new IllegalArgumentException("Cannot provide null readable or nullable");
+    this.input = rd;
+
+    if (this.input == null) {
+      throw new IllegalArgumentException("Text input source cannot be null");
+    }
+    if (this.model == null) {
+      throw new IllegalArgumentException("Model provided cannot be null");
     }
   }
 
   @Override
   public void appOpen() throws IllegalArgumentException, IllegalStateException {
-
-
-
-    while(isActive) {
-      this.operateApplication();
-    }
-
-
+    this.operateApplication();
   }
 
   private void operateApplication() {
 
-    Scanner scanner = new Scanner(this.rd);
+    Scanner scanner = new Scanner(input);
 
     while (scanner.hasNext()) {
-      String input = scanner.next();
+      String token = scanner.next();
 
-      if (input.contains("quit") || input.contains("q")) {
+      if (token.equals("quit") || token.equals("q")) {
         hasQuit = true;
         return;
       }
 
-      switch (input) {
+      switch (token) {
         case "create":
           if (scanner.hasNext()) {
-            if (scanner.next() == "layer") {
+            if (scanner.next().equals("layer")) {
               return;
+            } else {
+
             }
+          } else {
+
           }
 
           break;

@@ -2,6 +2,7 @@ package model;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import model.filters.FilterBuilder;
 import model.image.Image;
 
 /**
@@ -10,6 +11,7 @@ import model.image.Image;
 public abstract class AbstractImageProcessorModel extends AbstractImageProcessorIO implements
     ImageProcessorModel {
 
+  protected FilterBuilder builder = new FilterBuilder();
   protected Image sourceImage;
 
   @Override

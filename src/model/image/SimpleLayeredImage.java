@@ -8,16 +8,18 @@ import java.util.stream.Collectors;
 import model.color.Color;
 import model.color.LightColor;
 
+/**
+ * A type of layered Image that specifies the name, order, image, and visibility for each layer.
+ */
 public class SimpleLayeredImage implements LayeredImage {
 
   private int width;
   private int height;
   private HashMap<String, LayerInfo> layerTable;
-  private String currentName;
-  private LayerInfo current;
-  private ArrayList<String> layerNamesList;
+  private String current;
 
-  private SimpleLayeredImage() { }
+  private SimpleLayeredImage() {
+  }
 
   public SimpleLayeredImage(int w, int h) {
     if (w < 1 || h < 1) {
@@ -45,6 +47,37 @@ public class SimpleLayeredImage implements LayeredImage {
 
   }
 
+  /**
+   * A structure to hold the important information about a particular layer.
+   */
+  private class LayerInfo implements ILayerInfo{
+
+    private int inOrder;
+    private Image pixels;
+    private boolean visible;
+
+    /**
+     * Constructs a LayerInfo object.
+     *
+     * @param inOrder the depth ordering of this layer, with 0 being the "back" and greater numbers
+     *                being closer to the front.
+     * @param pixels  the pixel array of the layer.
+     * @param visible flags whether or not this layer is visible.
+     */
+    public LayerInfo(int inOrder, Image pixels, boolean visible) {
+      this.inOrder = inOrder;
+      this.pixels = pixels;
+      this.visible = visible;
+    }
+  }
+
+  /**
+   * In this layered version of an image, this method 'blends' by seeking the average of all pixels
+   * across layers.
+   *
+   * @return a blended array of all layers.
+   * @throws IllegalStateException
+   */
   @Override
   public Color[] pixArray() throws IllegalStateException {
     List<LayerInfo> layers = new ArrayList<LayerInfo>(
@@ -70,53 +103,31 @@ public class SimpleLayeredImage implements LayeredImage {
 
   @Override
   public Color getPixel(int x, int y) {
-    return this.returnTopMostVisibleLayer().getPixel(x, y);
+    return this.topMostVisibleLayer().getPixel(x, y);
   }
 
   @Override
   public int getWidth() {
-    return this.returnTopMostVisibleLayer().getWidth();
+    return this.topMostVisibleLayer().getWidth();
   }
 
   @Override
   public int getHeight() {
-    return this.returnTopMostVisibleLayer().getHeight();
+    return this.topMostVisibleLayer().getHeight();
   }
 
-  /**
-   * A structure to hold the important information about a particular layer.
-   */
-  private class LayerInfo {
 
-    private int inOrder;
-    private Image pixels;
-    private boolean visible;
-
-    /**
-     * Constructs a LayerInfo object.
-     *
-     * @param inOrder the depth ordering of this layer, with 0 being the "back" and greater numbers
-     *                being closer to the front.
-     * @param pixels  the pixel array of the layer.
-     * @param visible flags whether or not this layer is visible.
-     */
-    public LayerInfo(int inOrder, Image pixels, boolean visible) {
-      this.inOrder = inOrder;
-      this.pixels = pixels;
-      this.visible = visible;
-    }
-  }
 
   @Override
   public void addLayer(String layerName) {
     Objects.requireNonNull(layerName);
     layerTable.put(layerName, new LayerInfo(0, null, true));
-    layerNamesList.add(layerName);
   }
 
 
   @Override
-  public Image returnTopMostVisibleLayer() throws IllegalStateException {
+  public Image topMostVisibleLayer() throws IllegalStateException {
+    ArrayList layerNamesList = new ArrayList(this.layerTable.keySet());
     for (int i = layerTable.size(); i >= 0; i--) {
       if (layerTable.get(layerNamesList.get(i)).visible) {
         return layerTable.get(layerNamesList.get(i)).pixels;
@@ -126,31 +137,38 @@ public class SimpleLayeredImage implements LayeredImage {
   }
 
   @Override
-  public Image getCurrentLayer(String layerName) throws IllegalArgumentException {
+  public void setCurrentLayer(String layerName) throws IllegalArgumentException {
     Objects.requireNonNull(layerName);
     if (!layerTable.containsKey(layerName)) {
       throw new IllegalArgumentException("Layer does not exist.");
     }
-    this.currentName = layerName;
-    this.current = layerTable.get(layerName);
-    return layerTable.get(layerName).pixels;
+    this.current = layerName;
+  }
+
+  public Image getCurrentLayer() {
+    return layerTable.get(current).pixels;
   }
 
   @Override
-  public void changeVisibility(String layerName) throws IllegalArgumentException{
-    if (!layerTable.containsKey(layerName)) {
-      throw new IllegalArgumentException("Layer does not exist.");
+  public void setVisibility(boolean visibility) throws IllegalArgumentException {
+    if (layerTable.size() < 1) {
+      throw new IllegalArgumentException("No layers created");
     }
-    LayerInfo toEdit = layerTable.get(layerName);
-    toEdit.visible = !layerTable.get(layerName).visible;
-    layerTable.replace(layerName, toEdit);
+    layerTable.get(current).visible = visibility;
   }
 
   @Override
-  public void setLayer(Image image) throws IllegalArgumentException {
-   /* LayerInfo toEdit = this.
-    image.pixArray();*/
+  public int numLayers() {
+    return this.layerTable.size();
   }
 
-
+  @Override
+  public void editCurrentLayer(Image img) {
+    Objects.requireNonNull(img);
+    if (img.getWidth() != width || img.getHeight() != height) {
+      throw new IllegalArgumentException("Image is not the right size.");
+    }
+    LayerInfo oldCurrent = layerTable.get(current);
+    this.layerTable.put(current, new LayerInfo(oldCurrent.inOrder, img, oldCurrent.visible));
+  }
 }
