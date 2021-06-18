@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>/Users/tom/Documents/CS3500/projects/Image-Processing---Irving-Wilson/src</OriginalElement>
+  <nodes>
+    <node x="80.0" y="591.0">model.ColorUtils.Color</node>
+    <node x="623.25" y="0.0">model.image.Image</node>
+    <node x="537.0" y="696.0">model.Filters.KernelFilter</node>
+    <node x="124.0" y="403.0">model.SimpleImageProcessorModel</node>
+    <node x="117.0" y="276.0">model.AbstractImageProcessorModel</node>
+    <node x="146.5" y="0.0">model.ImageProcessorIO</node>
+    <node x="441.0" y="591.0">model.Filters.Filter</node>
+    <node x="345.0" y="696.0">model.Filters.ColorFilter</node>
+    <node x="728.0" y="386.0">model.image.CheckerboardImage</node>
+    <node x="0.0" y="149.0">model.AbstractImageProcessorIO</node>
+    <node x="754.0" y="591.0">model.Filters.FilterBuilder</node>
+    <node x="0.0" y="928.0">model.FileType</node>
+    <node x="283.0" y="149.0">model.ImageProcessorModel</node>
+    <node x="156.0" y="762.0">model.ColorUtils.HeavyColor</node>
+    <node x="0.0" y="762.0">model.ColorUtils.LightColor</node>
+    <node x="623.25" y="193.0">model.image.AbstractImage</node>
+    <node x="555.0" y="386.0">model.image.SimpleImage</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="model.Filters.KernelFilter" target="model.Filters.Filter" relationship="REALIZATION">
+      <point x="0.0" y="-27.5" />
+      <point x="623.0" y="671.0" />
+      <point x="527.0" y="671.0" />
+      <point x="0.0" y="27.5" />
+    </edge>
+    <edge source="model.SimpleImageProcessorModel" target="model.AbstractImageProcessorModel" relationship="GENERALIZATION">
+      <point x="0.0" y="-71.5" />
+      <point x="0.0" y="38.5" />
+    </edge>
+    <edge source="model.Filters.ColorFilter" target="model.Filters.Filter" relationship="REALIZATION">
+      <point x="0.0" y="-27.5" />
+      <point x="431.0" y="671.0" />
+      <point x="527.0" y="671.0" />
+      <point x="0.0" y="27.5" />
+    </edge>
+    <edge source="model.ColorUtils.HeavyColor" target="model.ColorUtils.Color" relationship="REALIZATION">
+      <point x="0.0" y="-60.5" />
+      <point x="228.0" y="737.0" />
+      <point x="148.0" y="737.0" />
+      <point x="0.0" y="60.5" />
+    </edge>
+    <edge source="model.ColorUtils.LightColor" target="model.ColorUtils.Color" relationship="REALIZATION">
+      <point x="0.0" y="-60.5" />
+      <point x="68.0" y="737.0" />
+      <point x="148.0" y="737.0" />
+      <point x="0.0" y="60.5" />
+    </edge>
+    <edge source="model.image.AbstractImage" target="model.image.Image" relationship="REALIZATION">
+      <point x="0.0" y="-71.5" />
+      <point x="0.0" y="71.5" />
+    </edge>
+    <edge source="model.AbstractImageProcessorIO" target="model.ImageProcessorIO" relationship="REALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="131.5" y="124.0" />
+      <point x="205.25" y="124.0" />
+      <point x="-58.75" y="49.5" />
+    </edge>
+    <edge source="model.ImageProcessorModel" target="model.ImageProcessorIO" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="396.5" y="124.0" />
+      <point x="322.75" y="124.0" />
+      <point x="58.75" y="49.5" />
+    </edge>
+    <edge source="model.image.SimpleImage" target="model.image.AbstractImage" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="631.5" y="361.0" />
+      <point x="732.25" y="361.0" />
+      <point x="0.0" y="71.5" />
+    </edge>
+    <edge source="model.image.CheckerboardImage" target="model.image.AbstractImage" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="833.0" y="361.0" />
+      <point x="732.25" y="361.0" />
+      <point x="0.0" y="71.5" />
+    </edge>
+    <edge source="model.AbstractImageProcessorModel" target="model.ImageProcessorModel" relationship="REALIZATION">
+      <point x="73.5" y="-38.5" />
+      <point x="337.5" y="251.0" />
+      <point x="396.5" y="251.0" />
+      <point x="0.0" y="38.5" />
+    </edge>
+    <edge source="model.AbstractImageProcessorModel" target="model.AbstractImageProcessorIO" relationship="GENERALIZATION">
+      <point x="-73.5" y="-38.5" />
+      <point x="190.5" y="251.0" />
+      <point x="131.5" y="251.0" />
+      <point x="0.0" y="38.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.5540851159067863" showDependencies="false" x="467.7705833440459" y="401.1817717022916" />
+  <SelectedNodes>
+    <node>model.AbstractImageProcessorIO</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageWriter;
 import model.color.Color;
 import model.color.LightColor;
 import model.image.Image;
@@ -20,19 +21,10 @@ import model.image.SimpleImage;
  */
 public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
 
-  protected static Image read(String filename) throws FileNotFoundException {
+  protected static Image read(String filename) throws IOException {
     File imageFile = new File(filename);
-    return null;
-  }
 
-  /**
-   * Read an image file in the PPM format and print the colors.
-   *
-   * @param filename the path of the file.
-   */
-  protected static Image readPPM(String filename) throws FileNotFoundException {
     Scanner sc;
-
     sc = new Scanner(new FileInputStream(filename));
 
     StringBuilder builder = new StringBuilder();
@@ -44,15 +36,51 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
       }
     }
 
+    String token = sc.next();
+    if (token.equals("P3")) {
+      readPPM(sc);
+    } else {
+      readNotPPM(filename);
+    }
+
     //now set up the scanner to read from the string we just built
     sc = new Scanner(builder.toString());
+    return null;
+  }
 
-    String token;
+  /**
+   * writes
+   *
+   * @param filetype
+   * @param toWrite
+   * @param img
+   * @throws IOException
+   * @throws IllegalArgumentException
+   */
+  protected static void write(String filetype, File toWrite, Image img)
+      throws IOException, IllegalArgumentException {
 
-    token = sc.next();
-    if (!token.equals("P3")) {
-      System.out.println("Invalid PPM file: plain RAW file should begin with P3");
+    if (!toWrite.exists()) {
+      throw new IOException();
     }
+    if (filetype.equals("ppm")) {
+      writePPM(toWrite, img);
+    } else {
+      ImageWriter writer = ImageIO.getImageWritersByFormatName(filetype).next();
+
+      if (toWrite.length() > 0) {
+        writer.abort();
+      }
+    }
+  }
+
+  /**
+   * Read an image file in the PPM format and print the colors.
+   *
+   * @param sc a scanner for this ASCII PPM file.
+   */
+  protected static Image readPPM(Scanner sc) throws FileNotFoundException {
+
     int width = sc.nextInt();
     System.out.println("Width of image: " + width);
     int height = sc.nextInt();
@@ -87,6 +115,7 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
    * @throws IOException if an IO error occurs
    */
   protected static void writePPM(File file, Image image) throws IOException {
+
     if (!file.exists()) {
       throw new IOException();
     }
@@ -96,7 +125,6 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
     if (file.length() > 0) {
       writer.flush();
     }
-
     writer.append("P3" + System.lineSeparator());
     writer.append("# " + file.getName() + System.lineSeparator());
     writer.append(image.getWidth() + " " + image.getHeight() + System.lineSeparator());
@@ -113,8 +141,15 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
     writer.close();
   }
 
-
-  public static Image readJPG(String filename) throws IOException {
+  /**
+   * Reads a file that is not of type PPM. (Uses {@link ImageIO}, defer to that for information on
+   * supported types
+   *
+   * @param filename
+   * @return
+   * @throws IOException
+   */
+  public static Image readNotPPM(String filename) throws IOException {
     BufferedImage image = ImageIO.read(new FileInputStream(filename));
     Color[] toEdit = new LightColor[image.getWidth() * image.getHeight()];
     Image toReturn = new SimpleImage(toEdit, image.getWidth(), image.getHeight());
@@ -125,6 +160,25 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
     }
     return toReturn;
   }
+
+  protected String exportHelp(String filetype, String name, Image toExport) throws IOException {
+    File toWrite = new File(name);
+    toWrite.createNewFile();
+    switch (filetype.toLowerCase()) {
+      case "ppm":
+        writePPM(toWrite, toExport);
+        break;
+      case "jpeg":
+        write(filetype, toWrite, toExport);
+      case "png":
+        write(filetype, toWrite, toExport);
+      default:
+        throw new IOException("unsupported export type.");
+    }
+    return "Successfully exported " + filetype + " image: " + name;
+  }
+
 }
+
 
 
