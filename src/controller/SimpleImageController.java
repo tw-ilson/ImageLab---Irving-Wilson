@@ -1,6 +1,5 @@
 package controller;
 
-import controller.commands.ControlCommands;
 import java.util.Scanner;
 import model.ImageProcessorModel;
 
@@ -32,36 +31,4 @@ public class SimpleImageController implements ImageProcessorController {
 
   }
 
-  private void operateApplication() {
-    command = null;
-
-    Scanner scanner = new Scanner(input);
-
-    while (scanner.hasNext()) {
-      String token = scanner.next();
-
-      if (token.equals("quit") || token.equals("q")) {
-        hasQuit = true;
-        return;
-      }
-
-      if (command == null) {
-        // each of these initial tokens extend into a larger command
-        switch (token) {
-          case "create":
-            break;
-          case "current":
-            break;
-          case "load":
-            break;
-          case "save":
-            break;
-          case "invisible":
-            break;
-          case "apply":
-            break;
-        }
-      }
-    }
-  }
 }

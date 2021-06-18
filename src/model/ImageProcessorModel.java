@@ -7,7 +7,7 @@ import controller.InputHandler;
  * editing a pre-uploaded image, and then exporting it based on the users desires. A simple image
  * editing program, with basic functionality, and layers which are self contained.
  */
-public interface ImageProcessorModel extends ImageProcessorIO {
+public interface ImageProcessorModel {
 
   /**
    * Gets the current state of the image.
@@ -38,12 +38,4 @@ public interface ImageProcessorModel extends ImageProcessorIO {
    */
   public void applyFilter(String filter) throws IllegalStateException;
 
-  /**
-   * Produces an InputHandler instance to properly handle inputs for this type of Model. This method
-   * should be used by an ImageProcessorController to create the proper structure for handling
-   * differing text command options for differing models.
-   *
-   * @return the best InputHandler for this model.
-   */
-  public InputHandler produceInputHandler();
 }

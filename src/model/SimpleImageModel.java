@@ -10,9 +10,11 @@ import model.image.Image;
 import model.image.SimpleImage;
 
 /**
+ * DEPRECATED
  * An Image processor model that sores a stack of revision versions of the image provided as a
  * source.
  */
+@Deprecated
 public class SimpleImageModel extends AbstractImageProcessorModel {
 
   // instead, we are working with layers where each layer is an image
@@ -49,31 +51,5 @@ public class SimpleImageModel extends AbstractImageProcessorModel {
     Filter toApply = builder.getFilter(filter);
     Image nextImage = new SimpleImage(imageVersions.peek());
     imageVersions.add(toApply.apply(nextImage));
-  }
-
-  @Override
-  public InputHandler produceInputHandler() {
-    return;
-  }
-
-  @Override
-  public void importImage(String filename) throws IllegalArgumentException {
-    super.importImage(filename);
-    imageVersions.clear();
-    imageVersions.push(sourceImage);
-  }
-
-  @Override
-  public void importImage(Image image) throws IllegalArgumentException {
-    Objects.requireNonNull(image);
-    super.importImage(image);
-    imageVersions.clear();
-    imageVersions.push(image);
-  }
-
-  @Override
-  public String export(String f, String name) throws IllegalStateException, IOException {
-    Objects.requireNonNull(imageVersions.peek());
-    return exportHelp(f, name, imageVersions.peek());
   }
 }

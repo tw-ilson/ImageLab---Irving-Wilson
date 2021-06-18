@@ -8,24 +8,8 @@ import model.image.Image;
 /**
  * Abstract class for an Image Processor model. Provides a method to import image from file.
  */
-public abstract class AbstractImageProcessorModel extends AbstractImageProcessorIO implements
+public abstract class AbstractImageProcessorModel implements
     ImageProcessorModel {
 
   protected FilterBuilder builder = new FilterBuilder();
-  protected Image sourceImage;
-
-  @Override
-  public void importImage(String fileName) throws IllegalArgumentException {
-    try {
-      sourceImage = read(fileName);
-    } catch (IOException e) {
-      System.out.println("File \"" + fileName + "\" can not be found.");
-      e.printStackTrace();
-    }
-  }
-
-  @Override
-  public void importImage(Image image) throws IllegalArgumentException {
-    this.sourceImage = image;
-  }
 }

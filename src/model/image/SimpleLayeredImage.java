@@ -21,8 +21,10 @@ public class SimpleLayeredImage implements LayeredImage {
   // the width and the height are set upon the import of the first image
   // into the program.
   public SimpleLayeredImage() {
-    // width and height are both equal to 0 at the beginning
+    // width and height are both equal to -1 at the beginning
     // only set with the first imported image
+    this.width = -1;
+    this.height = -1;
     layerTable = new HashMap<String, LayerInfo>();
   }
   public SimpleLayeredImage(int w, int h) {
@@ -177,9 +179,12 @@ public class SimpleLayeredImage implements LayeredImage {
   @Override
   public void editCurrentLayer(Image img) {
     Objects.requireNonNull(img);
-    if (img.getWidth() != width || img.getHeight() != height || width == 0
-        || height == 0) {
+    if (img.getWidth() != width || img.getHeight() != height ) {
       throw new IllegalArgumentException("Image is not the right size, or is not instantiated.");
+    }
+    if (this.width == -1 || this.height == -1) {
+      this.width = img.getWidth();
+      this.height = img.getHeight();
     }
     LayerInfo oldCurrent = layerTable.get(current);
     this.layerTable.put(current, new LayerInfo(oldCurrent.inOrder, img, oldCurrent.visible));
