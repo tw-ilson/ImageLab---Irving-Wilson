@@ -1,5 +1,7 @@
 package model;
 
+import controller.InputHandler;
+import controller.LayerModelInputHandler;
 import java.io.IOException;
 import model.image.Image;
 import model.image.LayeredImage;
@@ -10,8 +12,18 @@ public class LayerImageModel extends AbstractImageProcessorModel implements Imag
   private LayeredImage image = new SimpleLayeredImage();
 
   @Override
-  public Image getImageState() throws IllegalStateException {
-    return image.topMostVisibleLayer();
+  public int[] getImagePixels() throws IllegalStateException {
+    return image.topMostVisibleLayer().pixArray();
+  }
+
+  @Override
+  public int getImageWidth() throws IllegalStateException {
+    return 0;
+  }
+
+  @Override
+  public int getImageHeight() throws IllegalStateException {
+    return 0;
   }
 
   @Override
@@ -22,6 +34,11 @@ public class LayerImageModel extends AbstractImageProcessorModel implements Imag
 
     Image filtered = builder.getFilter(filter).apply(image.getCurrentLayer());
     image.editCurrentLayer(filtered);
+  }
+
+  @Override
+  public InputHandler produceInputHandler() {
+    return new LayerModelInputHandler();
   }
 
   @Override

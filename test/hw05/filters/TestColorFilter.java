@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import model.color.Color;
 import model.ImageProcessorModel;
-import model.SimpleImageProcessorModel;
+import model.SimpleImageModel;
 import model.image.Image;
 import org.junit.Test;
 
@@ -15,11 +15,11 @@ public class TestColorFilter {
 
   @Test
   public void testGrayScale() {
-    ImageProcessorModel model = new SimpleImageProcessorModel();
+    ImageProcessorModel model = new SimpleImageModel();
     model.importImage("bay.ppm");
-    Image original = model.getImageState();
+    Image original = model.getImagePixels();
     model.applyFilter("greyscale");
-    Image grey = model.getImageState();
+    Image grey = model.getImagePixels();
     for (int y = 0; y < grey.getHeight(); y++) {
       for (int x = 0; x < grey.getWidth(); x++) {
         Color greyPixel = grey.getPixel(x, y);
@@ -37,11 +37,11 @@ public class TestColorFilter {
   @Test
   public void testSepia() {
     //hello this is an important change
-    ImageProcessorModel model = new SimpleImageProcessorModel();
+    ImageProcessorModel model = new SimpleImageModel();
     model.importImage("bay.ppm");
-    Image original = model.getImageState();
+    Image original = model.getImagePixels();
     model.applyFilter("sepia");
-    Image sepi = model.getImageState();
+    Image sepi = model.getImagePixels();
     for (int y = 0; y < sepi.getHeight(); y++) {
       for (int x = 0; x < sepi.getWidth(); x++) {
         Color sepiPixel = sepi.getPixel(x, y);

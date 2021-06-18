@@ -5,22 +5,21 @@ import java.util.Scanner;
 import model.ImageProcessorModel;
 
 
-public class SimpleImageController implements ImageController {
+public class SimpleImageController implements ImageProcessorController {
 
   private ImageProcessorModel model;
   private Readable input;
-  //private Appendable ap;
+  private Appendable output;
   private boolean hasQuit;
-  private ControlCommands command;
   private boolean isActive;
 
-  public SimpleImageController(ImageProcessorModel model, Readable rd) throws
+  public SimpleImageController(ImageProcessorModel model, Appendable output) throws
       IllegalArgumentException {
     this.model = model;
-    this.input = rd;
+    this.output = output;
 
-    if (this.input == null) {
-      throw new IllegalArgumentException("Text input source cannot be null");
+    if (this.output == null) {
+      throw new IllegalArgumentException("Text output source cannot be null");
     }
     if (this.model == null) {
       throw new IllegalArgumentException("Model provided cannot be null");
@@ -28,8 +27,9 @@ public class SimpleImageController implements ImageController {
   }
 
   @Override
-  public void appOpen() throws IllegalArgumentException, IllegalStateException {
-    this.operateApplication();
+  public void run(Readable input) throws IllegalArgumentException, IllegalStateException {
+    this.input = input;
+
   }
 
   private void operateApplication() {

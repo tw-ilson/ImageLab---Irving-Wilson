@@ -1,14 +1,10 @@
 import java.io.IOException;
-import java.util.Iterator;
-import javax.imageio.ImageIO;
-import model.AbstractImageProcessorModel;
 import model.ImageProcessorIO;
-import model.ImageProcessorModel;
-import model.SimpleImageProcessorModel;
+import model.SimpleImageModel;
 
 public class MainRunner {
   public static void main(String[] args) {
-    ImageProcessorIO io = new SimpleImageProcessorModel();
+    ImageProcessorIO io = new SimpleImageModel();
     io.importImage("photos/bay.ppm");
     try {
       io.export("png", "bay.png");

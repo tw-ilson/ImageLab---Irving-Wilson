@@ -5,8 +5,9 @@ package view;
  */
 public interface ImageProcessorView {
 
-  /**
-   * Displays a visual representation of the current program.
-   */
-  public void display();
+ /**
+  * gives the program user the specified message.
+  * @param text the message to display
+  */
+ void giveMessage(String text);
 }
