@@ -22,7 +22,7 @@ public class TestSimpleImageProcessor {
    *//*
   @Test (expected = IllegalStateException.class)
   public void testImageVersionsNotInstatiated() {
-    model.getImagePixels();
+    model.getImage();
   }*/
 
 }

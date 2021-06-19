@@ -1,18 +1,19 @@
 package controller;
 
 import java.util.Scanner;
+import model.ImageProcessorLayerModel;
 import model.ImageProcessorModel;
 
 
 public class SimpleImageController implements ImageProcessorController {
 
-  private ImageProcessorModel model;
+  private ImageProcessorLayerModel model;
   private Readable input;
   private Appendable output;
   private boolean hasQuit;
   private boolean isActive;
 
-  public SimpleImageController(ImageProcessorModel model, Appendable output) throws
+  public SimpleImageController(ImageProcessorLayerModel model, Appendable output) throws
       IllegalArgumentException {
     this.model = model;
     this.output = output;
@@ -28,7 +29,7 @@ public class SimpleImageController implements ImageProcessorController {
   @Override
   public void run(Readable input) throws IllegalArgumentException, IllegalStateException {
     this.input = input;
-
+    new LayerModelInputHandler().scanInput(model, input, output);
   }
 
 }

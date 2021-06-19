@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Scanner;
 import javax.imageio.ImageIO;
 import model.ImageProcessorLayerModel;
+import model.image.Image;
 import view.ImageProcessorTextView;
 import view.ImageProcessorView;
 
@@ -27,6 +28,8 @@ public class LayerModelInputHandler {
     this.view = new ImageProcessorTextView(out);
     Scanner scan = new Scanner(in);
 
+    displayMessage("Welcome.");
+
     //We are giving significance to the meaning of a line separator here
     while (scan.hasNextLine()) {
       Scanner linescan = new Scanner(scan.nextLine());
@@ -40,8 +43,9 @@ public class LayerModelInputHandler {
             if (linescan.hasNext()
                 && linescan.next().equals("layer")
                 && linescan.hasNext()) {
-              model.createLayer(linescan.next());
-
+              String newLayerName = linescan.next();
+              model.createLayer(newLayerName);
+              displayMessage("Layer \"" + newLayerName + "\" created");
             } else {
               displayMessage("Not a valid command. Skipping.");
               continue;
@@ -53,6 +57,7 @@ public class LayerModelInputHandler {
               try {
                 layername = linescan.next();
                 model.setCurrentLayer(layername);
+                displayMessage("Current layer: \"" + layername + "\"");
               } catch (IllegalArgumentException e) {
                 displayMessage("Requested layer " + layername + " does not exist. Skipping.");
               }
@@ -74,38 +79,44 @@ public class LayerModelInputHandler {
             }
             break;
           case "save":
-            if (linescan.hasNext()) {
-              String fileToSave = linescan.next();
-              if (fileToSave.contains(".")) {
-                String ext = fileToSave.substring(fileToSave.lastIndexOf('.'));
-                try {
-                  if (Arrays.stream(ImageIO.getWriterFormatNames())
-                      .anyMatch(name -> ext.substring(1).equals(name)) || ext.equals(".ppm")) {
-                    displayMessage(
-                        ImageUtils.write(ext.substring(1), fileToSave, model.getImage()));
-                  } else {
-                    displayMessage("Cannot recognize file type. Skipping.");
+            try {
+              Image currentImage = model.getImage();
+              if (linescan.hasNext()) {
+                String fileToSave = linescan.next();
+                if (fileToSave.contains(".")) {
+                  String ext = fileToSave.substring(fileToSave.lastIndexOf('.'));
+                  try {
+                    if (Arrays.stream(ImageIO.getWriterFormatNames())
+                        .anyMatch(name -> ext.substring(1).equals(name)) || ext.equals(".ppm")) {
+                      displayMessage(
+                          ImageUtils.write(ext.substring(1), fileToSave, currentImage));
+                    } else {
+                      displayMessage("Cannot recognize file type. Skipping.");
+                    }
+                  } catch (IOException e) {
+                    displayMessage("IO error occurred.");
+                    e.printStackTrace();
                   }
-                } catch (IOException e) {
-                  displayMessage("IO error occurred.");
-                  e.printStackTrace();
+                } else {
+                  //defaults to jpeg
+                  try {
+                    displayMessage(
+                        ImageUtils.write("jpeg", fileToSave + ".jpeg", model.getImage()));
+                  } catch (IOException e) {
+                    displayMessage("IO error occurred.");
+                    e.printStackTrace();
+                  }
                 }
               } else {
-                //defaults to jpeg
                 try {
-                  displayMessage(ImageUtils.write("jpeg", fileToSave + ".jpeg", model.getImage()));
+                  displayMessage(ImageUtils.write("jpeg", ".jpeg", model.getImage()));
                 } catch (IOException e) {
                   displayMessage("IO error occurred.");
                   e.printStackTrace();
                 }
               }
-            } else {
-              try {
-                displayMessage(ImageUtils.write("jpeg", ".jpeg", model.getImage()));
-              } catch (IOException e) {
-                displayMessage("IO error occurred.");
-                e.printStackTrace();
-              }
+            } catch (IllegalArgumentException e) {
+              displayMessage("Incorrect arguments. Aborting.");
             }
             break;
           case "filter":
@@ -131,6 +142,7 @@ public class LayerModelInputHandler {
   private void displayMessage(String text) {
     try {
       this.view.giveMessage(text);
+      this.view.giveMessage("\n");
     } catch (IOException e) {
       System.out.println("IO error occurred.");
     }
