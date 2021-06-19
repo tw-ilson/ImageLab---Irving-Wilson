@@ -209,10 +209,12 @@ public class SimpleLayeredImage implements LayeredImage {
       this.width = img.getWidth();
       this.height = img.getHeight();
     }
+
     if (img.getWidth() != width || img.getHeight() != height) {
       throw new IllegalArgumentException("Image is not the right size, or is not instantiated.");
     }
+
     LayerInfo oldCurrent = layerTable.get(current);
-    this.layerTable.put(current, new LayerInfo(oldCurrent.inOrder, img, oldCurrent.visible));
+    this.layerTable.replace(current, new LayerInfo(oldCurrent.inOrder, img, oldCurrent.visible));
   }
 }
