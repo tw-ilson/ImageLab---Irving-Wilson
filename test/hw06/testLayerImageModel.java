@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotEquals;
 
 import model.ImageProcessorLayerModel;
 import model.ImageProcessorModel;
-import model.LayerImageModel;
+import model.LayeredImageModel;
 import model.color.LightColor;
 import model.image.Image;
 import model.image.SimpleImage;
@@ -21,7 +21,7 @@ public class testLayerImageModel {
 
   @Before
   public void init() {
-    model = new LayerImageModel();
+    model = new LayeredImageModel();
     for (int i = 0; i < 9; i++) {
       toTest2[i] = new LightColor(3, 3, 3);
     }
@@ -78,9 +78,21 @@ public class testLayerImageModel {
     model.setCurrentLayer("Layer2");
     model.editCurrentLayer(image2);
     model.applyFilter("blur");
-    assertNotEquals(model.getImage(), toCompare);
+    assertEquals(model.getImage().getPixel(2, 2).getRed(), 3);
     model.applyFilter("greyscale");
   }
+
+
+  @Test
+  public void testCreateLayer() {
+    model.createLayer("Layer1");
+    model.createLayer("layer2");
+    model.createLayer("layer3");
+
+  }
+
+
+
 
 
 

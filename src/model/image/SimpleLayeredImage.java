@@ -137,6 +137,7 @@ public class SimpleLayeredImage implements LayeredImage {
       throw new IllegalArgumentException("Layer with the given name already exists.");
     }
     layerTable.put(layerName, new LayerInfo(numLayers() + 1, null, true));
+    this.current = layerName;
   }
 
   @Override
@@ -164,7 +165,11 @@ public class SimpleLayeredImage implements LayeredImage {
   @Override
   public Image getCurrentLayer() throws IllegalArgumentException {
     if (layerTable.get(current).pixels == null || current == null) {
-      throw new IllegalArgumentException("No image has been loaded into this layer.");
+      try {
+        this.topMostVisibleLayer();
+      } catch (IllegalStateException e) {
+        throw new IllegalArgumentException("No visible images to save.");
+      }
     }
     return layerTable.get(current).pixels;
   }

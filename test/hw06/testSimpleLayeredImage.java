@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Arrays;
 import model.ImageProcessorModel;
-import model.LayerImageModel;
+import model.LayeredImageModel;
 import model.color.LightColor;
 import model.image.Image;
 import model.image.LayeredImage;
@@ -29,7 +29,7 @@ public class testSimpleLayeredImage {
   @Before
   public void init() {
     image1 = new SimpleLayeredImage();
-    model = new LayerImageModel();
+    model = new LayeredImageModel();
     for (int i = 0; i < 9; i++) {
       toTest[i] = new LightColor(2, 1, 1);
     }
