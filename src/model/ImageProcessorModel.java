@@ -20,6 +20,7 @@ public interface ImageProcessorModel {
 
   /**
    * Gets the width of the image being processed.
+   *
    * @return the width of the image
    * @throws IllegalStateException
    */
@@ -27,6 +28,7 @@ public interface ImageProcessorModel {
 
   /**
    * Gets the height of the image being processed.
+   *
    * @return
    * @throws IllegalStateException
    */
@@ -39,4 +41,11 @@ public interface ImageProcessorModel {
    */
   public void applyFilter(String filter) throws IllegalStateException;
 
+  /**
+   * removeLayer removes the given layer from the layered image.
+   *
+   * @param layerName (the name of the layer which the client wishes to remove).
+   * @throws IllegalArgumentException (if the layer does not exist in the layered image).
+   */
+  public void removeLayer(String layerName) throws IllegalArgumentException;
 }

@@ -30,9 +30,13 @@ public class LayeredImageModel extends AbstractImageProcessorModel implements
     if (image.numLayers() == 0) {
       throw new IllegalStateException("No image to apply to.");
     }
-
     Image filtered = builder.getFilter(filter).apply(image.getCurrentLayer());
     image.editCurrentLayer(filtered);
+  }
+
+  @Override
+  public void removeLayer(String layerName) throws IllegalArgumentException {
+    image.removeLayer(layerName);
   }
 
   @Override
@@ -57,5 +61,7 @@ public class LayeredImageModel extends AbstractImageProcessorModel implements
   public void setVisibility(String layerName, boolean visibility) throws IllegalStateException {
     image.setVisibility(layerName, visibility);
   }
+
+
 
 }

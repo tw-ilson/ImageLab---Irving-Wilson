@@ -44,7 +44,8 @@ public interface LayeredImage extends Image {
 
   /**
    * Sets the visibility of the specified layer to the specified value.
-   * @param layerName (the name of the layer to change)
+   *
+   * @param layerName  (the name of the layer to change)
    * @param visibility (the visibility that the client wishes to set the image to).
    */
   public void setVisibility(String layerName, boolean visibility) throws IllegalArgumentException;
@@ -66,8 +67,17 @@ public interface LayeredImage extends Image {
 
   /**
    * Blends together all of the layers, creating an almalga
+   *
    * @return
    * @throws IllegalStateException
    */
   public Color[] blend() throws IllegalStateException;
+
+
+  /**
+   * removeLayer removes the layer with the given layerName.
+   *
+   * @throws IllegalArgumentException (if the given layer does not exist).
+   */
+  public void removeLayer(String layerName) throws IllegalArgumentException;
 }

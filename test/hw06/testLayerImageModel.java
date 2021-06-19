@@ -97,12 +97,38 @@ public class testLayerImageModel {
    */
   @Test
   public void testSetCurrentLayer() {
-
+    model.createLayer("Layer1");
+    model.createLayer("Layer2");
+    model.editCurrentLayer(image2);
+    model.setCurrentLayer("Layer1");
+    model.editCurrentLayer(image2);
+    assertEquals(model.getImage(), image2);
   }
 
+  @Test (expected = IllegalArgumentException.class)
+  public void testSetCurrentLayerWBadArgument() {
+    model.createLayer("Layer1");
+    model.setCurrentLayer("Layer4");
+  }
 
+  @Test
+  public void testEditCurrentLayer() {
+    model.createLayer("Layer1");
+    model.editCurrentLayer(image2);
+    assertEquals(model.getImage(), image2);
+  }
 
+  @Test (expected = NullPointerException.class)
+  public void testEditCurrentLayerBad() {
+    model.createLayer("Layer1");
+    model.editCurrentLayer(null);
+  }
 
-
-
+  @Test
+  public void testSetVisibility() {
+    model.createLayer("Layer1");
+    model.editCurrentLayer(image2);
+    model.setVisibility("Layer1", false);
+    model.getImage();
+  }
 }

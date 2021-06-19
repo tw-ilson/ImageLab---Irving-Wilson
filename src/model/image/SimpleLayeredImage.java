@@ -109,12 +109,29 @@ public class SimpleLayeredImage implements LayeredImage {
     return new Color[0];
   }
 
+  @Override
+  public void removeLayer(String layerName) throws IllegalArgumentException {
+    if (!layerTable.containsKey(layerName)) {
+      throw new IllegalArgumentException("Layer does not exist");
+    }
+    ArrayList toChange = new ArrayList(layerTable.keySet());
+    for (LayerInfo li : this.layerTable.values()) {
+      if (li.inOrder > this.layerTable.get(layerName).inOrder) {
+        li.inOrder = li.inOrder - 1;
+      }
+    }
+    this.layerTable.remove(layerName);
+  }
 
-  // returns the pix array of the current layer
+
   @Override
   public Color[] pixArray() throws IllegalStateException {
-    layerTable.get(this.current);
-    return null;
+    LayerInfo toCheck = layerTable.get(this.current);
+    if (toCheck.pixels == null) {
+      throw new IllegalStateException("Image has not been imported.");
+    }
+    Image toGrab = toCheck.pixels;
+    return toGrab.pixArray();
   }
 
   @Override
@@ -191,7 +208,6 @@ public class SimpleLayeredImage implements LayeredImage {
   public int numLayers() {
     return this.layerTable.size();
   }
-
 
 
   @Override
