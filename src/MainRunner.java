@@ -1,15 +1,13 @@
 import controller.SimpleImageController;
 import java.io.IOException;
 import controller.ImageUtils;
+import javax.imageio.ImageIO;
 
 public class MainRunner {
   public static void main(String[] args) {
-    ImageUtils io = new SimpleImageController();
-    io.importImage("bay.ppm");
-    try {
-      io.export("jpeg", "bay_2.png");
-    } catch (IOException e) {
-      e.printStackTrace();
+    String[] formats = ImageIO.getWriterFormatNames();
+    for (String s: formats) {
+      System.out.println(s);
     }
   }
 }

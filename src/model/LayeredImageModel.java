@@ -5,7 +5,7 @@ import model.image.Image;
 import model.image.LayeredImage;
 import model.image.SimpleLayeredImage;
 
-public class LayerImageModel extends AbstractImageProcessorModel implements
+public class LayeredImageModel extends AbstractImageProcessorModel implements
     ImageProcessorLayerModel {
 
   private LayeredImage image = new SimpleLayeredImage();

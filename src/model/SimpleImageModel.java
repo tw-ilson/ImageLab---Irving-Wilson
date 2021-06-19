@@ -1,9 +1,5 @@
 package model;
 
-import controller.InputHandler;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Objects;
 import java.util.Stack;
 import model.filters.Filter;
 import model.image.Image;
@@ -24,13 +20,13 @@ public class SimpleImageModel extends AbstractImageProcessorModel {
 
 
   @Override
-  public int[] getImagePixels() throws IllegalStateException {
+  public Image getImage() throws IllegalStateException {
     if (imageVersions == null || imageVersions.isEmpty()) {
       throw new IllegalStateException("There is no image to work with yet.");
     }
-    return Arrays.stream(imageVersions.peek().pixArray()).mapToInt(color -> color.getRGB())
-        .toArray();
+    return imageVersions.peek();
   }
+
 
   @Override
   public int getImageWidth() throws IllegalStateException {
