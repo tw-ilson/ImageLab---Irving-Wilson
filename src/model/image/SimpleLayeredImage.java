@@ -27,6 +27,7 @@ public class SimpleLayeredImage implements LayeredImage {
     this.height = -1;
     layerTable = new HashMap<String, LayerInfo>();
   }
+
   public SimpleLayeredImage(int w, int h) {
     if (w < 1 || h < 1) {
       throw new IllegalArgumentException("Cannot pass width and height arguments that are less"
@@ -37,7 +38,15 @@ public class SimpleLayeredImage implements LayeredImage {
     layerTable = new HashMap<String, LayerInfo>();
   }
 
-  public SimpleLayeredImage(Image... layers) throws IllegalArgumentException {
+  /**
+   * Initializes a simpleLayeredImage with a list of the given layerNames, and a group of images
+   *
+   * @param layerNames
+   * @param layers
+   * @throws IllegalArgumentException
+   */
+  public SimpleLayeredImage(ArrayList<String> layerNames, Image... layers)
+      throws IllegalArgumentException {
     this.width = layers[0].getWidth();
     this.height = layers[0].getHeight();
     this.layerTable = new HashMap<>();
@@ -47,7 +56,7 @@ public class SimpleLayeredImage implements LayeredImage {
       if (layers[i].getWidth() != width || layers[i].getHeight() != height) {
         throw new IllegalArgumentException("cannot create layer images of varying dimensions.");
       }
-      this.layerTable.put("layer" + i, new LayerInfo(i, layers[i], true));
+      this.layerTable.put(layerNames.get(i), new LayerInfo(i, layers[i], true));
     }
   }
 
@@ -76,15 +85,9 @@ public class SimpleLayeredImage implements LayeredImage {
     }
   }
 
-  /**
-   * In this layered version of an image, this method 'blends' by seeking the average of all pixels
-   * across layers.
-   *
-   * @return a blended array of all layers.
-   * @throws IllegalStateException
-   */
+
   @Override
-  public Color[] pixArray() throws IllegalStateException {
+  public Color[] blend() throws IllegalStateException {
     List<LayerInfo> layers = new ArrayList<LayerInfo>(
         layerTable.values().stream()
             .filter(l -> l.visible).collect(Collectors.toList()));
@@ -106,6 +109,12 @@ public class SimpleLayeredImage implements LayeredImage {
     return new Color[0];
   }
 
+
+  @Override
+  public Color[] pixArray() throws IllegalStateException {
+    return null;
+  }
+
   @Override
   public Color getPixel(int x, int y) {
     return this.topMostVisibleLayer().getPixel(x, y);
@@ -121,7 +130,6 @@ public class SimpleLayeredImage implements LayeredImage {
     return this.topMostVisibleLayer().getHeight();
   }
 
-
   @Override
   public void addLayer(String layerName) {
     Objects.requireNonNull(layerName);
@@ -131,16 +139,16 @@ public class SimpleLayeredImage implements LayeredImage {
     layerTable.put(layerName, new LayerInfo(numLayers() + 1, null, true));
   }
 
-
   @Override
   public Image topMostVisibleLayer() throws IllegalStateException {
-    //if (layerTable
+    int i = 0;
     for (LayerInfo li : this.layerTable.values()) {
-      if (li.inOrder == numLayers()) {
+      if (li.inOrder == numLayers() - i && li.visible && li.pixels != null) {
         return li.pixels;
       }
+      i++;
     }
-    throw new IllegalStateException("There are no visible layers.");
+    throw new IllegalStateException("There are no visible layers with valid images.");
   }
 
   @Override
@@ -152,16 +160,24 @@ public class SimpleLayeredImage implements LayeredImage {
     this.current = layerName;
   }
 
-  public Image getCurrentLayer() {
+
+  @Override
+  public Image getCurrentLayer() throws IllegalArgumentException {
+    if (layerTable.get(current).pixels == null) {
+      throw new IllegalArgumentException("No image has been loaded into this layer.");
+    }
     return layerTable.get(current).pixels;
   }
 
   @Override
-  public void setVisibility(boolean visibility) throws IllegalArgumentException {
-    if (layerTable.size() < 1) {
-      throw new IllegalArgumentException("No layers created");
+  public void setVisibility(String layerName) throws IllegalArgumentException {
+    Objects.requireNonNull(layerName);
+    if (!layerTable.containsKey(layerName)) {
+      throw new IllegalArgumentException("Layer doesn't exist");
     }
-    layerTable.get(current).visible = visibility;
+    LayerInfo toChange = layerTable.get(layerName);
+    layerTable.replace(layerName, new LayerInfo(toChange.inOrder, toChange.pixels,
+        !toChange.visible));
   }
 
   @Override
@@ -170,7 +186,11 @@ public class SimpleLayeredImage implements LayeredImage {
   }
 
   @Override
-  public boolean getVisibility(String layerName) {
+  public boolean getVisibility(String layerName) throws IllegalArgumentException {
+    Objects.requireNonNull(layerName);
+    if (!layerTable.containsKey(layerName)) {
+      throw new IllegalArgumentException("Layer does not exist.");
+    }
     LayerInfo toCheck = layerTable.get(layerName);
     return toCheck.visible;
   }
@@ -179,12 +199,13 @@ public class SimpleLayeredImage implements LayeredImage {
   @Override
   public void editCurrentLayer(Image img) {
     Objects.requireNonNull(img);
-    if (img.getWidth() != width || img.getHeight() != height ) {
-      throw new IllegalArgumentException("Image is not the right size, or is not instantiated.");
-    }
+
     if (this.width == -1 || this.height == -1) {
       this.width = img.getWidth();
       this.height = img.getHeight();
+    }
+    if (img.getWidth() != width || img.getHeight() != height) {
+      throw new IllegalArgumentException("Image is not the right size, or is not instantiated.");
     }
     LayerInfo oldCurrent = layerTable.get(current);
     this.layerTable.put(current, new LayerInfo(oldCurrent.inOrder, img, oldCurrent.visible));

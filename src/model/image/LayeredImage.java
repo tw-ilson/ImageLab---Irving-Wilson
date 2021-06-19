@@ -1,5 +1,7 @@
 package model.image;
 
+import model.color.Color;
+
 public interface LayeredImage extends Image {
 
   interface ILayerInfo {
@@ -41,11 +43,10 @@ public interface LayeredImage extends Image {
   public void setCurrentLayer(String layerName) throws IllegalArgumentException;
 
   /**
-   * Sets the visibility of the current layer to the boolean value passed as argument.
-   *
-   * @param visible is this layer visible?
+   * Switches the visibility of the provided layer.
+   * @param layerName (the layer that the client wishes to change the visibility of).
    */
-  public void setVisibility(boolean visible);
+  public void setVisibility(String layerName);
 
   /**
    * changeVisibility changes the visibility of the specified layer.
@@ -68,4 +69,12 @@ public interface LayeredImage extends Image {
    * @return boolean (visibility of the current image)
    */
   public boolean getVisibility(String layerName);
+
+
+  /**
+   * Blends together all of the layers, creating an almalga
+   * @return
+   * @throws IllegalStateException
+   */
+  public Color[] blend() throws IllegalStateException;
 }
