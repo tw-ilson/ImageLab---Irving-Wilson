@@ -1,6 +1,5 @@
 package model;
 
-import controller.InputHandler;
 
 /**
  * This interface represents an ImageProcessorModel, which is meant to handle the functionality for

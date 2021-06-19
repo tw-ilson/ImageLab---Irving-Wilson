@@ -1,6 +1,6 @@
 import controller.SimpleImageController;
 import java.io.IOException;
-import model.ImageProcessorIO;
+import controller.ImageProcessorIO;
 
 public class MainRunner {
   public static void main(String[] args) {

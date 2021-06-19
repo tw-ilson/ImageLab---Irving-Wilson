@@ -1,4 +1,4 @@
-package model;
+package controller;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -7,22 +7,20 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
-import javax.imageio.ImageWriter;
+import model.FileType;
 import model.color.Color;
 import model.color.LightColor;
 import model.image.Image;
 import model.image.SimpleImage;
 
 /**
- * Abstract class for IO operations in an Image Processor. Contains methods for reading and writing
- * to a PPM file (as of HW5).
+ * This is an interface to handle Input/Output operations for an image Processing model. Enables
+ * images to be imported and exported to and from the model in this API.
  */
-public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
+public interface ImageProcessorIO {
 
   /**
    * Reads a file specified by the path passed as argument.
@@ -31,7 +29,7 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
    * @return
    * @throws IOException
    */
-  protected static Image read(String filename) throws IOException {
+   static Image read(String filename) throws IOException {
     Scanner sc;
     sc = new Scanner(new FileInputStream(filename));
 
@@ -54,15 +52,17 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
   /**
    * writes
    *
-   * @param filetype
-   * @param toWrite
-   * @param img
+   * @param filetype the type of file to write, lowercase (ie. "jpeg" "ppm" "png").
+   * @param filename the name of the file to write.
+   * @param img the Image to write into the file.
    * @throws IOException
    * @throws IllegalArgumentException
    */
-  private static void write(String filetype, File toWrite, Image img)
+  static String write(String filetype, String filename, Image img)
       throws IOException, IllegalArgumentException {
 
+    File toWrite = new File(filename);
+    toWrite.createNewFile();
     if (!toWrite.exists()) {
       throw new IOException();
     }
@@ -78,6 +78,8 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
       buf.setRGB(0, 0, buf.getWidth(), buf.getHeight(), rgbArray, 0, buf.getWidth());
       ImageIO.write(buf, filetype, toWrite);
     }
+
+    return "Successfully exported " + filetype + " image: " + filename;
   }
 
 
@@ -167,14 +169,4 @@ public abstract class AbstractImageProcessorIO implements ImageProcessorIO {
     }
     return toReturn;
   }
-
-  protected String exportHelp(String filetype, String name, Image toExport) throws IOException {
-    File toWrite = new File(name);
-    toWrite.createNewFile();
-    write(filetype.toLowerCase(), toWrite, toExport);
-    return "Successfully exported " + filetype + " image: " + name;
-  }
 }
-
-
-
