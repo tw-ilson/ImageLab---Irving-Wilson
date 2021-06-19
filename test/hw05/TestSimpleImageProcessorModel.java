@@ -1,3 +1,4 @@
+/*
 package hw05;
 
 import static org.junit.Assert.assertEquals;
@@ -9,9 +10,11 @@ import model.image.SimpleImage;
 import org.junit.Before;
 import org.junit.Test;
 
+*/
 /**
  * Tests for the SimpleImageProcessorModelClass.
- */
+ *//*
+
 public class TestSimpleImageProcessorModel {
 
   private SimpleImageModel model;
@@ -28,9 +31,11 @@ public class TestSimpleImageProcessorModel {
     this.image = new SimpleImage(toTest, 3, 3);
   }
 
-  /**
+  */
+/**
    * Tests for getImageState.
-   */
+   *//*
+
 
   @Test(expected = IllegalStateException.class)
   public void testGetImageStateWithNullStack() {
@@ -45,9 +50,11 @@ public class TestSimpleImageProcessorModel {
     assertNotEquals(image, model.getImagePixels());
   }
 
-  /**
+  */
+/**
    * Tests for apply filter.
-   */
+   *//*
+
 
   @Test(expected = IllegalStateException.class)
   public void applyFilterWithEmptyStack() {
@@ -86,9 +93,11 @@ public class TestSimpleImageProcessorModel {
         new LightColor(1, 2, 2).getRed());
   }
 
-  /**
+  */
+/**
    * importImageTests.
-   */
+   *//*
+
 
   @Test(expected = NullPointerException.class)
   public void importNull() {
@@ -103,3 +112,4 @@ public class TestSimpleImageProcessorModel {
 
 
 }
+*/
