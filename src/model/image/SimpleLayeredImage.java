@@ -110,8 +110,10 @@ public class SimpleLayeredImage implements LayeredImage {
   }
 
 
+  // returns the pix array of the current layer
   @Override
   public Color[] pixArray() throws IllegalStateException {
+    layerTable.get(this.current);
     return null;
   }
 
@@ -175,14 +177,14 @@ public class SimpleLayeredImage implements LayeredImage {
   }
 
   @Override
-  public void setVisibility(String layerName) throws IllegalArgumentException {
+  public void setVisibility(String layerName, boolean visibility) throws IllegalArgumentException {
     Objects.requireNonNull(layerName);
     if (!layerTable.containsKey(layerName)) {
       throw new IllegalArgumentException("Layer doesn't exist");
     }
     LayerInfo toChange = layerTable.get(layerName);
     layerTable.replace(layerName, new LayerInfo(toChange.inOrder, toChange.pixels,
-        !toChange.visible));
+        visibility));
   }
 
   @Override
@@ -190,15 +192,6 @@ public class SimpleLayeredImage implements LayeredImage {
     return this.layerTable.size();
   }
 
-  @Override
-  public boolean getVisibility(String layerName) throws IllegalArgumentException {
-    Objects.requireNonNull(layerName);
-    if (!layerTable.containsKey(layerName)) {
-      throw new IllegalArgumentException("Layer does not exist.");
-    }
-    LayerInfo toCheck = layerTable.get(layerName);
-    return toCheck.visible;
-  }
 
 
   @Override

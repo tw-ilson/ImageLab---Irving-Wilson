@@ -53,4 +53,9 @@ public class LayeredImageModel extends AbstractImageProcessorModel implements
     image.editCurrentLayer(toEdit);
   }
 
+  @Override
+  public void setVisibility(String layerName, boolean visibility) throws IllegalStateException {
+    image.setVisibility(layerName, visibility);
+  }
+
 }

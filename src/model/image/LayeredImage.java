@@ -43,10 +43,11 @@ public interface LayeredImage extends Image {
   public void setCurrentLayer(String layerName) throws IllegalArgumentException;
 
   /**
-   * Switches the visibility of the provided layer.
-   * @param layerName (the layer that the client wishes to change the visibility of).
+   * Sets the visibility of the specified layer to the specified value.
+   * @param layerName (the name of the layer to change)
+   * @param visibility (the visibility that the client wishes to set the image to).
    */
-  public void setVisibility(String layerName);
+  public void setVisibility(String layerName, boolean visibility) throws IllegalArgumentException;
 
   /**
    * changeVisibility changes the visibility of the specified layer.
@@ -61,14 +62,6 @@ public interface LayeredImage extends Image {
    * @return the number of layers.
    */
   public int numLayers();
-
-
-  /**
-   * Returns the visibility of the given image.
-   *
-   * @return boolean (visibility of the current image)
-   */
-  public boolean getVisibility(String layerName);
 
 
   /**

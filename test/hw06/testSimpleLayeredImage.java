@@ -104,30 +104,6 @@ public class testSimpleLayeredImage {
   }
 
   /**
-   * Tests for getVisibility.
-   */
-  @Test
-  public void testGetVisibility() {
-    image1 = new SimpleLayeredImage();
-    image1.addLayer("Layer1");
-    assertEquals(image1.getVisibility("Layer1"), true);
-    image1.setVisibility("Layer1");
-    assertEquals(image1.getVisibility("Layer1"), false);
-  }
-
-  @Test (expected = NullPointerException.class)
-  public void testGetVisibilityWithNull() {
-    image1.getVisibility(null);
-  }
-
-  @Test (expected = IllegalArgumentException.class)
-  public void testGetVisibilityWithInvalidLayer(){
-    image1 = new SimpleLayeredImage();
-    image1.addLayer("Layer1");
-    image1.getVisibility("LLLL");
-  }
-
-  /**
    * Tests for editCurrentLayer.
    */
   @Test
@@ -191,7 +167,7 @@ public class testSimpleLayeredImage {
     image1.addLayer("Layer1");
     image1.setCurrentLayer("Layer1");
     image1.editCurrentLayer(image2);
-    image1.setVisibility("Layer1");
+    image1.setVisibility("Layer1", false);
     image1.addLayer("Layer2");
     image1.topMostVisibleLayer();
   }

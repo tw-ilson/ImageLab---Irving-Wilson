@@ -88,6 +88,15 @@ public class testLayerImageModel {
     model.createLayer("Layer1");
     model.createLayer("layer2");
     model.createLayer("layer3");
+    model.editCurrentLayer(image2);
+    assertEquals(model.getImage(), image2);
+  }
+
+  /**
+   * Tests for setCurrentLayer.
+   */
+  @Test
+  public void testSetCurrentLayer() {
 
   }
 
