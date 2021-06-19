@@ -40,6 +40,11 @@ public class LayeredImageModel extends AbstractImageProcessorModel implements
   }
 
   @Override
+  public String[] listLayers() {
+    return image.listLayers();
+  }
+
+  @Override
   public void createLayer(String layerName) {
     Objects.requireNonNull(layerName);
     image.addLayer(layerName);

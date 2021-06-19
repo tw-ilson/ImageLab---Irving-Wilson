@@ -49,4 +49,9 @@ public interface ImageProcessorLayerModel extends ImageProcessorModel {
    */
   public void removeLayer(String layerName) throws IllegalArgumentException;
 
+  /**
+   * Lists the names of layers, in "depth" order.
+   * @return
+   */
+  public String[] listLayers();
 }

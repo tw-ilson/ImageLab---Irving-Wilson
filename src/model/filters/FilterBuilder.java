@@ -2,6 +2,7 @@ package model.filters;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Builder type for Filter objects.
@@ -72,4 +73,10 @@ public class FilterBuilder {
   private static Filter createColorFilter(double[][] shift) {
     return new ColorFilter(shift);
   }
+
+  public boolean hasFilter(String filter) {
+    Objects.requireNonNull(filter);
+    return filters.containsKey(filter);
+  }
+
 }

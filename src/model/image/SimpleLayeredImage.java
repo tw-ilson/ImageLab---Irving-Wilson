@@ -64,7 +64,7 @@ public class SimpleLayeredImage implements LayeredImage {
   /**
    * A structure to hold the important information about a particular layer.
    */
-  private class LayerInfo implements ILayerInfo {
+  private class LayerInfo  {
 
     private int inOrder;
     private Image pixels;
@@ -149,6 +149,11 @@ public class SimpleLayeredImage implements LayeredImage {
   @Override
   public int getHeight() {
     return this.topMostVisibleLayer().getHeight();
+  }
+
+  @Override
+  public String[] listLayers() {
+    return layerTable.keySet().toArray(new String[numLayers()]);
   }
 
   @Override
