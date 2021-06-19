@@ -124,11 +124,34 @@ public class testLayerImageModel {
     model.editCurrentLayer(null);
   }
 
-  @Test
+  @Test (expected = IllegalArgumentException.class)
   public void testSetVisibility() {
     model.createLayer("Layer1");
     model.editCurrentLayer(image2);
     model.setVisibility("Layer1", false);
     model.getImage();
   }
+
+  /**
+   * Tests for the remove method in the model.
+   */
+  @Test (expected = IllegalArgumentException.class)
+  public void testRemove() {
+    model.createLayer("layer1");
+    model.removeLayer("layer1");
+    model.setCurrentLayer("layer1");
+  }
+
+  @Test (expected = NullPointerException.class)
+  public void testRemove2() {
+    model.createLayer("layer1");
+    model.editCurrentLayer(image2);
+    model.createLayer("layer2");
+    model.editCurrentLayer(image2);
+    model.removeLayer("layer2");
+    assertEquals(model.getImage(), image2);
+  }
+
+
+
 }
