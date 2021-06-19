@@ -185,7 +185,8 @@ public class SimpleLayeredImage implements LayeredImage {
 
   @Override
   public Image getCurrentLayer() throws IllegalArgumentException {
-    if (layerTable.get(current).pixels == null || current == null) {
+    if (layerTable.get(current).pixels == null || current == null || !layerTable
+        .get(current).visible) {
       try {
         this.topMostVisibleLayer();
       } catch (IllegalStateException e) {

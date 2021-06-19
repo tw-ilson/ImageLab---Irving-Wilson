@@ -48,4 +48,5 @@ public class SimpleImageModel extends AbstractImageProcessorModel {
     Image nextImage = new SimpleImage(imageVersions.peek());
     imageVersions.add(toApply.apply(nextImage));
   }
+
 }
