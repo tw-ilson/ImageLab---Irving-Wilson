@@ -114,10 +114,12 @@ public class SimpleLayeredImage implements LayeredImage {
     if (!layerTable.containsKey(layerName)) {
       throw new IllegalArgumentException("Layer does not exist");
     }
-    ArrayList toChange = new ArrayList(layerTable.keySet());
-    for (LayerInfo li : this.layerTable.values()) {
-      if (li.inOrder > this.layerTable.get(layerName).inOrder) {
-        li.inOrder = li.inOrder - 1;
+    ArrayList<LayerInfo> toChange = new ArrayList<LayerInfo>();
+    for (String layer : this.layerTable.keySet()) {
+      if (layerTable.get(layer).inOrder > layerTable.get(layerName).inOrder) {
+        layerTable.replace(layer,
+            new LayerInfo(layerTable.get(layer).inOrder - 1, layerTable.get(layer).pixels,
+                layerTable.get(layer).visible));
       }
     }
     this.layerTable.remove(layerName);
