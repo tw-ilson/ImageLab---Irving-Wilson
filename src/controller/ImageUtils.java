@@ -20,7 +20,7 @@ import model.image.SimpleImage;
  * This is an interface to handle Input/Output operations for an image Processing model. Enables
  * images to be imported and exported to and from the model in this API.
  */
-public interface ImageProcessorIO {
+public class ImageUtils {
 
   /**
    * Reads a file specified by the path passed as argument.

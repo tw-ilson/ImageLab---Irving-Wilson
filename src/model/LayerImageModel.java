@@ -11,8 +11,8 @@ public class LayerImageModel extends AbstractImageProcessorModel implements
   private LayeredImage image = new SimpleLayeredImage();
 
   @Override
-  public Image getImagePixels() throws IllegalStateException {
-    return image.getCurrentLayer().pixArray().;
+  public Image getImage() throws IllegalStateException {
+    return image.getCurrentLayer();
   }
 
   @Override

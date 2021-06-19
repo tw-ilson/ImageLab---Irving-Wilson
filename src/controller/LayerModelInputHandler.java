@@ -3,7 +3,6 @@ package controller;
 import java.io.IOException;
 import java.util.Scanner;
 import model.ImageProcessorLayerModel;
-import model.image.Image;
 import view.ImageProcessorTextView;
 import view.ImageProcessorView;
 
@@ -55,7 +54,7 @@ public class LayerModelInputHandler {
             try {
               if (linescan.hasNext()) {
                 String filename = linescan.next();
-                this.model.editCurrentLayer(ImageProcessorIO.read(filename));
+                this.model.editCurrentLayer(ImageUtils.read(filename));
                 displayMessage("Successfully loaded image into current layer.");
               } else {
                 displayMessage("No file specified. Skipping.");
@@ -70,10 +69,15 @@ public class LayerModelInputHandler {
                 String ext = fileToSave.substring(fileToSave.lastIndexOf('.'));
               } else {
                 //defaults to jpeg
-                displayMessage(ImageProcessorIO.write("jpeg", fileToSave, model.getImagePixels()));
+                try {
+                  displayMessage(ImageUtils.write("jpeg", fileToSave, model.getImage()));
+                } catch (IOException e) {
+
+                }
               }
             }
           case "filter":
+
           default: //do nothing
         }
       }
