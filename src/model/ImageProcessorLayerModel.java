@@ -3,7 +3,7 @@ package model;
 import model.image.Image;
 
 /**
- * This interface contains the functionality for the LayerImageModel, while also containing
+ * This interface contains the functionality for the LayeredImageModel, while also containing
  * compatibility with the existing models.
  */
 public interface ImageProcessorLayerModel extends ImageProcessorModel {
