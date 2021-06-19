@@ -2,6 +2,7 @@ package hw06;
 
 import static org.junit.Assert.assertEquals;
 
+import controller.ImageUtils;
 import model.ImageProcessorModel;
 import model.SimpleImageModel;
 import model.image.Image;
@@ -16,7 +17,7 @@ public class testReadJPG {
   public void setUp() {
     ImageProcessorModel processor = new SimpleImageModel();
     String filename = "photos/squidward.png";
-    processor.importImage(filename);
-    newImage = processor.getImagePixels();
+//    processor.ImageUtils.read(filename);
+//    newImage = processor.getImagePixels();
   }
 }

@@ -4,8 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 import model.ImageProcessorLayerModel;
-import model.ImageProcessorModel;
-import model.LayerImageModel;
+import model.LayeredImageModel;
 import model.color.LightColor;
 import model.image.Image;
 import model.image.SimpleImage;
@@ -21,7 +20,7 @@ public class testLayerImageModel {
 
   @Before
   public void init() {
-    model = new LayerImageModel();
+    model = new LayeredImageModel();
     for (int i = 0; i < 9; i++) {
       toTest2[i] = new LightColor(3, 3, 3);
     }
