@@ -163,7 +163,7 @@ public class SimpleLayeredImage implements LayeredImage {
 
   @Override
   public Image getCurrentLayer() throws IllegalArgumentException {
-    if (layerTable.get(current).pixels == null) {
+    if (layerTable.get(current).pixels == null || current == null) {
       throw new IllegalArgumentException("No image has been loaded into this layer.");
     }
     return layerTable.get(current).pixels;

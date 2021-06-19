@@ -12,17 +12,17 @@ public class TestSimpleImageProcessor {
 
   private ImageProcessorModel model;
 
-  @Before
+  /*@Before
   public void initialize() {
     this.model = new SimpleImageModel();
   }
 
-  /**
+  *//**
    * Tests for getImageState.
-   */
+   *//*
   @Test (expected = IllegalStateException.class)
   public void testImageVersionsNotInstatiated() {
     model.getImagePixels();
-  }
+  }*/
 
 }
