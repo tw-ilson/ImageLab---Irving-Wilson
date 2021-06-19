@@ -4,9 +4,8 @@ import model.color.Color;
 
 public interface LayeredImage extends Image {
 
-  interface ILayerInfo {
+  String[] listLayers();
 
-  }
 
   /**
    * addLayer adds a new layer to the LayeredImage with the specified filename.

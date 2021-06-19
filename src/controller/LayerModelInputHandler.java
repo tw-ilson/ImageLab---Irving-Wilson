@@ -133,7 +133,48 @@ public class LayerModelInputHandler {
               displayMessage("no filter specified.");
             }
             break;
-          default: //do nothing
+          case "list":
+            for (String s : model.listLayers()) {
+              displayMessage(s);
+            }
+            break;
+          case "invisible":
+            if (linescan.hasNext()) {
+              try {
+                model.setVisibility(linescan.next(), false);
+              } catch (IllegalArgumentException e) {
+                displayMessage("Layer does not exist.");
+              }
+            } else {
+              displayMessage("No layer name specified.");
+            }
+            break;
+          case "visible":
+            if (linescan.hasNext()) {
+              try {
+                model.setVisibility(linescan.next(), true);
+              } catch (IllegalArgumentException e) {
+                displayMessage("Layer does not exist.");
+              }
+            } else {
+              displayMessage("No layer name specified.");
+            }
+            break;
+          case "remove" :
+            if (linescan.hasNext()) {
+              String layerToRemove = linescan.next();
+              try {
+                model.removeLayer(layerToRemove);
+                displayMessage("\"" + layerToRemove + "\" removed.");
+              } catch (IllegalArgumentException e) {
+                displayMessage("Layer does not exist.");
+              }
+
+            } else {
+              displayMessage("No layer specified.");
+            }
+            break;
+          default: displayMessage("Unrecognized command.");
         }
       }
     }
