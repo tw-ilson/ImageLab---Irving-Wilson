@@ -11,8 +11,8 @@ public class LayerImageModel extends AbstractImageProcessorModel implements
   private LayeredImage image = new SimpleLayeredImage();
 
   @Override
-  public int[] getImagePixels() throws IllegalStateException {
-    return new int[0];
+  public Image getImage() throws IllegalStateException {
+    return image.getCurrentLayer();
   }
 
   @Override
@@ -42,7 +42,7 @@ public class LayerImageModel extends AbstractImageProcessorModel implements
   }
 
   @Override
-  public void setCurrentLayer(String layerName) {
+  public void setCurrentLayer(String layerName) throws IllegalArgumentException{
     Objects.requireNonNull(layerName);
     image.setCurrentLayer(layerName);
   }

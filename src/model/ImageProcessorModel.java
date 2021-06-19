@@ -1,6 +1,7 @@
 package model;
 
-import controller.InputHandler;
+
+import model.image.Image;
 
 /**
  * This interface represents an ImageProcessorModel, which is meant to handle the functionality for
@@ -10,12 +11,12 @@ import controller.InputHandler;
 public interface ImageProcessorModel {
 
   /**
-   * Gets the current state of the image.
+   * Gets the state of the current image.
    *
    * @return pixel array
    * @throws IllegalStateException if the pixels cannot be read from the current image
    */
-  public int[] getImagePixels() throws IllegalStateException;
+  public Image getImage() throws IllegalStateException;
 
   /**
    * Gets the width of the image being processed.
