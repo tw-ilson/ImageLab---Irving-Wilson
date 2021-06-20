@@ -1,0 +1,35 @@
+create layer layer1
+create layer layer2
+create layer layer3
+create layer layer4
+create layer layer5
+current layer1
+load glacier.ppm
+current layer2
+load glacier.ppm
+current layer3
+load glacier.ppm
+current layer4
+load glacier.ppm
+current layer5
+load glacier.ppm
+current layer1
+filter blur
+save blurred.png
+current layer2
+filter sharpen
+save sharper.jpg
+current layer3
+filter greyscale
+save grey.ppm
+current layer4
+filter sepia
+save sepia.jpeg
+current layer5
+filter blur
+filter sharpen
+filter greyscale
+filter sepia
+save woohoo.png
+
+quit
