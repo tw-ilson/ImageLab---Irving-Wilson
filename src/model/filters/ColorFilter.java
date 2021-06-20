@@ -1,5 +1,6 @@
 package model.filters;
 
+import java.util.Objects;
 import model.color.Color;
 import model.color.LightColor;
 import model.image.Image;
@@ -22,6 +23,9 @@ public class ColorFilter implements Filter {
 
   @Override
   public Image apply(Image image) {
+    if (image == null) {
+      throw new IllegalArgumentException("Cannot pass a null image.");
+    }
     Color[] toEdit = image.pixArray();
     Image alteredImage = new SimpleImage(toEdit, image.getWidth(), image.getHeight());
 

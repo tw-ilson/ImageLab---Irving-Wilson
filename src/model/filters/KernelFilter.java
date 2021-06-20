@@ -38,11 +38,12 @@ class KernelFilter implements Filter {
    */
   @Override
   public Image apply(Image image) throws IllegalStateException {
+    if (image == null) {
+      throw new IllegalStateException("Cannot pass a null image to this method.");
+    }
     if (kernel.length * kernel[0].length > image.pixArray().length) {
       throw new IllegalStateException("Image is too small for the filter.");
     }
-    Objects.requireNonNull(image);
-
     // sets it to the length of the image pixel array
     int edgeDistFloor = (int) Math.floor(kernel.length / 2);
 

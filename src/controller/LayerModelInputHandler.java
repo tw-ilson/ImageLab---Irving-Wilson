@@ -45,6 +45,7 @@ public class LayerModelInputHandler {
                 && linescan.hasNext()) {
               String newLayerName = linescan.next();
               model.createLayer(newLayerName);
+              model.setCurrentLayer(newLayerName);
               displayMessage("Layer \"" + newLayerName + "\" created");
             } else {
               displayMessage("Not a valid command. Skipping.");
@@ -109,6 +110,8 @@ public class LayerModelInputHandler {
                   } catch (IOException e) {
                     displayMessage("IO error occurred.");
                     e.printStackTrace();
+                  } catch (IllegalArgumentException e) {
+                    displayMessage("No valid image to save.");
                   }
                 }
               } else {
