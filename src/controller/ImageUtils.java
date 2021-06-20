@@ -28,7 +28,7 @@ public class ImageUtils {
    * @return
    * @throws IOException
    */
-   static Image read(String filename) throws IOException {
+   public static Image read(String filename) throws IOException {
     Scanner sc;
     sc = new Scanner(new FileInputStream(filename));
 
@@ -64,7 +64,7 @@ public class ImageUtils {
    * @throws IOException
    * @throws IllegalArgumentException
    */
-  static String write(String filetype, String filename, Image img)
+  public static String write(String filetype, String filename, Image img)
       throws IOException, IllegalArgumentException {
 
     File toWrite = new File(filename);

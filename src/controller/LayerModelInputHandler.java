@@ -85,57 +85,67 @@ public class LayerModelInputHandler {
           case "save":
             try {
               Image currentImage = model.getImage();
-              if (linescan.hasNext()) {
-                String fileToSave = linescan.next();
-                if (fileToSave.contains(".")) {
-                  String ext = fileToSave.substring(fileToSave.lastIndexOf('.'));
-                  try {
-                    if (Arrays.stream(ImageIO.getWriterFormatNames())
-                        .anyMatch(name -> ext.substring(1).equals(name)) || ext.equals(".ppm")) {
-                      displayMessage(
-                          ImageUtils.write(ext.substring(1), fileToSave, currentImage));
-                    } else {
-                      displayMessage("Cannot recognize file type. Skipping.");
+              if (currentImage != null) {
+                if (linescan.hasNext()) {
+                  String fileToSave = linescan.next();
+                  if (fileToSave.contains(".")) {
+                    String ext = fileToSave.substring(fileToSave.lastIndexOf('.'));
+                    try {
+                      if (Arrays.stream(ImageIO.getWriterFormatNames())
+                          .anyMatch(name -> ext.substring(1).equals(name)) || ext.equals(".ppm")) {
+                        displayMessage(
+                            ImageUtils.write(ext.substring(1), fileToSave, currentImage));
+                      } else {
+                        displayMessage("Cannot recognize file type. Skipping.");
+                      }
+                    } catch (IOException e) {
+                      displayMessage("IO error occurred.");
+                      e.printStackTrace();
                     }
-                  } catch (IOException e) {
-                    displayMessage("IO error occurred.");
-                    e.printStackTrace();
+                  } else {
+                    //defaults to jpeg
+                    try {
+                      displayMessage(
+                          ImageUtils.write("jpeg", fileToSave + ".jpeg", model.getImage()));
+                    } catch (IOException e) {
+                      displayMessage("IO error occurred.");
+                      e.printStackTrace();
+                    }
                   }
                 } else {
-                  //defaults to jpeg
                   try {
-                    displayMessage(
-                        ImageUtils.write("jpeg", fileToSave + ".jpeg", model.getImage()));
+                    displayMessage(ImageUtils
+                        .write("jpeg", currentImage.toString() + ".jpeg", model.getImage()));
                   } catch (IOException e) {
                     displayMessage("IO error occurred.");
                     e.printStackTrace();
                   }
                 }
               } else {
-                try {
-                  displayMessage(ImageUtils.write("jpeg", currentImage.toString() + ".jpeg", model.getImage()));
-                } catch (IOException e) {
-                  displayMessage("IO error occurred.");
-                  e.printStackTrace();
-                }
+                displayMessage("Cannot filter empty Image.");
               }
             } catch (IllegalArgumentException e) {
               displayMessage("Incorrect arguments. Aborting.");
             }
+
             break;
           case "filter":
-            if (linescan.hasNext()) {
-              String filter = linescan.next();
-              try {
-                model.applyFilter(filter);
-                displayMessage(filter + " applied to image.");
-              } catch (IllegalStateException e) {
-                displayMessage("No image to apply filter to");
-              } catch (IllegalArgumentException e) {
-                displayMessage("No such filter.");
+            if (model.getImage() != null) {
+              if (linescan.hasNext()) {
+                String filter = linescan.next();
+                try {
+                  model.applyFilter(filter);
+                  displayMessage(filter + " applied to image.");
+                } catch (IllegalStateException e) {
+                  displayMessage("No image to apply filter to");
+                } catch (IllegalArgumentException e) {
+                  displayMessage("No such filter.");
+                }
+              } else {
+                displayMessage("no filter specified.");
               }
             } else {
-              displayMessage("no filter specified.");
+              displayMessage("Cannot filter empty layer.");
             }
             break;
           case "list":
