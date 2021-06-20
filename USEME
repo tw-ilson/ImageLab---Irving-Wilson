@@ -1,0 +1,48 @@
+How to use:
+  When the program is started with run(Readable input), where 'input' is the source of text commands,
+a new LayeredImageModel is created which has no layers and no images stored. The controller proceeds
+to process any provided source of input to parse commands to issue to the program. Note that command
+arguments are separated by spaces, and individual commands are separated by line separators. For
+instance, if a user attempts to give a command name on one line, and its arguments on the next, the
+command will fail.
+                                      -- List of commands --
+Use:
+    > create layer <name_of_layer>
+to create a new layer with the given name. A new layer becomes the 'current' layer upon creation.
+
+Use:
+    > current <name_of_layer>
+to set the specified layer as the current layer, if a layer with such a name exists.
+
+Use:
+    > filter <name_of_filter>
+to apply the specified filter the the image stored at the current layer.
+
+Use:
+    > load <path_to_file>
+to load the specified image into the layer that is selected as 'current'
+
+Use:
+    > save <file_to_create.ext>
+to save the current file (or if the current file is invisible, the top-most visible layer) to the
+file path specified as argument. The format of the file created can be specified by the extension
+supplied with the argument, and if no extension is specified, format defaults to JPEG, and .jpeg
+is appended to the name of the file.
+
+Use:
+    > invisible <name_of_layer>
+to set the specified layer to be invisible, meaning that it cannot be saved.
+
+Use:
+    > visible <name_of_layer>
+to set the specified layer to be visible, meaning that it can be saved.
+
+Use:
+    > list
+to list the names of all layers.
+
+Use:
+    > q
+or
+    > quit
+to end the program run.
