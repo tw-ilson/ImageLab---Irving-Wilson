@@ -6,12 +6,6 @@ and sharpening of images, and support for monochrome and sepia images. The image
 primarily worked with was the PPM format, though we ensured that we had support for other formats,
 should the need arise.
 
-The outermost layer of our program is the ImageProcessorIO interface, which serves as "gateway"
-to everything else, handling the import and export image functionalities.
-
-The AbstractImageProcessorIo class performs the functionality of reading the specific PPM files.
-This is the file in which we could add functionality for handling different filetypes.
-
 Then, our ImageProcessorModel extends this ImageProcessorIO. The purpose of this interface is to
 represent the model which can perform the desired imager alterations. The abstractImageProcessor'
 model implements this interface. The general purpose of this class is to handle the import and
@@ -52,9 +46,42 @@ The kernel filter class implements our filter interface, and supports the constr
 image with the given kernel filter applied to it. The ColorFilter implements our filter interface
 as well, and supports the construction of a new image with the given color filter applied to it.
 
-
 "bay.ppm" and "glacier.ppm" are the property of Benjamin Irving and Thomas Wilson.
 We approve of their use for this project.
+
+/// Homework 6 additions
+
+The primary changes to this project were in the SimpleLayeredImage class, which stemmed from the
+layeredImage interface. The layeredImage interface extended the image interface, but added
+new functionality which allowed our image to behave like a stack of individual images. These
+images could ideally be manipulated and changed at the clients whim. The SimpleLayeredImage
+itself is the layered image object, and all the associated functionality (adding/removing
+a layer, loading an image into the layer, editing a layer, retrieving the topMostVisible layer).
+
+On top of the previous functionality, we have added the ImageProcessorController interface, which
+represents the controller functionality for this project. It handles the batch commands, or the
+image-processing commands that the user wishes to handle. The ImageUtils class is an instance
+of the ImageProcessorController, and allows the client to load, save, and manipulate images.
+
+The SimpleImageController itself handles this functionality, reading the commands from the user
+and handling them with the new LayeredImageModel, which is a model that is quite similar to the
+SimpleImageModel, but instead can handle the functionality associated with a layered image, which
+includes the editing of individual layers, the adding/removing of layers, the changing of the
+invisibility, etc.)
+
+new images:
+
+"An Image of the Moon"
+Moon.jpeg
+taken July 22, 2020 on a cannon EOS D60
+Author: OldakQuill
+public domain
+
+"Squidward.jpeg"
+taken 2018, screenshot
+Belongs to the Nickelodeon corporation.
+public domain, can be used for commerical use
+
 
 
 
