@@ -169,6 +169,8 @@ public class testSimpleLayeredImage {
     image1.editCurrentLayer(image2);
     image1.setVisibility("Layer1", false);
     image1.addLayer("Layer2");
+    image1.setVisibility("Layer2", false);
+    image1.editCurrentLayer(image2);
     image1.topMostVisibleLayer();
   }
 
@@ -201,5 +203,15 @@ public class testSimpleLayeredImage {
     image1.editCurrentLayer(image3);
     image1.addLayer("Layer2");
     image1.setCurrentLayer("Layer4");
+  }
+
+  /**
+   * Tests for remove layer.
+   */
+  @Test
+  public void testRemoveLayer() {
+    image1 = new SimpleLayeredImage();
+    image1.addLayer("Layer1");
+    image1.removeLayer("Layer1");
   }
 }
