@@ -33,8 +33,16 @@ public class LayeredImageModel extends AbstractImageProcessorModel implements
     if (image.numLayers() == 0) {
       throw new IllegalStateException("No image to apply to.");
     }
-    Image filtered = builder.getFilter(filter).apply(image.getCurrentLayer());
-    image.editCurrentLayer(filtered);
+    if (builder.hasFilter(filter)) {
+      try {
+        Image filtered = builder.getFilter(filter).apply(image.getCurrentLayer());
+        image.editCurrentLayer(filtered);
+      } catch (IllegalStateException e) {
+        throw new IllegalStateException("Cannot pass a null image to the apply method.");
+      }
+    } else {
+      throw new IllegalArgumentException("Filter does not exist.");
+    }
   }
 
   @Override
@@ -74,7 +82,6 @@ public class LayeredImageModel extends AbstractImageProcessorModel implements
   public void setVisibility(String layerName, boolean visibility) throws IllegalStateException {
     image.setVisibility(layerName, visibility);
   }
-
 
 
 }

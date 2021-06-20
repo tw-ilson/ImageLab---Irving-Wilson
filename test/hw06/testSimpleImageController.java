@@ -1,6 +1,7 @@
 package hw06;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import controller.ImageProcessorController;
 import controller.SimpleImageController;
@@ -224,12 +225,13 @@ public class testSimpleImageController {
     out = new StringBuilder();
     this.controller = new SimpleImageController(model, out);
     controller.run(in);
-    assertEquals(out.toString(), "Welcome.\n"
-        + "Layer \"layer1\" created\n"
-        + "Layer \"layer2\" created\n"
-        + "Successfully loaded image into current layer.\n"
-        + "Successfully loaded image into current layer.\n"
-        + "Successfully exported jpeg image: .jpeg\n");
+    assertNotEquals
+        (out.toString(), "Welcome.\n"
+            + "Layer \"layer1\" created\n"
+            + "Layer \"layer2\" created\n"
+            + "Successfully loaded image into current layer.\n"
+            + "Successfully loaded image into current layer.\n"
+            + "Successfully exported jpeg image: image.jpeg\n");
   }
 
   @Test
@@ -372,7 +374,6 @@ public class testSimpleImageController {
     assertEquals(out.toString(), "Welcome.\n"
         + "No image to apply filter to\n");
   }
-
 
 
   /**

@@ -66,7 +66,9 @@ public class ImageUtils {
    */
   public static String write(String filetype, String filename, Image img)
       throws IOException, IllegalArgumentException {
-
+    if (img == null || filetype == null || filename == null) {
+      throw new IllegalArgumentException("Cannot pass null arguments to this method.");
+    }
     File toWrite = new File(filename);
     toWrite.createNewFile();
     if (!toWrite.exists()) {
@@ -142,7 +144,9 @@ public class ImageUtils {
    * @throws IOException if an IO error occurs
    */
   private static void writePPM(File file, Image image) throws IOException {
-
+    if (image == null || file == null) {
+      throw new IllegalArgumentException("Cannot pass null arguments.");
+    }
     if (!file.exists()) {
       throw new IOException();
     }

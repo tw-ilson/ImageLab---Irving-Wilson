@@ -2,7 +2,6 @@ import controller.ImageProcessorController;
 import controller.SimpleImageController;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.InputStreamReader;
 import model.ImageProcessorLayerModel;
 import model.LayeredImageModel;
 
