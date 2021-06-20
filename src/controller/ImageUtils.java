@@ -28,7 +28,7 @@ public class ImageUtils {
    * @return
    * @throws IOException
    */
-   public static Image read(String filename) throws IOException {
+  public static Image read(String filename) throws IOException {
     Scanner sc;
     sc = new Scanner(new FileInputStream(filename));
 
@@ -60,7 +60,7 @@ public class ImageUtils {
    *
    * @param filetype the type of file to write, lowercase (ie. "jpeg" "ppm" "png").
    * @param filename the name of the file to write.
-   * @param img the Image to write into the file.
+   * @param img      the Image to write into the file.
    * @throws IOException
    * @throws IllegalArgumentException
    */
@@ -102,8 +102,8 @@ public class ImageUtils {
     //read the file line by line, and populate a string. This will throw away any comment lines
     while (sc.hasNextLine()) {
       String s = sc.nextLine();
-      if (!s.isBlank() && s.charAt(0)!='#') {
-        builder.append(s+System.lineSeparator());
+      if (!s.isBlank() && s.charAt(0) != '#') {
+        builder.append(s + System.lineSeparator());
       }
     }
 

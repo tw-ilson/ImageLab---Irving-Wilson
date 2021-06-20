@@ -50,7 +50,7 @@ public class testSimpleLayeredImage {
     image1.topMostVisibleLayer();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test(expected = IllegalStateException.class)
   public void testTopMostVisibleLayer() {
     image1.addLayer("Layer1");
     image1.topMostVisibleLayer().pixArray();
@@ -60,7 +60,6 @@ public class testSimpleLayeredImage {
   /**
    * Tests for setCurrentLayer.
    */
-
 
 
   @Test
@@ -75,7 +74,7 @@ public class testSimpleLayeredImage {
   }
 
 
-  @Test (expected = NullPointerException.class)
+  @Test(expected = NullPointerException.class)
   public void testSetCurrentLayerNull() {
     image1 = new SimpleLayeredImage(new ArrayList<String>(Arrays.asList("Hype")), image2);
     image1.setCurrentLayer(null);
@@ -84,18 +83,17 @@ public class testSimpleLayeredImage {
   /**
    * Tests for getCurrentLayer
    */
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testGetCurrentLayer() {
     image1 = new SimpleLayeredImage(new ArrayList<String>(Arrays.asList("Hype")), image3);
     image1.setCurrentLayer("e");
     assertEquals(image1.getCurrentLayer(), image3);
     image1.addLayer("Hype2");
-    image1.setCurrentLayer("d");
     image1.editCurrentLayer(image3);
     assertEquals(image1.getCurrentLayer(), image2);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testGetCurrentLayerWithNullImage() {
     image1 = new SimpleLayeredImage();
     image1.addLayer("Layer1");
@@ -115,7 +113,7 @@ public class testSimpleLayeredImage {
     assertEquals(image1.getCurrentLayer(), image2);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testEditCurrentLayerWithInvalidWidth() {
     image1 = new SimpleLayeredImage();
     image1.addLayer("Layer1");
@@ -136,7 +134,8 @@ public class testSimpleLayeredImage {
     image1.addLayer("Layer2");
     assertEquals(image1.numLayers(), 2);
   }
-  @Test (expected = NullPointerException.class)
+
+  @Test(expected = NullPointerException.class)
   public void testNumLayerWithNull() {
     image1 = null;
     image1.numLayers();
@@ -161,7 +160,7 @@ public class testSimpleLayeredImage {
     assertEquals(image1.topMostVisibleLayer(), image2);
   }
 
-  @Test (expected = IllegalStateException.class)
+  @Test(expected = IllegalStateException.class)
   public void testTopMostVisibleWithNoVisible() {
     image1 = new SimpleLayeredImage();
     image1.addLayer("Layer1");
@@ -174,7 +173,7 @@ public class testSimpleLayeredImage {
     image1.topMostVisibleLayer();
   }
 
-  @Test (expected = NullPointerException.class)
+  @Test(expected = NullPointerException.class)
   public void testNullImage() {
     image1 = null;
     image1.topMostVisibleLayer();
@@ -195,7 +194,7 @@ public class testSimpleLayeredImage {
     assertEquals(image1.getCurrentLayer(), image2);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testSetCurrentLayerWrongLayerName() {
     image1 = new SimpleLayeredImage();
     image1.addLayer("Layer1");
@@ -214,4 +213,17 @@ public class testSimpleLayeredImage {
     image1.addLayer("Layer1");
     image1.removeLayer("Layer1");
   }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testRemoveLayerWNoLayer() {
+    image1 = new SimpleLayeredImage();
+    image1.removeLayer("Layer1");
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void testRemoveLayerWNUll() {
+    image1 = null;
+    image1.removeLayer("Layer1");
+  }
+
 }

@@ -6,7 +6,10 @@ import model.image.LayeredImage;
 import model.image.SimpleLayeredImage;
 
 /**
- * A model for applying filters to Images. Underlying structure is a LayeredImage.
+ * the LayeredImageModel class represents the model that can work with a layered image, which
+ * is in essence a stack of simple images (a pixel array, width, and height) that can each be
+ * manipulated with color and kernel filters. The one can save any image from the layered image,
+ * provided that it is visible.
  */
 public class LayeredImageModel extends AbstractImageProcessorModel implements
     ImageProcessorLayerModel {

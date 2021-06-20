@@ -4,11 +4,18 @@ import model.color.Color;
 
 /**
  * An Image that consists of some number of layers. Adds additional functionality that cannot be
- * supported by Image interface.
+ * supported by Image interface. Each layer contains the same information as a SimpleImage, with an
+ * array of pixels, the width, and the height. Each layer can be worked with individually as if it
+ * were an image in itself.
  */
 public interface LayeredImage extends Image {
 
 
+  /**
+   * listLayers is a method which returns an Array of all of the layerNames.
+   *
+   * @return (String[]) of all the layernames.
+   */
   String[] listLayers();
 
 
@@ -17,7 +24,7 @@ public interface LayeredImage extends Image {
    *
    * @param layerName (the name of the new layer)
    */
-  public void addLayer(String layerName);
+  void addLayer(String layerName);
 
   /**
    * returnTopMostVisibleLayer returns a copy of the top most visible image in the LayeredImage
@@ -25,7 +32,7 @@ public interface LayeredImage extends Image {
    * @return Color[] (the pixel array of colors to be processed by the model)
    * @throws IllegalStateException if there are no visible layers in the layeredImage
    */
-  public Image topMostVisibleLayer() throws IllegalStateException;
+  Image topMostVisibleLayer() throws IllegalStateException;
 
 
   /**
@@ -34,7 +41,7 @@ public interface LayeredImage extends Image {
    * @return
    * @throws IllegalStateException
    */
-  public Image getCurrentLayer() throws IllegalStateException;
+  Image getCurrentLayer() throws IllegalStateException;
 
   /**
    * getLayer sets the "current layer", meaning the one that is being worked with, to the layer with
@@ -44,7 +51,7 @@ public interface LayeredImage extends Image {
    * @throws IllegalArgumentException if the layer that the client is trying to grab does not
    *                                  exist.
    */
-  public void setCurrentLayer(String layerName) throws IllegalArgumentException;
+  void setCurrentLayer(String layerName) throws IllegalArgumentException;
 
   /**
    * Sets the visibility of the specified layer to the specified value.
@@ -52,21 +59,21 @@ public interface LayeredImage extends Image {
    * @param layerName  (the name of the layer to change)
    * @param visibility (the visibility that the client wishes to set the image to).
    */
-  public void setVisibility(String layerName, boolean visibility) throws IllegalArgumentException;
+  void setVisibility(String layerName, boolean visibility) throws IllegalArgumentException;
 
   /**
    * changeVisibility changes the visibility of the specified layer.
    *
    * @param img
    */
-  public void editCurrentLayer(Image img) throws IllegalArgumentException;
+  void editCurrentLayer(Image img) throws IllegalArgumentException;
 
   /**
    * Gives the number of layers in this layeredImage. 0 if none.
    *
    * @return the number of layers.
    */
-  public int numLayers();
+  int numLayers();
 
 
   /**
@@ -75,7 +82,7 @@ public interface LayeredImage extends Image {
    * @return
    * @throws IllegalStateException
    */
-  public Color[] blend() throws IllegalStateException;
+  Color[] blend() throws IllegalStateException;
 
 
   /**
@@ -83,13 +90,14 @@ public interface LayeredImage extends Image {
    *
    * @throws IllegalArgumentException (if the given layer does not exist).
    */
-  public void removeLayer(String layerName) throws IllegalArgumentException;
+  void removeLayer(String layerName) throws IllegalArgumentException;
 
   /**
    * getVisibility returns the visibility of the given layer.
+   *
    * @param layerName (the layer to return the visibility of).
    * @return boolean (the visibility of the given layer).
    * @throws IllegalArgumentException (if the given layer is null or doesn't exist).
    */
-  public boolean getVisibility(String layerName) throws IllegalArgumentException;
+  boolean getVisibility(String layerName) throws IllegalArgumentException;
 }
