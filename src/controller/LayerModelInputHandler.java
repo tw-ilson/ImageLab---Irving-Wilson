@@ -69,7 +69,11 @@ public class LayerModelInputHandler {
             try {
               if (linescan.hasNext()) {
                 String filename = linescan.next();
-                this.model.editCurrentLayer(ImageUtils.read(filename));
+                try {
+                  this.model.editCurrentLayer(ImageUtils.read(filename));
+                } catch (IllegalArgumentException e) {
+                  displayMessage("Image could not be loaded. Make sure it is the right size.");
+                }
                 displayMessage("Successfully loaded image into current layer.");
               } else {
                 displayMessage("No file specified. Skipping.");
@@ -109,7 +113,7 @@ public class LayerModelInputHandler {
                 }
               } else {
                 try {
-                  displayMessage(ImageUtils.write("jpeg", ".jpeg", model.getImage()));
+                  displayMessage(ImageUtils.write("jpeg", currentImage.toString() + ".jpeg", model.getImage()));
                 } catch (IOException e) {
                   displayMessage("IO error occurred.");
                   e.printStackTrace();

@@ -9,7 +9,9 @@ import model.color.Color;
 import model.color.LightColor;
 
 /**
- * A type of layered Image that specifies the name, order, image, and visibility for each layer.
+ * An Image that consists of layers. A layer specifies a name, order, image, and visibility. In this
+ * LayeredImage, width and height must be the same across layers, and a "current" layer must be
+ * specified in order to do certain operations. A layer becomes the current layer when it is added.
  */
 public class SimpleLayeredImage implements LayeredImage {
 
@@ -18,8 +20,10 @@ public class SimpleLayeredImage implements LayeredImage {
   private HashMap<String, LayerInfo> layerTable;
   private String current;
 
-  // the width and the height are set upon the import of the first image
-  // into the program.
+  /**
+   * Initializes a simple layered image with no information. Width and height and layer information
+   * are set as layers are added to the layer table.
+   */
   public SimpleLayeredImage() {
     // width and height are both equal to -1 at the beginning
     // only set with the first imported image
@@ -28,15 +32,6 @@ public class SimpleLayeredImage implements LayeredImage {
     layerTable = new HashMap<String, LayerInfo>();
   }
 
-  public SimpleLayeredImage(int w, int h) {
-    if (w < 1 || h < 1) {
-      throw new IllegalArgumentException("Cannot pass width and height arguments that are less"
-          + "than 1.");
-    }
-    this.width = w;
-    this.height = w;
-    layerTable = new HashMap<String, LayerInfo>();
-  }
 
   /**
    * Initializes a simpleLayeredImage with a list of the given layerNames, and a group of images
@@ -62,9 +57,10 @@ public class SimpleLayeredImage implements LayeredImage {
 
 
   /**
-   * A structure to hold the important information about a particular layer.
+   * A structure to hold the important information about a particular layer. This can be thought of
+   * as a row in the layer table.
    */
-  private class LayerInfo  {
+  private class LayerInfo {
 
     private int inOrder;
     private Image pixels;
@@ -84,7 +80,6 @@ public class SimpleLayeredImage implements LayeredImage {
       this.visible = visible;
     }
   }
-
 
   @Override
   public Color[] blend() throws IllegalStateException {

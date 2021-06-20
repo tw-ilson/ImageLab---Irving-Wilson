@@ -5,7 +5,8 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * Builder type for Filter objects.
+ * Builder type for Filter objects. Supports the creation of arbitrary filters either by a color transformation or kernel mapping.
+ * Commonly used filters can be stored as constants and accessed with the getFilter method.
  */
 public class FilterBuilder {
 
@@ -60,7 +61,7 @@ public class FilterBuilder {
    * @param kernel the kernel matrix to use for the new kernelfilter object
    * @return the Filter produced.
    */
-  private static Filter createKernelFilter(double[][] kernel) {
+  public static Filter createKernelFilter(double[][] kernel) {
     return new KernelFilter(kernel);
   }
 
@@ -70,10 +71,15 @@ public class FilterBuilder {
    * @param shift the color shift matrix to create the new Filter with
    * @return the Filter produced.
    */
-  private static Filter createColorFilter(double[][] shift) {
+  public static Filter createColorFilter(double[][] shift) {
     return new ColorFilter(shift);
   }
 
+  /**
+   * Does FilterBuilder have the requested filter?.
+   * @param filter the requested filter
+   * @return whether or not it has it.
+   */
   public boolean hasFilter(String filter) {
     Objects.requireNonNull(filter);
     return filters.containsKey(filter);

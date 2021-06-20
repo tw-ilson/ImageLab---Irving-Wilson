@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
 import javax.imageio.ImageIO;
-import model.FileType;
 import model.color.Color;
 import model.color.LightColor;
 import model.image.Image;
@@ -40,6 +39,13 @@ public class ImageUtils {
       token = sc.next();
     } else {
       throw new IOException("File is empty. Aborting.");
+    }
+    while (token.startsWith("#")) {
+      if (sc.hasNext()) {
+        token = sc.next();
+      } else {
+        throw new IOException("This file contains only comments!??");
+      }
     }
 
     if (token.equals("P3")) {
@@ -89,6 +95,18 @@ public class ImageUtils {
    * @param sc a scanner for this ASCII PPM file.
    */
   private static Image readPPM(Scanner sc) throws FileNotFoundException {
+
+    StringBuilder builder = new StringBuilder();
+    //read the file line by line, and populate a string. This will throw away any comment lines
+    while (sc.hasNextLine()) {
+      String s = sc.nextLine();
+      if (!s.isBlank() && s.charAt(0)!='#') {
+        builder.append(s+System.lineSeparator());
+      }
+    }
+
+    //now set up the scanner to read from the string we just built
+    sc = new Scanner(builder.toString());
 
     int width = sc.nextInt();
     System.out.println("Width of image: " + width);

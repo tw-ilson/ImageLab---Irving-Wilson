@@ -5,6 +5,9 @@ import model.image.Image;
 import model.image.LayeredImage;
 import model.image.SimpleLayeredImage;
 
+/**
+ * A model for applying filters to Images. Underlying structure is a LayeredImage.
+ */
 public class LayeredImageModel extends AbstractImageProcessorModel implements
     ImageProcessorLayerModel {
 
@@ -30,8 +33,12 @@ public class LayeredImageModel extends AbstractImageProcessorModel implements
     if (image.numLayers() == 0) {
       throw new IllegalStateException("No image to apply to.");
     }
-    Image filtered = builder.getFilter(filter).apply(image.getCurrentLayer());
-    image.editCurrentLayer(filtered);
+    if (builder.hasFilter(filter)) {
+      Image filtered = builder.getFilter(filter).apply(image.getCurrentLayer());
+      image.editCurrentLayer(filtered);
+    } else {
+      throw new IllegalStateException("No such filter.");
+    }
   }
 
   @Override

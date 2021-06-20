@@ -2,6 +2,10 @@ package model.image;
 
 import model.color.Color;
 
+/**
+ * An Image that consists of some number of layers. Adds additional functionality that cannot be
+ * supported by Image interface.
+ */
 public interface LayeredImage extends Image {
 
   String[] listLayers();
@@ -65,7 +69,7 @@ public interface LayeredImage extends Image {
 
 
   /**
-   * Blends together all of the layers, creating an almalga
+   * Blends together all of the layers, creating an "average" of all the currently visible images.
    *
    * @return
    * @throws IllegalStateException

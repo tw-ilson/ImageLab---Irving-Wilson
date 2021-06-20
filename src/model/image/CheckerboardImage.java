@@ -18,6 +18,7 @@ public class CheckerboardImage extends AbstractImage {
     this.width = 10 * widthTiles;
     this.height = 10 * heightTiles;
     this.pixArray = new LightColor[100 * widthTiles * heightTiles];
+
     for (int i = 0; i < pixArray.length; i++) {
       if (i % 20 < 10 ^ (i / (10 * widthTiles)) % 20 < 10) {
         pixArray[i] = new LightColor(0xffffff);

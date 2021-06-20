@@ -3,8 +3,9 @@ package model;
 import model.image.Image;
 
 /**
- * This interface contains the functionality for the LayeredImageModel, while also containing
- * compatibility with the existing models.
+ * This interface contains the functionality for the LayeredImageModel, extending the functionality
+ * of ImageProcessorModel to suppourt operations such as adding/removing layers, filtering
+ * individual layers, and changing visibility of layers.
  */
 public interface ImageProcessorLayerModel extends ImageProcessorModel {
 
@@ -27,15 +28,17 @@ public interface ImageProcessorLayerModel extends ImageProcessorModel {
 
   /**
    * edits the current layer based on the image passed to editCurrentLayer.
+   *
    * @param toEdit (the image which the client wishes to base the current layer upon)
    */
   public void editCurrentLayer(Image toEdit);
 
 
   /**
-   * setVisibility sets the visibility of the given layer to the specified visibility provided
-   * in the given call.
-   * @param layerName (name of the layer to change the visibility of).
+   * setVisibility sets the visibility of the given layer to the specified visibility provided in
+   * the given call.
+   *
+   * @param layerName  (name of the layer to change the visibility of).
    * @param visibility (the visibility which the client wishes to set the layer to).
    * @throws IllegalStateException
    */
@@ -51,6 +54,7 @@ public interface ImageProcessorLayerModel extends ImageProcessorModel {
 
   /**
    * Lists the names of layers, in "depth" order.
+   *
    * @return
    */
   public String[] listLayers();
