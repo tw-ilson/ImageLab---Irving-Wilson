@@ -8,6 +8,7 @@ import model.color.Color;
  */
 public interface LayeredImage extends Image {
 
+
   String[] listLayers();
 
 
@@ -83,4 +84,12 @@ public interface LayeredImage extends Image {
    * @throws IllegalArgumentException (if the given layer does not exist).
    */
   public void removeLayer(String layerName) throws IllegalArgumentException;
+
+  /**
+   * getVisibility returns the visibility of the given layer.
+   * @param layerName (the layer to return the visibility of).
+   * @return boolean (the visibility of the given layer).
+   * @throws IllegalArgumentException (if the given layer is null or doesn't exist).
+   */
+  public boolean getVisibility(String layerName) throws IllegalArgumentException;
 }

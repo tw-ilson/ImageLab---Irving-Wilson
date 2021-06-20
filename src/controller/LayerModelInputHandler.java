@@ -128,6 +128,7 @@ public class LayerModelInputHandler {
               String filter = linescan.next();
               try {
                 model.applyFilter(filter);
+                displayMessage(filter + " applied to image.");
               } catch (IllegalStateException e) {
                 displayMessage("No image to apply filter to");
               } catch (IllegalArgumentException e) {
@@ -164,7 +165,7 @@ public class LayerModelInputHandler {
               displayMessage("No layer name specified.");
             }
             break;
-          case "remove" :
+          case "remove":
             if (linescan.hasNext()) {
               String layerToRemove = linescan.next();
               try {
@@ -178,7 +179,8 @@ public class LayerModelInputHandler {
               displayMessage("No layer specified.");
             }
             break;
-          default: displayMessage("Unrecognized command.");
+          default:
+            displayMessage("Unrecognized command.");
         }
       }
     }

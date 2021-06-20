@@ -58,4 +58,11 @@ public interface ImageProcessorLayerModel extends ImageProcessorModel {
    * @return
    */
   public String[] listLayers();
+
+  /**
+   * Returns the visibility of the given layer.
+   * @param layerName (the name of the layer to retrieve the visibility of).
+   * @return boolean (the visibility of the given layer).
+   */
+  public boolean getVisibility(String layerName);
 }

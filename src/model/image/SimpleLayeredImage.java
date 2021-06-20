@@ -109,7 +109,6 @@ public class SimpleLayeredImage implements LayeredImage {
     if (!layerTable.containsKey(layerName)) {
       throw new IllegalArgumentException("Layer does not exist");
     }
-    ArrayList<LayerInfo> toChange = new ArrayList<LayerInfo>();
     for (String layer : this.layerTable.keySet()) {
       if (layerTable.get(layer).inOrder > layerTable.get(layerName).inOrder) {
         layerTable.replace(layer,
@@ -118,6 +117,23 @@ public class SimpleLayeredImage implements LayeredImage {
       }
     }
     this.layerTable.remove(layerName);
+    ArrayList<String> toCheck = new ArrayList<String>();
+    for (String layer : this.layerTable.keySet()) {
+      toCheck.add(layer);
+    }
+    for (int i = toCheck.size() - 1; i >= 0; i--) {
+      if (layerTable.get(toCheck.get(i)).visible) {
+        this.current = toCheck.get(i);
+      }
+    }
+  }
+
+  @Override
+  public boolean getVisibility(String layerName) throws IllegalArgumentException {
+    if (layerName == null || !layerTable.containsKey(layerName)) {
+      throw new IllegalArgumentException("Invalid layerName");
+    }
+    return layerTable.get(layerName).visible;
   }
 
 
@@ -163,12 +179,14 @@ public class SimpleLayeredImage implements LayeredImage {
 
   @Override
   public Image topMostVisibleLayer() throws IllegalStateException {
-    int i = 0;
-    for (LayerInfo li : this.layerTable.values()) {
-      if (li.inOrder == numLayers() - i && li.visible && li.pixels != null) {
-        return li.pixels;
+    ArrayList<String> toCheck = new ArrayList<String>();
+    for (String layer : this.layerTable.keySet()) {
+      toCheck.add(layer);
+    }
+    for (int i = toCheck.size() - 1; i >= 0; i--) {
+      if (layerTable.get(toCheck.get(i)).visible && layerTable.get(toCheck.get(i)).pixels != null) {
+        return layerTable.get(toCheck.get(i)).pixels;
       }
-      i++;
     }
     throw new IllegalStateException("There are no visible layers with valid images.");
   }
@@ -185,8 +203,11 @@ public class SimpleLayeredImage implements LayeredImage {
 
   @Override
   public Image getCurrentLayer() throws IllegalArgumentException {
-    if (layerTable.get(current).pixels == null || current == null || !layerTable
-        .get(current).visible) {
+    if (layerTable.size() == 0) {
+      throw new IllegalArgumentException("LayerTable contains no layers.");
+    }
+    if (layerTable.get(current).pixels == null || current == null || !(layerTable
+        .get(current).visible)) {
       try {
         this.topMostVisibleLayer();
       } catch (IllegalStateException e) {
