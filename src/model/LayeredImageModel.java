@@ -84,5 +84,4 @@ public class LayeredImageModel extends AbstractImageProcessorModel implements
   }
 
 
-
 }

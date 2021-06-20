@@ -116,7 +116,8 @@ public class LayerModelInputHandler {
                 }
               } else {
                 try {
-                  displayMessage(ImageUtils.write("jpeg", currentImage.toString() + ".jpeg", model.getImage()));
+                  displayMessage(ImageUtils
+                      .write("jpeg", currentImage.toString() + ".jpeg", model.getImage()));
                 } catch (IOException e) {
                   displayMessage("IO error occurred.");
                   e.printStackTrace();
