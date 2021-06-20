@@ -84,43 +84,8 @@ public class LayerModelInputHandler {
             }
             break;
           case "save":
-            try {
-              Image currentImage = model.getImage();
-              if (currentImage != null) {
-                if (linescan.hasNext()) {
-                  String fileToSave = linescan.next();
-                  if (fileToSave.contains(".")) {
-                    String ext = fileToSave.substring(fileToSave.lastIndexOf('.'));
-                    try {
-                      if (Arrays.stream(ImageIO.getWriterFormatNames())
-                          .anyMatch(name -> ext.substring(1).equals(name)) || ext.equals(".ppm")) {
-                        displayMessage(
-                            ImageUtils.write(ext.substring(1), fileToSave, currentImage));
-                      } else {
-                        displayMessage("Cannot recognize file type. Skipping.");
-                      }
-                    } catch (IOException e) {
-                      displayMessage("IO error occurred.");
-                      e.printStackTrace();
-                    }
-                  } else {
-                    //defaults to jpeg
-                    try {
-                      displayMessage(
-                          ImageUtils.write("jpeg", fileToSave + ".jpeg", model.getImage()));
-                    } catch (IOException e) {
-                      displayMessage("IO error occurred.");
-                      e.printStackTrace();
-                    }
-                  }
-                } else {
-                  try {
-                    displayMessage(ImageUtils
-                        .write("jpeg", currentImage.toString() + ".jpeg", model.getImage()));
-                  } catch (IOException e) {
-                    displayMessage("IO error occurred.");
-                    e.printStackTrace();
-                  }
+            Image currentImage = model.getImage();
+            if (currentImage != null) {
               if (linescan.hasNext()) {
                 String fileToSave = linescan.next();
                 if (fileToSave.contains(".")) {
@@ -145,8 +110,6 @@ public class LayerModelInputHandler {
                   } catch (IOException e) {
                     displayMessage("IO error occurred.");
                     e.printStackTrace();
-                  } catch (IllegalArgumentException e) {
-                    displayMessage("No valid image to save.");
                   }
                 }
               } else {
@@ -157,11 +120,9 @@ public class LayerModelInputHandler {
                   displayMessage("IO error occurred.");
                   e.printStackTrace();
                 }
-              } else {
-                displayMessage("Cannot filter empty Image.");
               }
-            } catch (IllegalArgumentException e) {
-              displayMessage("Incorrect arguments. Aborting.");
+            } else {
+              displayMessage("Cannot filter empty Image.");
             }
 
             break;

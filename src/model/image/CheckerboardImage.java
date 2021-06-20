@@ -19,11 +19,13 @@ public class CheckerboardImage extends AbstractImage {
     this.height = 10 * heightTiles;
     this.pixArray = new LightColor[100 * widthTiles * heightTiles];
 
-    for (int i = 0; i < pixArray.length; i++) {
-      if (i % 20 < 10 ^ (i / (10 * widthTiles)) % 20 < 10) {
-        pixArray[i] = new LightColor(0xffffff);
-      } else {
-        pixArray[i] = new LightColor(0);
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        if (x % 20 < 10 ^ y % 20 < 10) {
+          pixArray[y*width + x] = new LightColor(0xffffff);
+        } else {
+          pixArray[y*width + x] = new LightColor(0);
+        }
       }
     }
   }
