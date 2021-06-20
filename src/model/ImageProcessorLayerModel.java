@@ -55,7 +55,7 @@ public interface ImageProcessorLayerModel extends ImageProcessorModel {
   /**
    * Lists the names of layers, in "depth" order.
    *
-   * @return
+   * @return String[] (an array list of the Layers, listed by name).
    */
   public String[] listLayers();
 
