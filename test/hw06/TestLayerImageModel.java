@@ -16,15 +16,15 @@ import org.junit.Test;
  * the delegation and the layerImageModel class itself. Checks that the manipulation of layers
  * functions correctly.
  */
-public class testLayerImageModel {
+public class TestLayerImageModel {
 
   private ImageProcessorLayerModel model;
   private Image image2;
-  private LightColor[] toTest2 = new LightColor[9];
 
 
   @Before
   public void init() {
+    LightColor[] toTest2 = new LightColor[9];
     model = new LayeredImageModel();
     for (int i = 0; i < 9; i++) {
       toTest2[i] = new LightColor(3, 3, 3);

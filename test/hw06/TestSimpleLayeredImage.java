@@ -19,13 +19,9 @@ import org.junit.Test;
  * Specifically the adding and removal of layers, along with the continued functionality of the use
  * of the filters.
  */
-public class testSimpleLayeredImage {
+public class TestSimpleLayeredImage {
 
   private LayeredImage image1;
-  private ImageProcessorModel model;
-  private LightColor[] toTest = new LightColor[9];
-  private LightColor[] toTest2 = new LightColor[9];
-  private LightColor[] toTest3 = new LightColor[25];
   private Image image2;
   private Image image3;
   private Image image4;
@@ -33,8 +29,10 @@ public class testSimpleLayeredImage {
 
   @Before
   public void init() {
+    LightColor[] toTest = new LightColor[9];
+    LightColor[] toTest2 = new LightColor[9];
+    LightColor[] toTest3 = new LightColor[25];
     image1 = new SimpleLayeredImage();
-    model = new LayeredImageModel();
     for (int i = 0; i < 9; i++) {
       toTest[i] = new LightColor(2, 1, 1);
     }
@@ -86,7 +84,7 @@ public class testSimpleLayeredImage {
   }
 
   /**
-   * Tests for getCurrentLayer
+   * Tests for getCurrentLayer.
    */
   @Test(expected = IllegalArgumentException.class)
   public void testGetCurrentLayer() {
@@ -185,7 +183,7 @@ public class testSimpleLayeredImage {
   }
 
   /**
-   * Tests setCurrentLayer
+   * Tests setCurrentLayer.
    */
   @Test
   public void testSetCurrentLayer() {
@@ -217,6 +215,7 @@ public class testSimpleLayeredImage {
     image1 = new SimpleLayeredImage();
     image1.addLayer("Layer1");
     image1.removeLayer("Layer1");
+    assertEquals(image1.numLayers(), 0);
   }
 
   @Test(expected = IllegalArgumentException.class)

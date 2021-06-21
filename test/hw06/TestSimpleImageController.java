@@ -8,25 +8,20 @@ import controller.SimpleImageController;
 import java.io.StringReader;
 import model.ImageProcessorLayerModel;
 import model.LayeredImageModel;
-import model.color.LightColor;
-import model.image.Image;
-import model.image.SimpleImage;
 import org.junit.Before;
 import org.junit.Test;
 import view.ImageProcessorTextView;
 import view.ImageProcessorView;
 
 /**
- * Tests for the simpleImageController, specifically the viability of the batch commands.
- * Sees if it correctly delegates the intended functionality to the model that it is fed,
- * and manipulates the layered images in the specified ways.
+ * Tests for the simpleImageController, specifically the viability of the batch commands. Sees if it
+ * correctly delegates the intended functionality to the model that it is fed, and manipulates the
+ * layered images in the specified ways.
  */
-public class testSimpleImageController {
+public class TestSimpleImageController {
 
   private ImageProcessorLayerModel model;
   private ImageProcessorController controller;
-  private Image image1;
-  private LightColor[] toTest = new LightColor[9];
   private Readable in;
   private Appendable out;
 
@@ -34,10 +29,6 @@ public class testSimpleImageController {
   @Before
   public void init() {
     model = new LayeredImageModel();
-    for (int i = 0; i < 9; i++) {
-      toTest[i] = new LightColor(2, 1, 1);
-    }
-    image1 = new SimpleImage(toTest, 3, 3);
   }
 
 
@@ -157,7 +148,7 @@ public class testSimpleImageController {
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Layer \"layer2\" created\n"
-        + "Successfully loaded image into current layer.\n");
+        + "IO error occurred. Make sure that the file path is valid. Skipping.\n");
   }
 
   @Test
@@ -184,7 +175,7 @@ public class testSimpleImageController {
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Layer \"layer2\" created\n"
-        + "Successfully loaded image into current layer.\n");
+        + "IO error occurred. Make sure that the file path is valid. Skipping.\n");
   }
 
   @Test
@@ -198,7 +189,7 @@ public class testSimpleImageController {
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Layer \"layer2\" created\n"
-        + "Successfully loaded image into current layer.\n"
+        + "IO error occurred. Make sure that the file path is valid. Skipping.\n"
         + "Successfully loaded image into current layer.\n");
   }
 
@@ -213,7 +204,7 @@ public class testSimpleImageController {
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Layer \"layer2\" created\n"
-        + "Successfully loaded image into current layer.\n"
+        + "IO error occurred. Make sure that the file path is valid. Skipping.\n"
         + "Successfully loaded image into current layer.\n"
         + "Successfully exported jpeg image: bay_sharp.jpeg\n");
   }
@@ -235,7 +226,7 @@ public class testSimpleImageController {
             + "Successfully exported jpeg image: image.jpeg\n");
   }
 
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testSaveNoImageToSave() {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("create layer layer1\nsave nothing.png");
@@ -247,7 +238,7 @@ public class testSimpleImageController {
         + "Incorrect arguments. Aborting.\n");
   }
 
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testSaveWithInvisible() {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("create layer layer1\ncreate layer layer2\nload bay.png "
@@ -264,7 +255,7 @@ public class testSimpleImageController {
         + "Incorrect arguments. Aborting.\n");
   }
 
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testSaveWInvisibleCurrentLayer() {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("create layer layer1\nload bay.png\ncreate layer layer2"
@@ -283,7 +274,7 @@ public class testSimpleImageController {
   /**
    * Tests for the filter command
    */
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testFilter() {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("create layer layer1\nload bay.png\nfilter blur\ncreate layer layer2"
@@ -301,7 +292,7 @@ public class testSimpleImageController {
   }
 
 
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testFilterSharpen() {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("create layer layer1\nload bay.png\nfilter sharpen\ncreate layer layer2"
@@ -318,7 +309,7 @@ public class testSimpleImageController {
         + "Successfully exported jpeg image: s.jpeg\n");
   }
 
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testFilterSepia() {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("create layer layer1\nload bay.png\nfilter sepia\ncreate layer layer2"
@@ -335,7 +326,7 @@ public class testSimpleImageController {
         + "Successfully exported jpeg image: s.jpeg\n");
   }
 
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testFilterGreyScale() {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("create layer layer1\nload bay.png\nfilter greyscale\ncreate layer layer2"
@@ -352,7 +343,7 @@ public class testSimpleImageController {
         + "Successfully exported jpeg image: s.jpeg\n");
   }
 
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testFilterInvalidFilter() {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("create layer layer1\nload bay.png\nfilter bop");
@@ -365,7 +356,7 @@ public class testSimpleImageController {
         + "No such filter.\n");
   }
 
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testFilterBlankImage() {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("filter sharpen");
@@ -380,7 +371,7 @@ public class testSimpleImageController {
   /**
    * Tests for the invisible command
    */
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testInvisible() {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("create layer layer1\nload bay.png\nfilter blur\ncreate layer layer2"
@@ -397,7 +388,7 @@ public class testSimpleImageController {
         + "Incorrect arguments. Aborting.\n");
   }
 
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testInvisibleInvalidLayer() {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("create layer layer1\nload bay.png\nfilter blur\ncreate layer layer2"
@@ -414,7 +405,7 @@ public class testSimpleImageController {
         + "Layer does not exist.\n");
   }
 
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testVisibleLayer() {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("create layer layer1\nload bay.png\nfilter blur\ncreate layer layer2"
@@ -431,7 +422,7 @@ public class testSimpleImageController {
         + "Successfully exported jpeg image: s.jpeg\n");
   }
 
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testVisibleLayerInvalidLayerName() {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("create layer layer1\nload bay.png\nfilter blur\ncreate layer layer2"
