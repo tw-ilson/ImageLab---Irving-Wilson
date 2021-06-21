@@ -11,14 +11,15 @@ import model.LayeredImageModel;
 import model.color.LightColor;
 import model.image.Image;
 import model.image.SimpleImage;
-import model.image.SimpleLayeredImage;
 import org.junit.Before;
 import org.junit.Test;
 import view.ImageProcessorTextView;
 import view.ImageProcessorView;
 
 /**
- * Tests for the simpleImageController
+ * Tests for the simpleImageController, specifically the viability of the batch commands.
+ * Sees if it correctly delegates the intended functionality to the model that it is fed,
+ * and manipulates the layered images in the specified ways.
  */
 public class testSimpleImageController {
 

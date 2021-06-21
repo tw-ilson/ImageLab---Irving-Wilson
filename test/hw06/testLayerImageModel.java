@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 import model.ImageProcessorLayerModel;
-import model.ImageProcessorModel;
 import model.LayeredImageModel;
 import model.color.LightColor;
 import model.image.Image;
@@ -12,6 +11,11 @@ import model.image.SimpleImage;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Tests for the layerImageModel, specifically that look for the problems in the translation between
+ * the delegation and the layerImageModel class itself. Checks that the manipulation of layers
+ * functions correctly.
+ */
 public class testLayerImageModel {
 
   private ImageProcessorLayerModel model;
@@ -105,7 +109,7 @@ public class testLayerImageModel {
     assertEquals(model.getImage(), image2);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testSetCurrentLayerWBadArgument() {
     model.createLayer("Layer1");
     model.setCurrentLayer("Layer4");
@@ -118,13 +122,13 @@ public class testLayerImageModel {
     assertEquals(model.getImage(), image2);
   }
 
-  @Test (expected = NullPointerException.class)
+  @Test(expected = NullPointerException.class)
   public void testEditCurrentLayerBad() {
     model.createLayer("Layer1");
     model.editCurrentLayer(null);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testSetVisibility() {
     model.createLayer("Layer1");
     model.editCurrentLayer(image2);
@@ -135,14 +139,14 @@ public class testLayerImageModel {
   /**
    * Tests for the remove method in the model.
    */
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testRemove() {
     model.createLayer("layer1");
     model.removeLayer("layer1");
     model.setCurrentLayer("layer1");
   }
 
-  @Test (expected = NullPointerException.class)
+  @Test(expected = NullPointerException.class)
   public void testRemove2() {
     model.createLayer("layer1");
     model.editCurrentLayer(image2);
@@ -151,7 +155,6 @@ public class testLayerImageModel {
     model.removeLayer("layer2");
     assertEquals(model.getImage(), image2);
   }
-
 
 
 }

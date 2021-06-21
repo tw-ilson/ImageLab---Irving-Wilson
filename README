@@ -69,6 +69,10 @@ SimpleImageModel, but instead can handle the functionality associated with a lay
 includes the editing of individual layers, the adding/removing of layers, the changing of the
 invisibility, etc.)
 
+We also moved all of our image handling to the controller level of the program, as the model
+handles the internal data and not the external data being fed into the controller. The model
+is the backend of our program, and as such should not be associated with the external data.
+
 new images:
 
 "An Image of the Moon"

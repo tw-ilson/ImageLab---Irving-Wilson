@@ -14,6 +14,11 @@ import model.image.SimpleLayeredImage;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Tests for the simpleLayeredImage, which see the viability of the newly added functionality.
+ * Specifically the adding and removal of layers, along with the continued functionality of the use
+ * of the filters.
+ */
 public class testSimpleLayeredImage {
 
   private LayeredImage image1;
