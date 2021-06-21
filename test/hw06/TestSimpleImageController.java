@@ -369,7 +369,7 @@ public class TestSimpleImageController {
 
 
   /**
-   * Tests for the invisible command
+   * Tests for the invisible command.
    */
   @Test(expected = IllegalArgumentException.class)
   public void testInvisible() {
