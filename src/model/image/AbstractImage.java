@@ -1,7 +1,6 @@
 package model.image;
 
 
-import java.util.Objects;
 import model.color.Color;
 
 

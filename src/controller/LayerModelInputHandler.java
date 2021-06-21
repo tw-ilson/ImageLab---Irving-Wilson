@@ -1,9 +1,7 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Scanner;
 import javax.imageio.ImageIO;
 import model.ImageProcessorLayerModel;
@@ -11,6 +9,11 @@ import model.image.Image;
 import view.ImageProcessorTextView;
 import view.ImageProcessorView;
 
+/**
+ * This is a class meant to contain the functionality to deal with a LayedImageModel. This code is
+ * contained within this class in order to increase reusability and replacablility. It stores a
+ * model and a view.
+ */
 public class LayerModelInputHandler {
 
   ImageProcessorLayerModel model;
@@ -19,9 +22,9 @@ public class LayerModelInputHandler {
   /**
    * Scans inputs from a readable source and displays status with a ImageProcessorTextView.
    *
-   * @param model
-   * @param in
-   * @param out
+   * @param model the model to send commands to
+   * @param in the source of input
+   * @param out the destination for output.
    */
   public void scanInput(ImageProcessorLayerModel model, Readable in, Appendable out) {
     this.model = model;
@@ -193,6 +196,11 @@ public class LayerModelInputHandler {
     }
   }
 
+  /**
+   * Sends the specified message to be displayed by the View.
+   *
+   * @param text the text to display.
+   */
   private void displayMessage(String text) {
     try {
       this.view.giveMessage(text);

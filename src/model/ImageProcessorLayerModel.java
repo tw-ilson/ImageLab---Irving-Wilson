@@ -10,7 +10,7 @@ import model.image.Image;
 public interface ImageProcessorLayerModel extends ImageProcessorModel {
 
   /**
-   * Creates a new Layer
+   * Creates a new Layer.
    *
    * @param layerName (the distinct name of the new layer)
    */
@@ -40,7 +40,7 @@ public interface ImageProcessorLayerModel extends ImageProcessorModel {
    *
    * @param layerName  (name of the layer to change the visibility of).
    * @param visibility (the visibility which the client wishes to set the layer to).
-   * @throws IllegalStateException
+   * @throws IllegalStateException if no such layer exists.
    */
   public void setVisibility(String layerName, boolean visibility) throws IllegalStateException;
 

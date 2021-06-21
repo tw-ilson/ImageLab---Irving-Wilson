@@ -56,13 +56,13 @@ public class ImageUtils {
   }
 
   /**
-   * writes
+   * writes to a file of the specified type and name using the image provided. Used to 'save'.
    *
    * @param filetype the type of file to write, lowercase (ie. "jpeg" "ppm" "png").
    * @param filename the name of the file to write.
    * @param img      the Image to write into the file.
-   * @throws IOException
-   * @throws IllegalArgumentException
+   * @throws IOException              if an IO error occurs
+   * @throws IllegalArgumentException if any of the arguments are null
    */
   public static String write(String filetype, String filename, Image img)
       throws IOException, IllegalArgumentException {

@@ -1,18 +1,22 @@
 package controller;
 
-import java.util.Scanner;
 import model.ImageProcessorLayerModel;
-import model.ImageProcessorModel;
 
 
+/**
+ * A controller for a program that deals with processing images. This controller supports Models for
+ * the program that utilize layers. It has a source of input, a destination for output, and it is
+ * used with the run() method.
+ */
 public class SimpleImageController implements ImageProcessorController {
 
   private ImageProcessorLayerModel model;
-  private Readable input;
+  //private Readable input; //style checker made me comment this :/
   private Appendable output;
-  private boolean hasQuit;
-  private boolean isActive;
 
+  /**
+   * constructs a new Simple Image Controller with the specified model and output.
+   */
   public SimpleImageController(ImageProcessorLayerModel model, Appendable output) throws
       IllegalArgumentException {
     this.model = model;
@@ -28,7 +32,7 @@ public class SimpleImageController implements ImageProcessorController {
 
   @Override
   public void run(Readable input) throws IllegalArgumentException, IllegalStateException {
-    this.input = input;
+    //this.input = input;
     new LayerModelInputHandler().scanInput(model, input, output);
   }
 

@@ -22,7 +22,7 @@ public interface ImageProcessorModel {
    * Gets the width of the image being processed.
    *
    * @return the width of the image
-   * @throws IllegalStateException
+   * @throws IllegalStateException if no image is initialized
    */
   public int getImageWidth() throws IllegalStateException;
 
@@ -30,7 +30,7 @@ public interface ImageProcessorModel {
    * Gets the height of the image being processed.
    *
    * @return
-   * @throws IllegalStateException
+   * @throws IllegalStateException if no image is initialized.
    */
   public int getImageHeight() throws IllegalStateException;
 

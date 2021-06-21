@@ -34,11 +34,11 @@ public class SimpleLayeredImage implements LayeredImage {
 
 
   /**
-   * Initializes a simpleLayeredImage with a list of the given layerNames, and a group of images
+   * Initializes a simpleLayeredImage with a list of the given layerNames, and a group of images.
    *
-   * @param layerNames
-   * @param layers
-   * @throws IllegalArgumentException
+   * @param layerNames the names of the layers to create
+   * @param layers the images to add to the layers
+   * @throws IllegalArgumentException if the images are of varying dimensions.
    */
   public SimpleLayeredImage(ArrayList<String> layerNames, Image... layers)
       throws IllegalArgumentException {

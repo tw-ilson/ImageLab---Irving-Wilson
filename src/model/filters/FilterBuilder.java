@@ -5,8 +5,9 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * Builder type for Filter objects. Supports the creation of arbitrary filters either by a color transformation or kernel mapping.
- * Commonly used filters can be stored as constants and accessed with the getFilter method.
+ * Builder type for Filter objects. Supports the creation of arbitrary filters either by a color
+ * transformation or kernel mapping. Commonly used filters can be stored as constants and accessed
+ * with the getFilter method.
  */
 public class FilterBuilder {
 
@@ -77,6 +78,7 @@ public class FilterBuilder {
 
   /**
    * Does FilterBuilder have the requested filter?.
+   *
    * @param filter the requested filter
    * @return whether or not it has it.
    */

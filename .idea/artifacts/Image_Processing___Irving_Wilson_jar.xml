@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Image-Processing---Irving-Wilson:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Image_Processing___Irving_Wilson_jar</output-path>
+    <root id="archive" name="Image-Processing---Irving-Wilson.jar">
+      <element id="module-output" name="Image-Processing---Irving-Wilson" />
+    </root>
+  </artifact>
+</component>

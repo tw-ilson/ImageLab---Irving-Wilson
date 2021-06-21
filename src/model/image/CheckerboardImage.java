@@ -22,9 +22,9 @@ public class CheckerboardImage extends AbstractImage {
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
         if (x % 20 < 10 ^ y % 20 < 10) {
-          pixArray[y*width + x] = new LightColor(0xffffff);
+          pixArray[y * width + x] = new LightColor(0xffffff);
         } else {
-          pixArray[y*width + x] = new LightColor(0);
+          pixArray[y * width + x] = new LightColor(0);
         }
       }
     }

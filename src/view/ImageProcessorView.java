@@ -7,9 +7,10 @@ import java.io.IOException;
  */
 public interface ImageProcessorView {
 
- /**
-  * gives the program user the specified message.
-  * @param text the message to display
-  */
- void giveMessage(String text) throws IOException;
+  /**
+   * gives the program user the specified message.
+   *
+   * @param text the message to display
+   */
+  void giveMessage(String text) throws IOException;
 }

@@ -1,6 +1,5 @@
 package model.filters;
 
-import java.util.Objects;
 import model.color.Color;
 import model.color.LightColor;
 import model.image.Image;

@@ -27,7 +27,7 @@ public interface LayeredImage extends Image {
   void addLayer(String layerName);
 
   /**
-   * returnTopMostVisibleLayer returns a copy of the top most visible image in the LayeredImage
+   * returnTopMostVisibleLayer returns a copy of the top most visible image in the LayeredImage.
    *
    * @return Color[] (the pixel array of colors to be processed by the model)
    * @throws IllegalStateException if there are no visible layers in the layeredImage
@@ -37,8 +37,7 @@ public interface LayeredImage extends Image {
 
   /**
    * gets the image that is the currently selected layer.
-   *
-   * @return
+   * @return the image at the current layer.
    * @throws IllegalStateException
    */
   Image getCurrentLayer() throws IllegalStateException;
@@ -64,7 +63,7 @@ public interface LayeredImage extends Image {
   /**
    * changeVisibility changes the visibility of the specified layer.
    *
-   * @param img
+   * @param img the image to replace at the current layer
    */
   void editCurrentLayer(Image img) throws IllegalArgumentException;
 
@@ -78,9 +77,8 @@ public interface LayeredImage extends Image {
 
   /**
    * Blends together all of the layers, creating an "average" of all the currently visible images.
-   *
-   * @return
-   * @throws IllegalStateException
+   * @return the blended array of colors.
+   * @throws IllegalStateException the images cannot be blended.
    */
   Color[] blend() throws IllegalStateException;
 
