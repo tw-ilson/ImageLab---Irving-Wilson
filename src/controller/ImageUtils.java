@@ -24,9 +24,9 @@ public class ImageUtils {
   /**
    * Reads a file specified by the path passed as argument.
    *
-   * @param filename
-   * @return
-   * @throws IOException
+   * @param filename the name of the file.
+   * @return the image read from this file.
+   * @throws IOException if an io exception occurs.
    */
   public static Image read(String filename) throws IOException {
     Scanner sc;
@@ -177,8 +177,8 @@ public class ImageUtils {
    * supported types
    *
    * @param filename
-   * @return
-   * @throws IOException
+   * @return the Image gotten from this file.
+   * @throws IOException if an io error occurs
    */
   private static Image readNotPPM(String filename) throws IOException {
     BufferedImage image = ImageIO.read(new FileInputStream(filename));

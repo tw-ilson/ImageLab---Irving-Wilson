@@ -29,7 +29,7 @@ public interface ImageProcessorModel {
   /**
    * Gets the height of the image being processed.
    *
-   * @return
+   * @return the height of the image stored at this model.
    * @throws IllegalStateException if no image is initialized.
    */
   public int getImageHeight() throws IllegalStateException;

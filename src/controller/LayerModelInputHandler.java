@@ -1,6 +1,8 @@
 package controller;
 
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Scanner;
 import javax.imageio.ImageIO;
@@ -26,9 +28,9 @@ public class LayerModelInputHandler {
    * @param in the source of input
    * @param out the destination for output.
    */
-  public void scanInput(ImageProcessorLayerModel model, Readable in, Appendable out) {
+  public void scanInput(ImageProcessorLayerModel model, Readable in, ImageProcessorView out) {
     this.model = model;
-    this.view = new ImageProcessorTextView(out);
+    this.view = out;
     Scanner scan = new Scanner(in);
 
     displayMessage("Welcome.");
@@ -42,6 +44,18 @@ public class LayerModelInputHandler {
           case "quit":
             displayMessage("User quit.");
             return;
+          case "batch":
+            try {
+              if (linescan.hasNext()) {
+                String textfilename = linescan.next();
+                this.scanInput(this.model, new FileReader(textfilename), this.view);
+              } else {
+                displayMessage("No batch file provided.");
+              }
+            } catch (IOException e) {
+
+            }
+            break;
           case "create":
             if (linescan.hasNext()
                 && linescan.next().equals("layer")

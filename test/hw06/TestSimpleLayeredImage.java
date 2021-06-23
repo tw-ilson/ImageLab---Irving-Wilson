@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import model.ImageProcessorModel;
-import model.LayeredImageModel;
 import model.color.LightColor;
 import model.image.Image;
 import model.image.LayeredImage;

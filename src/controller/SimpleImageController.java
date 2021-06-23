@@ -1,6 +1,8 @@
 package controller;
 
 import model.ImageProcessorLayerModel;
+import view.ImageProcessorTextView;
+import view.ImageProcessorView;
 
 
 /**
@@ -12,22 +14,23 @@ public class SimpleImageController implements ImageProcessorController {
 
   private ImageProcessorLayerModel model;
   //private Readable input; //style checker made me comment this :/
-  private Appendable output;
+  private ImageProcessorView output;
 
   /**
    * constructs a new Simple Image Controller with the specified model and output.
    */
   public SimpleImageController(ImageProcessorLayerModel model, Appendable output) throws
       IllegalArgumentException {
-    this.model = model;
-    this.output = output;
 
-    if (this.output == null) {
+    if (output == null) {
       throw new IllegalArgumentException("Text output source cannot be null");
     }
-    if (this.model == null) {
+    if (model == null) {
       throw new IllegalArgumentException("Model provided cannot be null");
     }
+    this.model = model;
+    this.output = new ImageProcessorTextView(output);
+
   }
 
   @Override

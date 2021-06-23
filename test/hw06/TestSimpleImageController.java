@@ -272,7 +272,7 @@ public class TestSimpleImageController {
   }
 
   /**
-   * Tests for the filter command
+   * Tests for the filter command.
    */
   @Test(expected = IllegalArgumentException.class)
   public void testFilter() {

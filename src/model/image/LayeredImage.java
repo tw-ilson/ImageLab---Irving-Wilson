@@ -38,7 +38,7 @@ public interface LayeredImage extends Image {
   /**
    * gets the image that is the currently selected layer.
    * @return the image at the current layer.
-   * @throws IllegalStateException
+   * @throws IllegalStateException if the current layer cannot be gotten
    */
   Image getCurrentLayer() throws IllegalStateException;
 
