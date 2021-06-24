@@ -117,8 +117,7 @@ public class JFrameView extends JFrame implements ActionListener,
 
     application.add(imageEdits, BorderLayout.NORTH);
 
-    // align this panel to the right of the image that is being edited
-
+    // align this panel to the right of the image that is being edited//
     // panel for the layers selection
     JPanel layersPanel = new JPanel();
     layersPanel.setBorder(BorderFactory.createTitledBorder("Selection lists"));
