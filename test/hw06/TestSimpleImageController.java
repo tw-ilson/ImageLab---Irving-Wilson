@@ -37,8 +37,8 @@ public class TestSimpleImageController {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("quit");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "User quit.\n");
   }
@@ -48,8 +48,8 @@ public class TestSimpleImageController {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("q");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "User quit.\n");
   }
@@ -59,8 +59,8 @@ public class TestSimpleImageController {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("dalkdsadquit");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Unrecognized command.\n");
   }
@@ -70,8 +70,8 @@ public class TestSimpleImageController {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("create layer layer1");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n");
   }
@@ -81,8 +81,8 @@ public class TestSimpleImageController {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("create layered layer1");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Not a valid command. Skipping.\n");
   }
@@ -92,8 +92,8 @@ public class TestSimpleImageController {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("create layer layer1\ncreate layer layer2");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Layer \"layer2\" created\n");
@@ -104,8 +104,8 @@ public class TestSimpleImageController {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("create layer layer1\ncreate layer layer2\ncurrent layer1");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Layer \"layer2\" created\n"
@@ -117,8 +117,8 @@ public class TestSimpleImageController {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("create layer layer1\ncreate layer layer2\ncurrent layer3");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Layer \"layer2\" created\n"
@@ -130,8 +130,8 @@ public class TestSimpleImageController {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("create layer layer1\ncreate layer layer2\ncurrent ");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Layer \"layer2\" created\n"
@@ -143,8 +143,8 @@ public class TestSimpleImageController {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("create layer layer1\ncreate layer layer2\nload bay.png");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Layer \"layer2\" created\n"
@@ -156,8 +156,8 @@ public class TestSimpleImageController {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("create layer layer1\ncreate layer layer2\nload bayasdads.png");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Layer \"layer2\" created\n"
@@ -170,8 +170,8 @@ public class TestSimpleImageController {
     in = new StringReader("create layer layer1\ncreate layer layer2\nload bay.png "
         + "bay_sharp.jpeg");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Layer \"layer2\" created\n"
@@ -184,8 +184,8 @@ public class TestSimpleImageController {
     in = new StringReader("create layer layer1\ncreate layer layer2\nload bay.png "
         + "\nload bay_sharp.jpeg");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Layer \"layer2\" created\n"
@@ -199,8 +199,8 @@ public class TestSimpleImageController {
     in = new StringReader("create layer layer1\ncreate layer layer2\nload bay.png "
         + "\nload bay_sharp.jpeg\n save bay_sharp");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Layer \"layer2\" created\n"
@@ -215,8 +215,8 @@ public class TestSimpleImageController {
     in = new StringReader("create layer layer1\ncreate layer layer2\nload bay.png "
         + "\nload bay_sharp.jpeg\n save ");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertNotEquals
         (out.toString(), "Welcome.\n"
             + "Layer \"layer1\" created\n"
@@ -231,8 +231,8 @@ public class TestSimpleImageController {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("create layer layer1\nsave nothing.png");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Incorrect arguments. Aborting.\n");
@@ -245,8 +245,8 @@ public class TestSimpleImageController {
         + "\nload bay_sharp.jpeg\ninvisible layer1"
         + "\ninvisible layer2\nsave s");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Layer \"layer2\" created\n"
@@ -261,8 +261,8 @@ public class TestSimpleImageController {
     in = new StringReader("create layer layer1\nload bay.png\ncreate layer layer2"
         + "\nload bay_sharp.jpeg\ninvisible layer2\nsave s");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Successfully loaded image into current layer.\n"
@@ -280,8 +280,8 @@ public class TestSimpleImageController {
     in = new StringReader("create layer layer1\nload bay.png\nfilter blur\ncreate layer layer2"
         + "\nload bay_sharp.jpeg\ninvisible layer2\nsave s");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Successfully loaded image into current layer.\n"
@@ -298,8 +298,8 @@ public class TestSimpleImageController {
     in = new StringReader("create layer layer1\nload bay.png\nfilter sharpen\ncreate layer layer2"
         + "\nload bay_sharp.jpeg\ninvisible layer2\nsave s");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Successfully loaded image into current layer.\n"
@@ -315,8 +315,8 @@ public class TestSimpleImageController {
     in = new StringReader("create layer layer1\nload bay.png\nfilter sepia\ncreate layer layer2"
         + "\nload bay_sharp.jpeg\ninvisible layer2\nsave s");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Successfully loaded image into current layer.\n"
@@ -332,8 +332,8 @@ public class TestSimpleImageController {
     in = new StringReader("create layer layer1\nload bay.png\nfilter greyscale\ncreate layer layer2"
         + "\nload bay_sharp.jpeg\ninvisible layer2\nsave s");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Successfully loaded image into current layer.\n"
@@ -348,8 +348,8 @@ public class TestSimpleImageController {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("create layer layer1\nload bay.png\nfilter bop");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Successfully loaded image into current layer.\n"
@@ -361,8 +361,8 @@ public class TestSimpleImageController {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("filter sharpen");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "No image to apply filter to\n");
   }
@@ -377,8 +377,8 @@ public class TestSimpleImageController {
     in = new StringReader("create layer layer1\nload bay.png\nfilter blur\ncreate layer layer2"
         + "\nload bay_sharp.jpeg\ninvisible layer2\ninvisible layer1\nsave s");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Successfully loaded image into current layer.\n"
@@ -394,8 +394,8 @@ public class TestSimpleImageController {
     in = new StringReader("create layer layer1\nload bay.png\nfilter blur\ncreate layer layer2"
         + "\nload bay_sharp.jpeg\ninvisible layer2\ninvisible layer5\n");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Successfully loaded image into current layer.\n"
@@ -411,8 +411,8 @@ public class TestSimpleImageController {
     in = new StringReader("create layer layer1\nload bay.png\nfilter blur\ncreate layer layer2"
         + "\nload bay_sharp.jpeg\ninvisible layer2\ninvisible layer1\nvisible layer2\nsave s");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Successfully loaded image into current layer.\n"
@@ -428,8 +428,8 @@ public class TestSimpleImageController {
     in = new StringReader("create layer layer1\nload bay.png\nfilter blur\ncreate layer layer2"
         + "\nload bay_sharp.jpeg\ninvisible layer2\ninvisible layer1\nvisible layer5000\nsave s");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Successfully loaded image into current layer.\n"
@@ -445,8 +445,8 @@ public class TestSimpleImageController {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("create layer layer1\nremove layer1");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "\"layer1\" removed.\n");
@@ -457,8 +457,8 @@ public class TestSimpleImageController {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("create layer layer1\nremove layer5");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer \"layer1\" created\n"
         + "Layer does not exist.\n");
@@ -469,8 +469,8 @@ public class TestSimpleImageController {
     ImageProcessorView view = new ImageProcessorTextView(out);
     in = new StringReader("remove layer1");
     out = new StringBuilder();
-    this.controller = new SimpleImageController(model, out);
-    controller.run(in);
+    this.controller = new SimpleImageController(model, in, out);
+    controller.run();
     assertEquals(out.toString(), "Welcome.\n"
         + "Layer does not exist.\n");
   }
