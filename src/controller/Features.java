@@ -1,5 +1,7 @@
 package controller;
 
+import java.io.IOException;
+
 /**
  * This interface is meant to represent a general set of features that an Image Processing application
  * shall support.
@@ -7,14 +9,14 @@ package controller;
 public interface Features {
   enum IOAction { IMPORT, EXPORT };
   enum FilterAction { BLUR, SHARPEN, GREYSCALE, SEPIA, CUSTOM };
-  enum LayerAction { ADD, REMOVE, VISIBILITY };
+  enum LayerAction { ADD, REMOVE, VISIBLE, INVISIBLE };
 
   /**
    * Handles the IO features of the Image processing Application. see {@link IOAction}.
    * @param action the IO action to perform.
    * @param fileName the file on which to perform the IO operation.
    */
-  void handleIO(IOAction action, String fileName);
+  void handleIO(IOAction action, String fileName) throws IOException;
 
   /**
    * Handles the Image filtering features supported by the application. see {@link FilterAction}.
@@ -26,5 +28,5 @@ public interface Features {
    * Handles the features of the program related to the management of multiple layers. see {@link LayerAction}
    * @param action the layer action to perform.
    */
-  void handleLayers(LayerAction action);
+  void handleLayers(LayerAction action, String layerName);
 }

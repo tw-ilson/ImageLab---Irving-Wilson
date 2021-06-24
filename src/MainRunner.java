@@ -16,7 +16,7 @@ public class MainRunner {
   public static void main(String[] args) {
     ImageProcessorLayerModel model = new LayeredImageModel();
     Readable in = new InputStreamReader(System.in);
-    ImageProcessorController controller = new SimpleImageController(model, System.out);
+    ImageProcessorController controller = new SimpleImageController(model, in, System.out);
     controller.run();
   }
 }

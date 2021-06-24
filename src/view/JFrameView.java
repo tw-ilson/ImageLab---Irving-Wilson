@@ -1,8 +1,8 @@
 package view;
 
+import controller.Features;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -10,29 +10,23 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
-import javax.swing.GroupLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollBar;
 import javax.swing.ListSelectionModel;
-import javax.swing.ViewportLayout;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import model.ImageProcessorModel;
+import model.ImageProcessorLayerModel;
 
 public class JFrameView extends JFrame implements ActionListener,
-    MouseListener, KeyListener, ListSelectionListener {
+    MouseListener, KeyListener, ListSelectionListener, ImageProcessorView {
 
   private final JPanel application;
   private final JButton load;
@@ -41,8 +35,9 @@ public class JFrameView extends JFrame implements ActionListener,
   private final JButton createLayer;
   private final JButton changeVisibility;
 
-
   private final JList<String> layers;
+
+  private Features features;
 
 
   // the image to be edited
@@ -50,7 +45,7 @@ public class JFrameView extends JFrame implements ActionListener,
 
 
 
-  public JFrameView() {
+  public JFrameView(ImageProcessorLayerModel model) {
 
     // constructs the frame that is initially visible
     super();
@@ -193,6 +188,11 @@ public class JFrameView extends JFrame implements ActionListener,
 
   @Override
   public void valueChanged(ListSelectionEvent e) {
+
+  }
+
+  @Override
+  public void giveMessage(String text) throws IOException {
 
   }
 }

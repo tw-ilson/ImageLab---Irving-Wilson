@@ -5,6 +5,7 @@ import java.awt.event.MouseListener;
 import java.util.Objects;
 import model.ImageProcessorLayerModel;
 import view.ImageProcessorView;
+import view.JFrameView;
 
 public class ImageGUIController implements ImageProcessorController {
 
@@ -22,6 +23,4 @@ public class ImageGUIController implements ImageProcessorController {
   public void run() throws IllegalArgumentException, IllegalStateException {
 
   }
-
-
 }
