@@ -215,9 +215,11 @@ public class JFrameView extends JFrame implements ActionListener,
         break;
       }
       case "addLayer": {
-        final JOptionPane newLayerDialog = new JOptionPane("Name for new layer:",
+        final JOptionPane newLayerDialog = new JOptionPane("New Layer",
             JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
-        features.handleLayers(LayerAction.ADD, "layer1");
+        newLayerDialog.setInitialValue("");
+        String input = JOptionPane.showInputDialog("Name for new Layer:");
+        features.handleLayers(LayerAction.ADD, input);
         break;
       }
       case "rmLayer":
