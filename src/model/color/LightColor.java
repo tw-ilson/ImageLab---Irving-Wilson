@@ -13,7 +13,7 @@ public class LightColor implements Color {
    * @param color the color code to use as this color.
    */
   public LightColor(int color) {
-    this.color = color;
+    this.color = color & 0xffffff;
   }
 
   /**
@@ -41,7 +41,7 @@ public class LightColor implements Color {
 
   @Override
   public int getRed() {
-    return color >> 16;
+    return color >> 16 & 0xff;
   }
 
   @Override

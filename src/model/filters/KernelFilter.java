@@ -51,7 +51,6 @@ class KernelFilter implements Filter {
     // crop, or does return obey the bounds?
     Image toReturn = new SimpleImage(toEdit, image.getWidth(), image.getHeight());
 
-
     for (int x = edgeDistFloor; x < image.getWidth() - edgeDistFloor; x++) {
       for (int y = edgeDistFloor; y < image.getHeight() - edgeDistFloor; y++) {
         double sumRed = 0;
@@ -70,23 +69,24 @@ class KernelFilter implements Filter {
           kx = 0;
           ky++;
         }
-        // clamping
-        if (sumRed > MAX) {
-          sumRed = MAX;
-        } else if (sumRed < MIN) {
-          sumRed = MIN;
-        }
-        if (sumGreen > MAX) {
-          sumGreen = MAX;
-        } else if (sumGreen < MIN) {
-          sumGreen = MIN;
-        }
-        if (sumBlue > MAX) {
-          sumBlue = MAX;
-        } else if (sumBlue < MIN) {
-          sumBlue = MIN;
-        }
-        Color toAdd = new LightColor((int) sumRed, (int) sumGreen, (int) sumBlue);
+//        // clamping
+//        if (sumRed > MAX) {
+//          sumRed = MAX;
+//        } else if (sumRed < MIN) {
+//          sumRed = MIN;
+//        }
+//        if (sumGreen > MAX) {
+//          sumGreen = MAX;
+//        } else if (sumGreen < MIN) {
+//          sumGreen = MIN;
+//        }
+//        if (sumBlue > MAX) {
+//          sumBlue = MAX;
+//        } else if (sumBlue < MIN) {
+//          sumBlue = MIN;
+//        }
+        Color toAdd = new LightColor(Filter.clamp((int) sumRed), Filter.clamp((int) sumGreen),
+            Filter.clamp((int) sumBlue));
         toEdit[image.getWidth() * y + x] = toAdd;
       }
     }

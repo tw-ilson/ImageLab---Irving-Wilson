@@ -81,7 +81,7 @@ public class ImageUtils {
           BufferedImage.TYPE_INT_RGB);
       int[] rgbArray = Arrays.stream(img.pixArray())
           .mapToInt(color -> color.getRGB()
-              ^ 0xff000000) //extracts bytes from Colors ands sets Alpha to 100%
+              & 0xffffff) //extracts bytes from Colors ands sets Alpha to 100%
           .toArray();
       buf.setRGB(0, 0, buf.getWidth(), buf.getHeight(), rgbArray, 0, buf.getWidth());
       ImageIO.write(buf, filetype, toWrite);

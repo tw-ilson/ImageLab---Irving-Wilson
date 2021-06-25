@@ -14,6 +14,7 @@ public class ColorFilter implements Filter {
 
   /**
    * Constructs a color filter.
+   *
    * @param shift the color shift matrix.
    */
   public ColorFilter(double[][] shift) {
@@ -38,23 +39,24 @@ public class ColorFilter implements Filter {
             + cur.getBlue() * shift[1][2]);
         int newBlue = (int) (cur.getRed() * shift[2][0] + cur.getGreen() * shift[2][1]
             + cur.getBlue() * shift[2][2]);
-        // clamping
-        if (newRed > MAX) {
-          newRed = MAX;
-        } else if (newRed < MIN) {
-          newRed = MIN;
-        }
-        if (newGreen > MAX) {
-          newGreen = MAX;
-        } else if (newGreen < MIN) {
-          newGreen = MIN;
-        }
-        if (newBlue > MAX) {
-          newBlue = MAX;
-        } else if (newBlue < MIN) {
-          newBlue = MIN;
-        }
-        toEdit[image.getWidth() * j + i] = new LightColor(newRed, newGreen, newBlue);
+//        // clamping
+//        if (newRed > MAX) {
+//          newRed = MAX;
+//        } else if (newRed < MIN) {
+//          newRed = MIN;
+//        }
+//        if (newGreen > MAX) {
+//          newGreen = MAX;
+//        } else if (newGreen < MIN) {
+//          newGreen = MIN;
+//        }
+//        if (newBlue > MAX) {
+//          newBlue = MAX;
+//        } else if (newBlue < MIN) {
+//          newBlue = MIN;
+//        }
+        toEdit[image.getWidth() * j + i] = new LightColor(Filter.clamp(newRed),
+            Filter.clamp(newGreen), Filter.clamp(newBlue));
       }
     }
     return alteredImage;

@@ -30,11 +30,19 @@ public interface Features {
   void handleFilter(FilterAction action) throws IllegalStateException;
 
   /**
-   * Handles the features of the program related to the management of multiple layers. see {@link LayerAction}
+   * Handles the features of the program related to the management of a specific layer. see {@link LayerAction}
    * @param action the layer action to perform.
    * @throws IllegalStateException if application is not yet initialized.
    */
   void handleLayers(LayerAction action, String layerName) throws IllegalStateException;
+
+  /**
+   * Handles the features of the program related to the management of all layers.
+   * @param action the action to execute
+   * @return string representation of layers
+   * @throws IllegalStateException
+   */
+  String handleLayers(LayerAction action) throws IllegalStateException;
 
   /**
    * Enables use of a view for this Application.

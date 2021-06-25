@@ -5,8 +5,10 @@ import controller.Features.FilterAction;
 import controller.Features.IOAction;
 import controller.Features.LayerAction;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -16,6 +18,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -45,8 +48,8 @@ import model.LayeredImageModel;
 import model.image.Image;
 import model.image.SimpleLayeredImage;
 
-public class JFrameView extends JFrame implements ActionListener,
-    MouseListener, KeyListener, ListSelectionListener, ImageProcessorView {
+public class JFrameView extends JFrame implements ActionListener, ListSelectionListener,
+    ImageProcessorView {
 
   private final JPanel application;
   private final JMenuBar topBar;
@@ -64,8 +67,8 @@ public class JFrameView extends JFrame implements ActionListener,
   private final JMenu visibility;
   private final JMenuItem invisible;
   private final JMenuItem visible;
-  private final JList<String> layers;
-  private DefaultListModel<String> layerNames;
+  private final JList<String> layerList;
+  private DefaultListModel<String> layerListModel;
   private String current;
 
   private Features features;
@@ -75,8 +78,7 @@ public class JFrameView extends JFrame implements ActionListener,
   private JScrollPane imageScrollPane;
 
   // the image to be edited
- // private final JLabel currentImage;
-
+  // private final JLabel currentImage;
 
 
   public JFrameView(Features features) {
@@ -89,7 +91,7 @@ public class JFrameView extends JFrame implements ActionListener,
     setSize(200, 300);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-    setLayout( new FlowLayout());
+    setLayout(new FlowLayout());
 
     application = new JPanel();
     application.setLayout(new BorderLayout());
@@ -121,15 +123,14 @@ public class JFrameView extends JFrame implements ActionListener,
     // then, on side panel, we will have the layers listed
     // selection list
 
-    layerNames = new DefaultListModel<>();
-    layers = new JList<>(layerNames);
-    layers.setPreferredSize(new Dimension(100, 200));
-    layers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    layers.addListSelectionListener(this);
-    layersPanel.add(layers, BorderLayout.WEST);
-    layersPanel.add(new JScrollBar());
+    layerListModel = new DefaultListModel<>();
+    layerList = new JList<>(layerListModel);
+    layerList.setPreferredSize(new Dimension(100, 200));
+    layerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    layerList.addListSelectionListener(this);
+    layersPanel.add(layerList, BorderLayout.WEST);
+    //layersPanel.add(new JScrollBar());
     application.add(layersPanel, BorderLayout.EAST);
-
 
     // image itself
     ImagePanel = new JPanel();
@@ -194,7 +195,6 @@ public class JFrameView extends JFrame implements ActionListener,
   }
 
 
-
   @Override
   public void actionPerformed(ActionEvent e) {
     switch (e.getActionCommand()) {
@@ -231,14 +231,16 @@ public class JFrameView extends JFrame implements ActionListener,
         String input = JOptionPane.showInputDialog(this, "Name for new Layer:",
             "layer name", JOptionPane.QUESTION_MESSAGE);
         features.handleLayers(LayerAction.ADD, input);
-        layerNames.addElement(input);
+        layerListModel.addElement(input);
         break;
       }
-      case "removeLayer":
+      case "removeLayer": {
         String input = JOptionPane.showInputDialog(this, "Name of Layer to Remove:", "Layer Name",
             JOptionPane.QUESTION_MESSAGE);
         features.handleLayers(LayerAction.REMOVE, input);
+        //layerListModel.removeElement(input);
         break;
+      }
       case "blur":
         features.handleFilter(FilterAction.BLUR);
         break;
@@ -262,18 +264,19 @@ public class JFrameView extends JFrame implements ActionListener,
 
   @Override
   public void displayImage(Image image) {
-    BufferedImage bi = new BufferedImage(image.getWidth(), image.getHeight(),
+    BufferedImage buf = new BufferedImage(image.getWidth(), image.getHeight(),
         BufferedImage.TYPE_INT_RGB);
     Dimension panelDimension = new Dimension(image.getWidth(), image.getHeight());
     imageScrollPane.setPreferredSize(panelDimension);
     this.ImagePanel.setSize(panelDimension);
-    setSize(panelDimension.width + layers.getWidth(), panelDimension.height + topBar.getHeight());
-    for (int i = 0; i < image.getHeight(); i++) {
-      for (int j = 0; j < image.getWidth(); j++) {
-        bi.setRGB(j, i, image.getPixel(j, i).getRGB());
-      }
-    }
-    imageToShow.setIcon(new ImageIcon(bi));
+    setSize(panelDimension.width + layerList.getWidth(), panelDimension.height + topBar.getHeight());
+
+    int[] rgbArray = Arrays.stream(image.pixArray())
+        .mapToInt(
+            color -> color.getRGB() & 0xffffff) //extracts bytes from Colors ands sets Alpha to 100%
+        .toArray();
+    buf.setRGB(0, 0, buf.getWidth(), buf.getHeight(), rgbArray, 0, buf.getWidth());
+    imageToShow.setIcon(new ImageIcon(buf));
   }
 
 
@@ -283,58 +286,12 @@ public class JFrameView extends JFrame implements ActionListener,
   }
 
   @Override
-  public void keyTyped(KeyEvent e) {
-  }
-
-  @Override
-  public void keyPressed(KeyEvent e) {
-  }
-
-  @Override
-  public void keyReleased(KeyEvent e) {
-  }
-
-  @Override
-  public void mouseClicked(MouseEvent e) {
-    Object source = e.getSource();
-//    if (source == load) {
-//
-//    } else if (source == save) {
-//
-//    } else if (source == createLayer) {
-//
-//    }
-  }
-
-  @Override
-  public void mousePressed(MouseEvent e) {
-
-  }
-
-  @Override
-  public void mouseReleased(MouseEvent e) {
-
-  }
-
-  @Override
-  public void mouseEntered(MouseEvent e) {
-  }
-
-  @Override
-  public void mouseExited(MouseEvent e) {
-  }
-
-  @Override
   public void valueChanged(ListSelectionEvent e) {
     // sets the current layer to the one selected
-    features.handleLayers(LayerAction.SETCURRENT, this.layers.getSelectedValue());
+    //features.handleLayers(LayerAction.SETCURRENT, this.layerList.getSelectedValue());
 
-    current = this.layers.getSelectedValue();
+    //current = this.layerList.getSelectedValue();
   }
 
-  @Override
-  public void giveMessage(String text) throws IOException {
-
-  }
 
 }

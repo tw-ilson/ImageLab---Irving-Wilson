@@ -8,7 +8,7 @@ import model.LayeredImageModel;
 /**
  * Main.
  */
-public class MainRunner {
+public class ImageProcessor {
 
   /**
    * Main.
