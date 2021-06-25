@@ -211,7 +211,7 @@ public class SimpleLayeredImage implements LayeredImage {
       try {
         this.topMostVisibleLayer();
       } catch (IllegalStateException e) {
-        throw new IllegalArgumentException("No visible images to save.");
+        throw new IllegalArgumentException("No visible images");
       }
     }
     return layerTable.get(current).pixels;

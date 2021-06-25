@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Objects;
 import javax.imageio.ImageIO;
 import model.ImageProcessorLayerModel;
 import model.image.Image;
@@ -13,10 +14,20 @@ public class StandardFeatures implements Features {
   ImageProcessorLayerModel model;
   ImageProcessorView view;
 
-  @Override
-  public void handleIO(IOAction action, String fileName) throws IOException {
-    switch (action) {
+  public StandardFeatures(ImageProcessorLayerModel model) {
+    Objects.requireNonNull(model);
+    this.model = model;
+  }
 
+  @Override
+  public void handleIO(IOAction action, String fileName) throws IOException, IllegalStateException {
+    if ( model == null || view == null) {
+      throw new IllegalStateException("Application not initialized");
+    }
+    if (fileName == null ) {
+       displayMessage("no File specified.");
+    }
+    switch (action) {
       case IMPORT:
         this.model.editCurrentLayer(ImageUtils.read(fileName));
         break;
@@ -45,11 +56,11 @@ public class StandardFeatures implements Features {
         } else {
           displayMessage("Cannot filter empty Image.");
         }
-      }
+    }
   }
 
   @Override
-  public void handleFilter(FilterAction action) {
+  public void handleFilter(FilterAction action) throws IllegalStateException {
     String filter = action.toString().toLowerCase();
     try {
       model.applyFilter(filter);
@@ -62,7 +73,7 @@ public class StandardFeatures implements Features {
   }
 
   @Override
-  public void handleLayers(LayerAction action, String layerName) {
+  public void handleLayers(LayerAction action, String layerName) throws IllegalStateException{
     switch (action) {
       case ADD:
         model.createLayer(layerName);
@@ -70,31 +81,45 @@ public class StandardFeatures implements Features {
         displayMessage("Layer \"" + layerName + "\" created");
         break;
       case REMOVE:
+
         try {
           model.removeLayer(layerName);
           displayMessage("\"" + layerName + "\" removed.");
-          break;
         } catch (IllegalArgumentException e) {
           displayMessage("Layer does not exist.");
-          break;
         }
+        break;
       case VISIBLE:
         try {
           model.setVisibility(layerName, true);
-          break;
         } catch (IllegalArgumentException e) {
           displayMessage("Layer does not exist.");
-          break;
         }
+        break;
       case INVISIBLE:
+
         try {
           model.setVisibility(layerName, false);
-          break;
         } catch (IllegalArgumentException e) {
           displayMessage("Layer does not exist.");
-          break;
         }
-      }
+        break;
+    }
+  }
+
+  @Override
+  public void addView(ImageProcessorView view) {
+    Objects.requireNonNull(view);
+    this.view = view;
+  }
+
+  @Override
+  public void show() throws IllegalStateException{
+    try {
+        view.displayImage(model.getImage());
+    } catch (IllegalArgumentException e) {
+
+    }
   }
 
   /**
@@ -104,8 +129,8 @@ public class StandardFeatures implements Features {
    */
   private void displayMessage(String text) {
     try {
-      this.view.giveMessage(text);
-      this.view.giveMessage("\n");
+      view.giveMessage(text);
+      view.giveMessage("\n");
     } catch (IOException e) {
       System.out.println("IO error occurred.");
     }

@@ -16,7 +16,7 @@ public interface ImageProcessorModel {
    * @return pixel array
    * @throws IllegalStateException if the pixels cannot be read from the current image
    */
-  public Image getImage() throws IllegalStateException;
+  public Image getImage() throws IllegalArgumentException;
 
   /**
    * Gets the width of the image being processed.

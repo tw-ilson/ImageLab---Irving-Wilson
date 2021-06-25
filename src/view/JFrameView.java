@@ -1,12 +1,11 @@
 package view;
 
 import controller.Features;
-import controller.ImageUtils;
+import controller.Features.IOAction;
+import controller.Features.LayerAction;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -16,7 +15,6 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.Buffer;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -26,7 +24,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollBar;
@@ -45,34 +46,43 @@ public class JFrameView extends JFrame implements ActionListener,
     MouseListener, KeyListener, ListSelectionListener, ImageProcessorView {
 
   private final JPanel application;
-  private final JButton load;
-  private final JButton save;
-  private final JPopupMenu filters;
-  private final JButton createLayer;
-  private final JButton changeVisibility;
+  private final JMenuBar topBar;
+  private final JMenu file;
+  private final JMenuItem importButton;
+  private final JMenuItem exportButton;
+  private final JMenu layer;
+  private final JMenuItem addLayer;
+  private final JMenuItem rmLayer;
+  private final JMenu filter;
+  private final JMenuItem blur;
+  private final JMenuItem sharpen;
+  private final JMenuItem greyscale;
+  private final JMenuItem sepia;
   private final JList<String> layers;
+
+
   private Features features;
-  private ImageProcessorLayerModel model;
   private JLabel imageToShow;
   private JLabel errorMessage;
   private JPanel ImagePanel;
+  private JScrollPane imageScrollPane;
 
   // the image to be edited
-  // private final JLabel currentImage;
+ // private final JLabel currentImage;
 
 
-  public JFrameView(ImageProcessorModel model) {
+
+  public JFrameView(Features features) {
 
     // constructs the frame that is initially visible
     super();
-
-    // sets the given model as the model which this view works with
-    this.model = new LayeredImageModel();
+    this.features = features;
+    features.addView(this);
 
     setSize(200, 300);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-    setLayout(new FlowLayout());
+    setLayout( new FlowLayout());
 
     application = new JPanel();
     application.setLayout(new BorderLayout());
@@ -82,49 +92,20 @@ public class JFrameView extends JFrame implements ActionListener,
     imageEdits.setBorder(BorderFactory.createEmptyBorder());
     imageEdits.setLayout(new FlowLayout());
 
-    // all of these will be along the top boarder
-    JPanel loadFile = new JPanel();
-    loadFile.setLayout(new FlowLayout());
-    load = new JButton("Load Image");
-    load.addActionListener(this);
-    load.setActionCommand("load");
-    loadFile.add(load);
-    imageEdits.add(loadFile);
-
-    save = new JButton("Save Image");
-    save.addActionListener(this);
-    save.setActionCommand("save");
-    imageEdits.add(save);
-
-    // filters popUp?
-    filters = new JPopupMenu();
-    JMenuItem sepia = new JMenuItem("sepia");
-    sepia.addActionListener(this);
-    filters.add(sepia);
-
-    JMenuItem greyscale = new JMenuItem("greyscale");
-    greyscale.addActionListener(this);
-    filters.add(greyscale);
-
-    JMenuItem sharpen = new JMenuItem("sharpen");
-    sharpen.addActionListener(this);
-    filters.add(sharpen);
-
-    JMenuItem blur = new JMenuItem("blur");
-    blur.addActionListener(this);
-    filters.add(blur);
-
-    imageEdits.add(filters);
-
-    createLayer = new JButton("Create Layer");
-    createLayer.addActionListener(this);
-    createLayer.setActionCommand("create layer");
-    imageEdits.add(createLayer);
-
-    changeVisibility = new JButton("Change Visibility");
-    changeVisibility.addActionListener(this);
-    changeVisibility.setActionCommand("change visibility");
-    imageEdits.add(changeVisibility);
+    //create toolbar
+    this.file = new JMenu("File");
+    this.importButton = new JMenuItem("Import...");
+    this.exportButton = new JMenuItem("Export...");
+    this.layer = new JMenu("Layer");
+    this.addLayer = new JMenuItem("Add");
+    this.rmLayer = new JMenuItem("Remove");
+    this.filter = new JMenu("Filter");
+    this.blur = new JMenuItem("Blur");
+    this.sharpen = new JMenuItem("Sharpen");
+    this.greyscale = new JMenuItem("Greyscale");
+    this.sepia = new JMenuItem("Sepia");
+    this.topBar = createAppToolbar();
+    this.setJMenuBar(topBar);
 
     application.add(imageEdits, BorderLayout.NORTH);
 
@@ -148,8 +129,8 @@ public class JFrameView extends JFrame implements ActionListener,
     ImagePanel = new JPanel();
     errorMessage = new JLabel();
     imageToShow = new JLabel();
-    JScrollPane imageScrollPane = new JScrollPane(imageToShow);
-    imageScrollPane.setPreferredSize(new Dimension(1000, 1000));
+    imageScrollPane = new JScrollPane(imageToShow);
+    imageScrollPane.setPreferredSize(new Dimension(100, 100));
     ImagePanel.add(imageScrollPane);
     ImagePanel.add(errorMessage, BorderLayout.NORTH);
     application.add(ImagePanel, BorderLayout.WEST);
@@ -161,50 +142,112 @@ public class JFrameView extends JFrame implements ActionListener,
     requestFocus();
 
     pack();
-
   }
+
+  private JMenuBar createAppToolbar() {
+    JMenuBar toolBar = new JMenuBar();
+    file.add(importButton);
+    this.importButton.addActionListener(this);
+    importButton.setActionCommand("save");
+    file.add(exportButton);
+    this.exportButton.addActionListener(this);
+    exportButton.setActionCommand("load");
+    layer.add(addLayer);
+    this.addLayer.addActionListener(this);
+    addLayer.setActionCommand("addLayer");
+    layer.add(rmLayer);
+    this.rmLayer.addActionListener(this);
+    rmLayer.setActionCommand("removeLayer");
+    filter.add(blur);
+    this.blur.addActionListener(this);
+    blur.setActionCommand("blur");
+    filter.add(sharpen);
+    this.sharpen.addActionListener(this);
+    sharpen.setActionCommand("sharpen");
+    filter.add(greyscale);
+    this.greyscale.addActionListener(this);
+    greyscale.setActionCommand("greyscale");
+    filter.add(sepia);
+    this.sepia.addActionListener(this);
+    sepia.setActionCommand("sepia");
+    toolBar.add(file);
+    toolBar.add(layer);
+    toolBar.add(filter);
+    file.setVisible(true);
+    layer.setVisible(true);
+    filter.setVisible(true);
+    toolBar.setVisible(true);
+    return toolBar;
+  }
+
+
 
   @Override
   public void actionPerformed(ActionEvent e) {
     switch (e.getActionCommand()) {
-      case "load":
-        errorMessage.setText("");
+      case "save": {
         final JFileChooser fchooser = new JFileChooser(".");
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
-            "JPG, PPM, PNG", "jpg", "png", "ppm");
+            "JPG & GIF Images", "jpg", "gif");
         fchooser.setFileFilter(filter);
         int retvalue = fchooser.showOpenDialog(this);
         if (retvalue == JFileChooser.APPROVE_OPTION) {
           File f = fchooser.getSelectedFile();
-          Image toRead = new SimpleLayeredImage();
           try {
-            toRead = ImageUtils.read(f.toString());
+            features.handleIO(IOAction.IMPORT, f.getAbsolutePath());
           } catch (IOException ioException) {
             ioException.printStackTrace();
           }
+        }
+        break;
+      }
+      case "load": {
+        final JFileChooser fchooser = new JFileChooser(".");
+        int retvalue = fchooser.showSaveDialog(this);
+        if (retvalue == JFileChooser.APPROVE_OPTION) {
+          File f = fchooser.getSelectedFile();
           try {
-            model.editCurrentLayer(ImageUtils.read(f.toString()));
-            toRead.pixArray();
-            BufferedImage bi = new BufferedImage(toRead.getWidth(), toRead.getHeight(),
-                BufferedImage.TYPE_INT_RGB);
-            for (int i = 0; i < toRead.getHeight(); i++) {
-              for (int j = 0; j < toRead.getWidth(); j++) {
-                bi.setRGB(j, i, toRead.getPixel(j, i).getRGB());
-              }
-            }
-            imageToShow.setIcon(new ImageIcon(bi));
-          } catch (IOException j) {
-            errorMessage.setText("Invalid file.");
-          } catch (IllegalStateException l) {
-            errorMessage.setText("Layer not created");
+            features.handleIO(IOAction.EXPORT, f.getAbsolutePath());
+          } catch (IOException ioException) {
+            ioException.printStackTrace();
           }
         }
-      case "save":
-      case "create layer":
-      case "change visibility":
-
+        break;
+      }
+      case "addLayer": {
+        final JOptionPane newLayerDialog = new JOptionPane("Name for new layer:",
+            JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
+        features.handleLayers(LayerAction.ADD, "layer1");
+        break;
+      }
+      case "rmLayer":
+        break;
+      case "blur":
+        break;
+      case "sharpen":
+        break;
+      case "greyscale":
+        break;
+      case "sepia":
+        break;
     }
+    features.show();
   }
+
+  @Override
+  public void displayImage(Image image) {
+    BufferedImage bi = new BufferedImage(image.getWidth(), image.getHeight(),
+        BufferedImage.TYPE_INT_RGB);
+    imageScrollPane.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
+
+    for (int i = 0; i < image.getHeight(); i++) {
+      for (int j = 0; j < image.getWidth(); j++) {
+        bi.setRGB(j, i, image.getPixel(j, i).getRGB());
+      }
+    }
+    imageToShow.setIcon(new ImageIcon(bi));
+  }
+
 
   @Override
   public void keyTyped(KeyEvent e) {
@@ -213,37 +256,54 @@ public class JFrameView extends JFrame implements ActionListener,
 
   @Override
   public void keyPressed(KeyEvent e) {
+
   }
 
   @Override
   public void keyReleased(KeyEvent e) {
+
   }
 
   @Override
   public void mouseClicked(MouseEvent e) {
+    Object source = e.getSource();
+//    if (source == load) {
+//
+//    } else if (source == save) {
+//
+//    } else if (source == createLayer) {
+//
+//    }
   }
 
   @Override
   public void mousePressed(MouseEvent e) {
+
   }
 
   @Override
   public void mouseReleased(MouseEvent e) {
+
   }
 
   @Override
   public void mouseEntered(MouseEvent e) {
+
   }
 
   @Override
   public void mouseExited(MouseEvent e) {
+
   }
 
   @Override
   public void valueChanged(ListSelectionEvent e) {
+
   }
 
   @Override
   public void giveMessage(String text) throws IOException {
+
   }
+
 }
