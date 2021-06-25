@@ -1,7 +1,9 @@
 package view;
 
 import controller.Features;
+import controller.ImageUtils;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,21 +11,31 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.io.IOException;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import model.ImageProcessorLayerModel;
+import model.ImageProcessorModel;
+import model.LayeredImageModel;
+import model.image.Image;
+import model.image.SimpleLayeredImage;
 
 public class JFrameView extends JFrame implements ActionListener,
     MouseListener, KeyListener, ListSelectionListener, ImageProcessorView {
@@ -34,10 +46,11 @@ public class JFrameView extends JFrame implements ActionListener,
   private final JPopupMenu filters;
   private final JButton createLayer;
   private final JButton changeVisibility;
-
   private final JList<String> layers;
-
   private Features features;
+  private ImageProcessorLayerModel model;
+  private JLabel imageToShow;
+
 
 
   // the image to be edited
@@ -45,11 +58,14 @@ public class JFrameView extends JFrame implements ActionListener,
 
 
 
-  public JFrameView(ImageProcessorLayerModel model) {
+  public JFrameView(ImageProcessorModel model) {
+
 
     // constructs the frame that is initially visible
     super();
 
+    // sets the given model as the model which this view works with
+    this.model = new LayeredImageModel();
 
     setSize(200, 300);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -66,10 +82,14 @@ public class JFrameView extends JFrame implements ActionListener,
 
 
     // all of these will be along the top boarder
+    JPanel loadFile = new JPanel();
+    loadFile.setLayout(new FlowLayout());
     load = new JButton("Load Image");
     load.addActionListener(this);
     load.setActionCommand("load");
-    imageEdits.add(load);
+    loadFile.add(load);
+    imageEdits.add(loadFile);
+
 
     save = new JButton("Save Image");
     save.addActionListener(this);
@@ -129,6 +149,14 @@ public class JFrameView extends JFrame implements ActionListener,
     application.add(layersPanel, BorderLayout.EAST);
 
 
+
+    // image itself
+    imageToShow = new JLabel();
+    JScrollPane imageScrollPane = new JScrollPane(imageToShow);
+    imageScrollPane.setPreferredSize(new Dimension(1000, 1000));
+    application.add(imageScrollPane, BorderLayout.WEST);
+
+
     add(application);
     setVisible(true);
 
@@ -143,7 +171,31 @@ public class JFrameView extends JFrame implements ActionListener,
 
   @Override
   public void actionPerformed(ActionEvent e) {
+    switch (e.getActionCommand()) {
+      case "load":
+        // first check if the current layer exists
+        final JFileChooser fchooser = new JFileChooser(".");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+            "JPG, PPM, PNG", "jpg", "png", "ppm");
+        fchooser.setFileFilter(filter);
+        int retvalue = fchooser.showOpenDialog(this);
+        if (retvalue == JFileChooser.APPROVE_OPTION) {
 
+          File f = fchooser.getSelectedFile();
+
+          // handle the model stuff
+          /*try {
+            model.editCurrentLayer(ImageUtils.read(f.toString()));
+          } catch (IOException ioException) {
+            ioException.printStackTrace();
+          }*/
+          imageToShow.setIcon(new ImageIcon(f.toString()));
+        }
+      case "save":
+      case "create layer":
+      case "change visibility":
+
+    }
   }
 
   @Override
@@ -153,46 +205,37 @@ public class JFrameView extends JFrame implements ActionListener,
 
   @Override
   public void keyPressed(KeyEvent e) {
-
   }
 
   @Override
   public void keyReleased(KeyEvent e) {
-
   }
 
   @Override
   public void mouseClicked(MouseEvent e) {
-
   }
 
   @Override
   public void mousePressed(MouseEvent e) {
-
   }
 
   @Override
   public void mouseReleased(MouseEvent e) {
-
   }
 
   @Override
   public void mouseEntered(MouseEvent e) {
-
   }
 
   @Override
   public void mouseExited(MouseEvent e) {
-
   }
 
   @Override
   public void valueChanged(ListSelectionEvent e) {
-
   }
 
   @Override
   public void giveMessage(String text) throws IOException {
-
   }
 }

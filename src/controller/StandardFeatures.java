@@ -17,10 +17,10 @@ public class StandardFeatures implements Features {
   public void handleIO(IOAction action, String fileName) throws IOException {
     switch (action) {
 
-      case IMPORT -> {
+      case IMPORT:
         this.model.editCurrentLayer(ImageUtils.read(fileName));
-      }
-      case EXPORT -> {
+        break;
+      case EXPORT:
         Image currentImage = model.getImage();
         if (currentImage != null) {
           if (fileName != null) {
@@ -46,7 +46,6 @@ public class StandardFeatures implements Features {
           displayMessage("Cannot filter empty Image.");
         }
       }
-    }
   }
 
   @Override
@@ -65,36 +64,37 @@ public class StandardFeatures implements Features {
   @Override
   public void handleLayers(LayerAction action, String layerName) {
     switch (action) {
-      case ADD -> {
+      case ADD:
         model.createLayer(layerName);
         model.setCurrentLayer(layerName);
         displayMessage("Layer \"" + layerName + "\" created");
-      }
-      case REMOVE -> {
-
+        break;
+      case REMOVE:
         try {
           model.removeLayer(layerName);
           displayMessage("\"" + layerName + "\" removed.");
+          break;
         } catch (IllegalArgumentException e) {
           displayMessage("Layer does not exist.");
+          break;
         }
-      }
-      case VISIBLE -> {
+      case VISIBLE:
         try {
           model.setVisibility(layerName, true);
+          break;
         } catch (IllegalArgumentException e) {
           displayMessage("Layer does not exist.");
+          break;
         }
-      }
-      case INVISIBLE -> {
-
+      case INVISIBLE:
         try {
           model.setVisibility(layerName, false);
+          break;
         } catch (IllegalArgumentException e) {
           displayMessage("Layer does not exist.");
+          break;
         }
       }
-    }
   }
 
   /**

@@ -10,7 +10,7 @@ import view.ImageProcessorView;
  * the program that utilize layers. It has a source of input, a destination for output, and it is
  * used with the run() method.
  */
-public class SimpleImageController implements ImageProcessorController<Readable> {
+public class SimpleImageController implements ImageProcessorController {
 
   private ImageProcessorLayerModel model;
   //private Readable input; //style checker made me comment this :/
