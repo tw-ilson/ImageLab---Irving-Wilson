@@ -11,7 +11,7 @@ public interface Features {
 
   enum IOAction { IMPORT, EXPORT };
   enum FilterAction { BLUR, SHARPEN, GREYSCALE, SEPIA, CUSTOM };
-  enum LayerAction { ADD, REMOVE, VISIBLE, INVISIBLE };
+  enum LayerAction { ADD, REMOVE, VISIBLE, INVISIBLE, SETCURRENT };
 
   /**
    * Handles the IO features of the Image processing Application. see {@link IOAction}.

@@ -58,6 +58,9 @@ public class JFrameView extends JFrame implements ActionListener,
   private final JMenuItem sharpen;
   private final JMenuItem greyscale;
   private final JMenuItem sepia;
+  private final JMenu visibility;
+  private final JMenuItem invisible;
+  private final JMenuItem visible;
   private final JList<String> layers;
   private DefaultListModel<String> layerNames;
 
@@ -105,6 +108,9 @@ public class JFrameView extends JFrame implements ActionListener,
     this.sharpen = new JMenuItem("Sharpen");
     this.greyscale = new JMenuItem("Greyscale");
     this.sepia = new JMenuItem("Sepia");
+    this.visibility = new JMenu("Visibility");
+    this.invisible = new JMenuItem("Invisible");
+    this.visible = new JMenuItem("Visible");
     this.topBar = createAppToolbar();
     this.setJMenuBar(topBar);
 
@@ -174,6 +180,12 @@ public class JFrameView extends JFrame implements ActionListener,
     filter.add(sepia);
     this.sepia.addActionListener(this);
     sepia.setActionCommand("sepia");
+    file.add(invisible);
+    this.invisible.addActionListener(this);
+    invisible.setActionCommand("invisible");
+    file.add(visible);
+    this.visible.addActionListener(this);
+    visible.setActionCommand("visible");
     toolBar.add(file);
     toolBar.add(layer);
     toolBar.add(filter);
@@ -237,6 +249,10 @@ public class JFrameView extends JFrame implements ActionListener,
         break;
       case "sepia":
         break;
+      case "invisible":
+       // features.handleLayers(LayerAction.INVISIBLE,);
+        break;
+      case "visible":
     }
     features.show();
   }
@@ -246,7 +262,6 @@ public class JFrameView extends JFrame implements ActionListener,
     BufferedImage bi = new BufferedImage(image.getWidth(), image.getHeight(),
         BufferedImage.TYPE_INT_RGB);
     imageScrollPane.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
-
     for (int i = 0; i < image.getHeight(); i++) {
       for (int j = 0; j < image.getWidth(); j++) {
         bi.setRGB(j, i, image.getPixel(j, i).getRGB());
@@ -258,17 +273,14 @@ public class JFrameView extends JFrame implements ActionListener,
 
   @Override
   public void keyTyped(KeyEvent e) {
-
   }
 
   @Override
   public void keyPressed(KeyEvent e) {
-
   }
 
   @Override
   public void keyReleased(KeyEvent e) {
-
   }
 
   @Override
@@ -295,17 +307,16 @@ public class JFrameView extends JFrame implements ActionListener,
 
   @Override
   public void mouseEntered(MouseEvent e) {
-
   }
 
   @Override
   public void mouseExited(MouseEvent e) {
-
   }
 
   @Override
   public void valueChanged(ListSelectionEvent e) {
-    //e.getSource()
+    // sets the current layer to the one selected
+    features.handleLayers(LayerAction.SETCURRENT, this.layers.getSelectedValue());
   }
 
   @Override

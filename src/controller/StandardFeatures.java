@@ -21,11 +21,11 @@ public class StandardFeatures implements Features {
 
   @Override
   public void handleIO(IOAction action, String fileName) throws IOException, IllegalStateException {
-    if ( model == null || view == null) {
+    if (model == null || view == null) {
       throw new IllegalStateException("Application not initialized");
     }
-    if (fileName == null ) {
-       displayMessage("no File specified.");
+    if (fileName == null) {
+      displayMessage("no File specified.");
     }
     switch (action) {
       case IMPORT:
@@ -73,7 +73,7 @@ public class StandardFeatures implements Features {
   }
 
   @Override
-  public void handleLayers(LayerAction action, String layerName) throws IllegalStateException{
+  public void handleLayers(LayerAction action, String layerName) throws IllegalStateException {
     switch (action) {
       case ADD:
         model.createLayer(layerName);
@@ -102,6 +102,12 @@ public class StandardFeatures implements Features {
           displayMessage("Layer does not exist.");
         }
         break;
+      case SETCURRENT:
+        try {
+          model.setCurrentLayer(layerName);
+        } catch (IllegalArgumentException j) {
+          displayMessage("Layer does not exist");
+        }
     }
   }
 
@@ -112,9 +118,9 @@ public class StandardFeatures implements Features {
   }
 
   @Override
-  public void show() throws IllegalStateException{
+  public void show() throws IllegalStateException {
     try {
-        view.displayImage(model.getImage());
+      view.displayImage(model.getImage());
     } catch (IllegalArgumentException e) {
 
     }
