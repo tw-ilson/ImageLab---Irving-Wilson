@@ -81,7 +81,6 @@ public class StandardFeatures implements Features {
         displayMessage("Layer \"" + layerName + "\" created");
         break;
       case REMOVE:
-
         try {
           model.removeLayer(layerName);
           displayMessage("\"" + layerName + "\" removed.");
@@ -97,7 +96,6 @@ public class StandardFeatures implements Features {
         }
         break;
       case INVISIBLE:
-
         try {
           model.setVisibility(layerName, false);
         } catch (IllegalArgumentException e) {

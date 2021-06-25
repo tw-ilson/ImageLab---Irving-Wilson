@@ -59,6 +59,7 @@ public class JFrameView extends JFrame implements ActionListener,
   private final JMenuItem greyscale;
   private final JMenuItem sepia;
   private final JList<String> layers;
+  private DefaultListModel<String> layerNames;
 
 
   private Features features;
@@ -112,25 +113,28 @@ public class JFrameView extends JFrame implements ActionListener,
     // align this panel to the right of the image that is being edited//
     // panel for the layers selection
     JPanel layersPanel = new JPanel();
-    layersPanel.setBorder(BorderFactory.createTitledBorder("Selection lists"));
+    layersPanel.setBorder(BorderFactory.createTitledBorder("Layers"));
     layersPanel.setLayout(new BoxLayout(layersPanel, BoxLayout.X_AXIS));
 
     // then, on side panel, we will have the layers listed
     // selection list
-    DefaultListModel<String> dataForListOfStrings = new DefaultListModel<>();
-    layers = new JList<>(dataForListOfStrings);
+
+    layerNames = new DefaultListModel<>();
+    layers = new JList<>(layerNames);
+    layers.setPreferredSize(new Dimension(100, 200));
     layers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     layers.addListSelectionListener(this);
-    layersPanel.add(layers);
+    layersPanel.add(layers, BorderLayout.WEST);
     layersPanel.add(new JScrollBar());
     application.add(layersPanel, BorderLayout.EAST);
+
 
     // image itself
     ImagePanel = new JPanel();
     errorMessage = new JLabel();
     imageToShow = new JLabel();
     imageScrollPane = new JScrollPane(imageToShow);
-    imageScrollPane.setPreferredSize(new Dimension(100, 100));
+    imageScrollPane.setPreferredSize(new Dimension(500, 500));
     ImagePanel.add(imageScrollPane);
     ImagePanel.add(errorMessage, BorderLayout.NORTH);
     application.add(ImagePanel, BorderLayout.WEST);
@@ -220,6 +224,7 @@ public class JFrameView extends JFrame implements ActionListener,
         newLayerDialog.setInitialValue("");
         String input = JOptionPane.showInputDialog("Name for new Layer:");
         features.handleLayers(LayerAction.ADD, input);
+        layerNames.addElement(input);
         break;
       }
       case "rmLayer":
@@ -300,7 +305,7 @@ public class JFrameView extends JFrame implements ActionListener,
 
   @Override
   public void valueChanged(ListSelectionEvent e) {
-
+    //e.getSource()
   }
 
   @Override
