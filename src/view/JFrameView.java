@@ -61,7 +61,11 @@ public class JFrameView extends JFrame implements ActionListener,
   private final JMenuItem sharpen;
   private final JMenuItem greyscale;
   private final JMenuItem sepia;
+  private final JMenu visibility;
+  private final JMenuItem invisible;
+  private final JMenuItem visible;
   private final JList<String> layers;
+  private DefaultListModel<String> layerNames;
 
 
   private Features features;
@@ -71,7 +75,8 @@ public class JFrameView extends JFrame implements ActionListener,
   private JScrollPane imageScrollPane;
 
   // the image to be edited
-  // private final JLabel currentImage;
+ // private final JLabel currentImage;
+
 
 
   public JFrameView(Features features) {
@@ -84,7 +89,7 @@ public class JFrameView extends JFrame implements ActionListener,
     setSize(200, 300);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-    setLayout(new FlowLayout());
+    setLayout( new FlowLayout());
 
     application = new JPanel();
     application.setLayout(new BorderLayout());
@@ -101,31 +106,37 @@ public class JFrameView extends JFrame implements ActionListener,
     this.sharpen = new JMenuItem("Sharpen");
     this.greyscale = new JMenuItem("Greyscale");
     this.sepia = new JMenuItem("Sepia");
+    this.visibility = new JMenu("Visibility");
+    this.invisible = new JMenuItem("Invisible");
+    this.visible = new JMenuItem("Visible");
     this.topBar = createAppToolbar();
     this.setJMenuBar(topBar);
 
     // align this panel to the right of the image that is being edited//
     // panel for the layers selection
     JPanel layersPanel = new JPanel();
-    layersPanel.setBorder(BorderFactory.createTitledBorder("Selection lists"));
+    layersPanel.setBorder(BorderFactory.createTitledBorder("Layers"));
     layersPanel.setLayout(new BoxLayout(layersPanel, BoxLayout.X_AXIS));
 
     // then, on side panel, we will have the layers listed
     // selection list
-    DefaultListModel<String> dataForListOfStrings = new DefaultListModel<>();
-    layers = new JList<>(dataForListOfStrings);
+
+    layerNames = new DefaultListModel<>();
+    layers = new JList<>(layerNames);
+    layers.setPreferredSize(new Dimension(100, 200));
     layers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     layers.addListSelectionListener(this);
-    layersPanel.add(layers);
+    layersPanel.add(layers, BorderLayout.WEST);
     layersPanel.add(new JScrollBar());
     application.add(layersPanel, BorderLayout.EAST);
+
 
     // image itself
     ImagePanel = new JPanel();
     errorMessage = new JLabel();
     imageToShow = new JLabel();
     imageScrollPane = new JScrollPane(imageToShow);
-    imageScrollPane.setPreferredSize(new Dimension(100, 100));
+    imageScrollPane.setPreferredSize(new Dimension(500, 500));
     ImagePanel.add(imageScrollPane);
     ImagePanel.add(errorMessage, BorderLayout.NORTH);
     application.add(ImagePanel, BorderLayout.WEST);
@@ -166,6 +177,12 @@ public class JFrameView extends JFrame implements ActionListener,
     filter.add(sepia);
     this.sepia.addActionListener(this);
     sepia.setActionCommand("sepia");
+    file.add(invisible);
+    this.invisible.addActionListener(this);
+    invisible.setActionCommand("invisible");
+    file.add(visible);
+    this.visible.addActionListener(this);
+    visible.setActionCommand("visible");
     toolBar.add(file);
     toolBar.add(layer);
     toolBar.add(filter);
@@ -177,12 +194,12 @@ public class JFrameView extends JFrame implements ActionListener,
   }
 
 
+
   @Override
   public void actionPerformed(ActionEvent e) {
     switch (e.getActionCommand()) {
       case "save": {
         final JFileChooser fchooser = new JFileChooser(".");
-        String[] supported = new String[ImageIO.getReaderFormatNames().length + 1];
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
             "Supported Image Formats", ImageIO.getReaderFormatNames());
         fchooser.setFileFilter(filter);
@@ -214,6 +231,7 @@ public class JFrameView extends JFrame implements ActionListener,
         String input = JOptionPane.showInputDialog(this, "Name for new Layer:",
             "layer name", JOptionPane.QUESTION_MESSAGE);
         features.handleLayers(LayerAction.ADD, input);
+        layerNames.addElement(input);
         break;
       }
       case "removeLayer":
@@ -233,6 +251,10 @@ public class JFrameView extends JFrame implements ActionListener,
       case "sepia":
         features.handleFilter(FilterAction.SEPIA);
         break;
+      case "invisible":
+       // features.handleLayers(LayerAction.INVISIBLE,);
+        break;
+      case "visible":
     }
     features.show();
   }
@@ -308,7 +330,8 @@ public class JFrameView extends JFrame implements ActionListener,
 
   @Override
   public void valueChanged(ListSelectionEvent e) {
-
+    // sets the current layer to the one selected
+    features.handleLayers(LayerAction.SETCURRENT, this.layers.getSelectedValue());
   }
 
 
