@@ -5,14 +5,18 @@ import controller.ImageUtils;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -50,16 +54,14 @@ public class JFrameView extends JFrame implements ActionListener,
   private Features features;
   private ImageProcessorLayerModel model;
   private JLabel imageToShow;
-
-
+  private JLabel errorMessage;
+  private JPanel ImagePanel;
 
   // the image to be edited
- // private final JLabel currentImage;
-
+  // private final JLabel currentImage;
 
 
   public JFrameView(ImageProcessorModel model) {
-
 
     // constructs the frame that is initially visible
     super();
@@ -70,7 +72,7 @@ public class JFrameView extends JFrame implements ActionListener,
     setSize(200, 300);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-    setLayout( new FlowLayout());
+    setLayout(new FlowLayout());
 
     application = new JPanel();
     application.setLayout(new BorderLayout());
@@ -79,7 +81,6 @@ public class JFrameView extends JFrame implements ActionListener,
     JPanel imageEdits = new JPanel();
     imageEdits.setBorder(BorderFactory.createEmptyBorder());
     imageEdits.setLayout(new FlowLayout());
-
 
     // all of these will be along the top boarder
     JPanel loadFile = new JPanel();
@@ -90,13 +91,10 @@ public class JFrameView extends JFrame implements ActionListener,
     loadFile.add(load);
     imageEdits.add(loadFile);
 
-
     save = new JButton("Save Image");
     save.addActionListener(this);
     save.setActionCommand("save");
     imageEdits.add(save);
-
-
 
     // filters popUp?
     filters = new JPopupMenu();
@@ -118,12 +116,10 @@ public class JFrameView extends JFrame implements ActionListener,
 
     imageEdits.add(filters);
 
-
     createLayer = new JButton("Create Layer");
     createLayer.addActionListener(this);
     createLayer.setActionCommand("create layer");
     imageEdits.add(createLayer);
-
 
     changeVisibility = new JButton("Change Visibility");
     changeVisibility.addActionListener(this);
@@ -148,14 +144,15 @@ public class JFrameView extends JFrame implements ActionListener,
     layersPanel.add(new JScrollBar());
     application.add(layersPanel, BorderLayout.EAST);
 
-
-
     // image itself
+    ImagePanel = new JPanel();
+    errorMessage = new JLabel();
     imageToShow = new JLabel();
     JScrollPane imageScrollPane = new JScrollPane(imageToShow);
     imageScrollPane.setPreferredSize(new Dimension(1000, 1000));
-    application.add(imageScrollPane, BorderLayout.WEST);
-
+    ImagePanel.add(imageScrollPane);
+    ImagePanel.add(errorMessage, BorderLayout.NORTH);
+    application.add(ImagePanel, BorderLayout.WEST);
 
     add(application);
     setVisible(true);
@@ -167,29 +164,40 @@ public class JFrameView extends JFrame implements ActionListener,
 
   }
 
-
-
   @Override
   public void actionPerformed(ActionEvent e) {
     switch (e.getActionCommand()) {
       case "load":
-        // first check if the current layer exists
+        errorMessage.setText("");
         final JFileChooser fchooser = new JFileChooser(".");
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
             "JPG, PPM, PNG", "jpg", "png", "ppm");
         fchooser.setFileFilter(filter);
         int retvalue = fchooser.showOpenDialog(this);
         if (retvalue == JFileChooser.APPROVE_OPTION) {
-
           File f = fchooser.getSelectedFile();
-
-          // handle the model stuff
-          /*try {
-            model.editCurrentLayer(ImageUtils.read(f.toString()));
+          Image toRead = new SimpleLayeredImage();
+          try {
+            toRead = ImageUtils.read(f.toString());
           } catch (IOException ioException) {
             ioException.printStackTrace();
-          }*/
-          imageToShow.setIcon(new ImageIcon(f.toString()));
+          }
+          try {
+            model.editCurrentLayer(ImageUtils.read(f.toString()));
+            toRead.pixArray();
+            BufferedImage bi = new BufferedImage(toRead.getWidth(), toRead.getHeight(),
+                BufferedImage.TYPE_INT_RGB);
+            for (int i = 0; i < toRead.getHeight(); i++) {
+              for (int j = 0; j < toRead.getWidth(); j++) {
+                bi.setRGB(j, i, toRead.getPixel(j, i).getRGB());
+              }
+            }
+            imageToShow.setIcon(new ImageIcon(bi));
+          } catch (IOException j) {
+            errorMessage.setText("Invalid file.");
+          } catch (IllegalStateException l) {
+            errorMessage.setText("Layer not created");
+          }
         }
       case "save":
       case "create layer":

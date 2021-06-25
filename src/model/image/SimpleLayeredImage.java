@@ -235,8 +235,11 @@ public class SimpleLayeredImage implements LayeredImage {
 
 
   @Override
-  public void editCurrentLayer(Image img) {
+  public void editCurrentLayer(Image img) throws IllegalStateException{
     Objects.requireNonNull(img);
+    if (layerTable.size() == 0 || current == null) {
+      throw new IllegalStateException("No layers created");
+    }
 
     if (this.width == -1 || this.height == -1) {
       this.width = img.getWidth();
