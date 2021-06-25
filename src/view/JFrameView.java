@@ -1,6 +1,7 @@
 package view;
 
 import controller.Features;
+import controller.Features.FilterAction;
 import controller.Features.IOAction;
 import controller.Features.LayerAction;
 import java.awt.BorderLayout;
@@ -15,6 +16,8 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -68,8 +71,7 @@ public class JFrameView extends JFrame implements ActionListener,
   private JScrollPane imageScrollPane;
 
   // the image to be edited
- // private final JLabel currentImage;
-
+  // private final JLabel currentImage;
 
 
   public JFrameView(Features features) {
@@ -82,15 +84,10 @@ public class JFrameView extends JFrame implements ActionListener,
     setSize(200, 300);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-    setLayout( new FlowLayout());
+    setLayout(new FlowLayout());
 
     application = new JPanel();
     application.setLayout(new BorderLayout());
-
-    // boarder along the top
-    JPanel imageEdits = new JPanel();
-    imageEdits.setBorder(BorderFactory.createEmptyBorder());
-    imageEdits.setLayout(new FlowLayout());
 
     //create toolbar
     this.file = new JMenu("File");
@@ -106,8 +103,6 @@ public class JFrameView extends JFrame implements ActionListener,
     this.sepia = new JMenuItem("Sepia");
     this.topBar = createAppToolbar();
     this.setJMenuBar(topBar);
-
-    application.add(imageEdits, BorderLayout.NORTH);
 
     // align this panel to the right of the image that is being edited//
     // panel for the layers selection
@@ -135,8 +130,9 @@ public class JFrameView extends JFrame implements ActionListener,
     ImagePanel.add(errorMessage, BorderLayout.NORTH);
     application.add(ImagePanel, BorderLayout.WEST);
 
-    add(application);
+    add(application, BorderLayout.WEST);
     setVisible(true);
+    setResizable(true);
 
     setFocusable(true);
     requestFocus();
@@ -181,14 +177,14 @@ public class JFrameView extends JFrame implements ActionListener,
   }
 
 
-
   @Override
   public void actionPerformed(ActionEvent e) {
     switch (e.getActionCommand()) {
       case "save": {
         final JFileChooser fchooser = new JFileChooser(".");
+        String[] supported = new String[ImageIO.getReaderFormatNames().length + 1];
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
-            "JPG & GIF Images", "jpg", "gif");
+            "Supported Image Formats", ImageIO.getReaderFormatNames());
         fchooser.setFileFilter(filter);
         int retvalue = fchooser.showOpenDialog(this);
         if (retvalue == JFileChooser.APPROVE_OPTION) {
@@ -215,22 +211,27 @@ public class JFrameView extends JFrame implements ActionListener,
         break;
       }
       case "addLayer": {
-        final JOptionPane newLayerDialog = new JOptionPane("New Layer",
-            JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
-        newLayerDialog.setInitialValue("");
-        String input = JOptionPane.showInputDialog("Name for new Layer:");
+        String input = JOptionPane.showInputDialog(this, "Name for new Layer:",
+            "layer name", JOptionPane.QUESTION_MESSAGE);
         features.handleLayers(LayerAction.ADD, input);
         break;
       }
-      case "rmLayer":
+      case "removeLayer":
+        String input = JOptionPane.showInputDialog(this, "Name of Layer to Remove:", "Layer Name",
+            JOptionPane.QUESTION_MESSAGE);
+        features.handleLayers(LayerAction.REMOVE, input);
         break;
       case "blur":
+        features.handleFilter(FilterAction.BLUR);
         break;
       case "sharpen":
+        features.handleFilter(FilterAction.SHARPEN);
         break;
       case "greyscale":
+        features.handleFilter(FilterAction.GREYSCALE);
         break;
       case "sepia":
+        features.handleFilter(FilterAction.SEPIA);
         break;
     }
     features.show();
@@ -240,8 +241,10 @@ public class JFrameView extends JFrame implements ActionListener,
   public void displayImage(Image image) {
     BufferedImage bi = new BufferedImage(image.getWidth(), image.getHeight(),
         BufferedImage.TYPE_INT_RGB);
-    imageScrollPane.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
-
+    Dimension panelDimension = new Dimension(image.getWidth(), image.getHeight());
+    imageScrollPane.setPreferredSize(panelDimension);
+    this.ImagePanel.setSize(panelDimension);
+    setSize(panelDimension.width + layers.getWidth(), panelDimension.height + topBar.getHeight());
     for (int i = 0; i < image.getHeight(); i++) {
       for (int j = 0; j < image.getWidth(); j++) {
         bi.setRGB(j, i, image.getPixel(j, i).getRGB());
@@ -250,6 +253,11 @@ public class JFrameView extends JFrame implements ActionListener,
     imageToShow.setIcon(new ImageIcon(bi));
   }
 
+
+  @Override
+  public void giveMessage(String text) throws IOException {
+    JOptionPane.showMessageDialog(this, text, "Alert", JOptionPane.INFORMATION_MESSAGE);
+  }
 
   @Override
   public void keyTyped(KeyEvent e) {
@@ -303,9 +311,5 @@ public class JFrameView extends JFrame implements ActionListener,
 
   }
 
-  @Override
-  public void giveMessage(String text) throws IOException {
-
-  }
 
 }

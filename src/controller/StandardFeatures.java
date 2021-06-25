@@ -129,8 +129,7 @@ public class StandardFeatures implements Features {
    */
   private void displayMessage(String text) {
     try {
-      view.giveMessage(text);
-      view.giveMessage("\n");
+      view.giveMessage(text + "\n");
     } catch (IOException e) {
       System.out.println("IO error occurred.");
     }
