@@ -66,7 +66,7 @@ public class JFrameView extends JFrame implements ActionListener,
   private final JMenuItem visible;
   private final JList<String> layers;
   private DefaultListModel<String> layerNames;
-
+  private String current;
 
   private Features features;
   private JLabel imageToShow;
@@ -252,9 +252,10 @@ public class JFrameView extends JFrame implements ActionListener,
         features.handleFilter(FilterAction.SEPIA);
         break;
       case "invisible":
-       // features.handleLayers(LayerAction.INVISIBLE,);
+        features.handleLayers(LayerAction.INVISIBLE, current);
         break;
       case "visible":
+        features.handleLayers(LayerAction.VISIBLE, current);
     }
     features.show();
   }
@@ -283,17 +284,14 @@ public class JFrameView extends JFrame implements ActionListener,
 
   @Override
   public void keyTyped(KeyEvent e) {
-
   }
 
   @Override
   public void keyPressed(KeyEvent e) {
-
   }
 
   @Override
   public void keyReleased(KeyEvent e) {
-
   }
 
   @Override
@@ -320,19 +318,23 @@ public class JFrameView extends JFrame implements ActionListener,
 
   @Override
   public void mouseEntered(MouseEvent e) {
-
   }
 
   @Override
   public void mouseExited(MouseEvent e) {
-
   }
 
   @Override
   public void valueChanged(ListSelectionEvent e) {
     // sets the current layer to the one selected
     features.handleLayers(LayerAction.SETCURRENT, this.layers.getSelectedValue());
+
+    current = this.layers.getSelectedValue();
   }
 
+  @Override
+  public void giveMessage(String text) throws IOException {
+
+  }
 
 }
