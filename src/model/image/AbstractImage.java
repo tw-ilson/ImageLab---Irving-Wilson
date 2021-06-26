@@ -1,8 +1,6 @@
 package model.image;
 
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
 import model.color.Color;
 import model.color.LightColor;
 
@@ -49,13 +47,54 @@ public abstract class AbstractImage implements Image {
     return height;
   }
 
+  /**
+   * Calculates a color from the surrounding 4.
+   *
+   * @return the resulting color.
+   */
+  private Color resizeRasterHelp(float mapLocX, float mapLocY) {
+    Color cA = this.getPixel((int) mapLocX, (int) mapLocY);
+    Color cB = this.getPixel((int) (mapLocX + 1), (int) mapLocY);
+    Color cC = this.getPixel((int) mapLocX, (int) (mapLocY + 1));
+    Color cD = this.getPixel((int) (mapLocX + 1), (int) (mapLocY + 1));
+
+    int mRed = Math
+        .round(cB.getRed() * (mapLocX - (int) mapLocX) + cA.getRed() * ((int) (mapLocX + 1)
+            - mapLocX));
+    int nRed = Math
+        .round(cD.getRed() * (mapLocX - (int) mapLocX) + cC.getRed() * ((int) (mapLocX + 1)
+            - mapLocX));
+    int red = (int) (nRed * (mapLocY - (int) mapLocY) + mRed * ((int) (mapLocY + 1)
+        - mapLocY));
+
+    int mGreen = Math
+        .round(cB.getGreen() * (mapLocX - (int) mapLocX) + cA.getGreen() * ((int) (mapLocX + 1)
+            - mapLocX));
+    int nGreen = Math
+        .round(cD.getGreen() * (mapLocX - (int) mapLocX) + cC.getGreen() * ((int) (mapLocX + 1)
+            - mapLocX));
+    int green = (int) (nGreen * (mapLocY - (int) mapLocY) + mGreen * ((int) (mapLocY + 1)
+        - mapLocY));
+
+    int mBlue = Math
+        .round(cB.getBlue() * (mapLocX - (int) mapLocX) + cA.getBlue() * ((int) (mapLocX + 1)
+            - mapLocX));
+    int nBlue = Math
+        .round(cD.getBlue() * (mapLocX - (int) mapLocX) + cC.getBlue() * ((int) (mapLocX + 1)
+            - mapLocX));
+    int blue = (int) (nBlue * (mapLocY - (int) mapLocY) + mBlue * ((int) (mapLocY + 1)
+        - mapLocY));
+
+    return new LightColor(red, green, blue);
+  }
+
   protected Color[] resizedRaster(int w, int h) throws IllegalArgumentException {
     Color[] resizedRaster = new LightColor[w * h];
-    for (int y = 0; y < height; y++) {
-      for (int x = 0; x < width; x++) {
-        int mapLocW = (int) Math.floor(((float) x / width) * w);
-        int mapLocH = (int) Math.floor(((float) y / height) * h);
-        resizedRaster[w * mapLocH + mapLocW] = getPixel(x, y);
+    for (int y = 0; y < h; y++) {
+      for (int x = 0; x < w; x++) {
+        float mapLocX = ((float) x / w) * width;
+        float mapLocY = ((float) y / h) * height;
+        resizedRaster[w * y + x] = resizeRasterHelp(mapLocX, mapLocY);
       }
     }
     return resizedRaster;

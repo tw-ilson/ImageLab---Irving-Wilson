@@ -27,6 +27,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -68,6 +69,7 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
   private final JMenu visibility;
   private final JMenuItem invisible;
   private final JMenuItem visible;
+  private final JMenuItem resize;
   private final JList<String> layerList;
   private DefaultListModel<String> layerListModel;
   private String current;
@@ -112,6 +114,7 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
     this.visibility = new JMenu("Visibility");
     this.invisible = new JMenuItem("Invisible");
     this.visible = new JMenuItem("Visible");
+    this.resize = new JMenuItem("Resize...");
     this.topBar = createAppToolbar();
     this.setJMenuBar(topBar);
 
@@ -156,44 +159,43 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
   private JMenuBar createAppToolbar() {
     JMenuBar toolBar = new JMenuBar();
     file.add(importButton);
-    this.importButton.addActionListener(this);
+    importButton.addActionListener(this);
     importButton.setActionCommand("save");
     file.add(exportButton);
-    this.exportButton.addActionListener(this);
+    exportButton.addActionListener(this);
     exportButton.setActionCommand("load");
     layer.add(addLayer);
-    this.addLayer.addActionListener(this);
+    addLayer.addActionListener(this);
     addLayer.setActionCommand("addLayer");
     layer.add(rmLayer);
-    this.rmLayer.addActionListener(this);
+    rmLayer.addActionListener(this);
     rmLayer.setActionCommand("removeLayer");
     filter.add(blur);
-    this.blur.addActionListener(this);
+    blur.addActionListener(this);
     blur.setActionCommand("blur");
     filter.add(sharpen);
-    this.sharpen.addActionListener(this);
+    sharpen.addActionListener(this);
     sharpen.setActionCommand("sharpen");
     filter.add(greyscale);
-    this.greyscale.addActionListener(this);
+    greyscale.addActionListener(this);
     greyscale.setActionCommand("greyscale");
     filter.add(sepia);
-    this.sepia.addActionListener(this);
+    sepia.addActionListener(this);
     sepia.setActionCommand("sepia");
     visibility.add(invisible);
-    this.invisible.addActionListener(this);
+    invisible.addActionListener(this);
     invisible.setActionCommand("invisible");
     visibility.add(visible);
-    this.visible.addActionListener(this);
+    visible.addActionListener(this);
     visible.setActionCommand("visible");
+    resize.addActionListener(this);
+    resize.setActionCommand("resize");
     toolBar.add(file);
     toolBar.add(layer);
     toolBar.add(filter);
     toolBar.add(visibility);
-    file.setVisible(true);
-    layer.setVisible(true);
-    filter.setVisible(true);
-    visibility.setVisible(true);
-    toolBar.setVisible(true);
+    toolBar.add(resize);
+
     return toolBar;
   }
 
@@ -246,6 +248,9 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
         features.handleLayers(LayerAction.REMOVE, input);
         layerListModel.removeElement(input);
         break;
+      }
+      case "resize": {
+        JDialog resizeDialog = new JDialog(this, "Set Dimensions");
       }
       case "blur":
         features.handleFilter(FilterAction.BLUR);
