@@ -38,8 +38,18 @@ public interface ImageProcessorModel {
    * Applys the specified filter to the current image.
    *
    * @param filter the filter object to apply to the current working image.
+   * @throws IllegalStateException if no image is initialized
    */
   public void applyFilter(String filter) throws IllegalStateException;
 
-
+  /**
+   * Resizes the image(s);
+   *
+   * @param w the resulting end width
+   * @param h the resulting end height
+   * @throws IllegalStateException    if the image has not been initialized
+   * @throws IllegalArgumentException if the width and height supplied is negative or greater than
+   *                                  the current size.
+   */
+  public void resize(int w, int h) throws IllegalStateException, IllegalArgumentException;
 }

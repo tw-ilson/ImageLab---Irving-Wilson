@@ -36,13 +36,6 @@ public interface Features {
    */
   void handleLayers(LayerAction action, String layerName) throws IllegalStateException;
 
-  /**
-   * Handles the features of the program related to the management of all layers.
-   * @param action the action to execute
-   * @return string representation of layers
-   * @throws IllegalStateException
-   */
-  String handleLayers(LayerAction action) throws IllegalStateException;
 
   /**
    * Enables use of a view for this Application.

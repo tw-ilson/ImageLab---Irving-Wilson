@@ -1,3 +1,5 @@
+package hw07;
+
 import static controller.ImageUtils.read;
 import static controller.ImageUtils.write;
 import static org.junit.Assert.assertEquals;

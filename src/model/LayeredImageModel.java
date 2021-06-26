@@ -49,6 +49,11 @@ public class LayeredImageModel extends AbstractImageProcessorModel implements
   }
 
   @Override
+  public void resize(int w, int h) throws IllegalStateException, IllegalArgumentException {
+
+  }
+
+  @Override
   public void removeLayer(String layerName) throws IllegalArgumentException {
     image.removeLayer(layerName);
   }
