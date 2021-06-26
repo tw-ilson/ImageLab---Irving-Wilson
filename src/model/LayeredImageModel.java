@@ -6,10 +6,10 @@ import model.image.LayeredImage;
 import model.image.SimpleLayeredImage;
 
 /**
- * the LayeredImageModel class represents the model that can work with a layered image, which
- * is in essence a stack of simple images (a pixel array, width, and height) that can each be
- * manipulated with color and kernel filters. The one can save any image from the layered image,
- * provided that it is visible.
+ * the LayeredImageModel class represents the model that can work with a layered image, which is in
+ * essence a stack of simple images (a pixel array, width, and height) that can each be manipulated
+ * with color and kernel filters. The one can save any image from the layered image, provided that
+ * it is visible.
  */
 public class LayeredImageModel extends AbstractImageProcessorModel implements
     ImageProcessorLayerModel {
@@ -50,6 +50,9 @@ public class LayeredImageModel extends AbstractImageProcessorModel implements
 
   @Override
   public void removeLayer(String layerName) throws IllegalArgumentException {
+    if (layerName == null) {
+      throw new IllegalArgumentException("Cannot remove null layer.");
+    }
     image.removeLayer(layerName);
   }
 
@@ -62,6 +65,7 @@ public class LayeredImageModel extends AbstractImageProcessorModel implements
   public boolean getVisibility(String layerName) {
     return image.getVisibility(layerName);
   }
+
 
   @Override
   public void createLayer(String layerName) {
@@ -82,9 +86,12 @@ public class LayeredImageModel extends AbstractImageProcessorModel implements
   }
 
   @Override
-  public void setVisibility(String layerName, boolean visibility) throws IllegalStateException {
+  public void setVisibility(String layerName, boolean visibility) throws IllegalArgumentException {
     image.setVisibility(layerName, visibility);
   }
 
-
+  @Override
+  public Image getTopMostVisible() {
+    return image.topMostVisibleLayer();
+  }
 }

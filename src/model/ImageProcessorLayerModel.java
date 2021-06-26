@@ -65,4 +65,10 @@ public interface ImageProcessorLayerModel extends ImageProcessorModel {
    * @return boolean (the visibility of the given layer).
    */
   public boolean getVisibility(String layerName);
+
+  /**
+   * Returns the topMostVisibleLayer in the image
+   * @return
+   */
+  public Image getTopMostVisible();
 }

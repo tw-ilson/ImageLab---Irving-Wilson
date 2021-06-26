@@ -6,13 +6,18 @@ import java.util.Locale;
 import java.util.Objects;
 import javax.imageio.ImageIO;
 import model.ImageProcessorLayerModel;
+import model.color.Color;
+import model.color.LightColor;
 import model.image.Image;
+import model.image.SimpleImage;
+import model.image.SimpleLayeredImage;
 import view.ImageProcessorView;
 
 public class StandardFeatures implements Features {
 
   ImageProcessorLayerModel model;
   ImageProcessorView view;
+  String current;
 
   public StandardFeatures(ImageProcessorLayerModel model) {
     Objects.requireNonNull(model);
@@ -29,7 +34,13 @@ public class StandardFeatures implements Features {
     }
     switch (action) {
       case IMPORT:
-        this.model.editCurrentLayer(ImageUtils.read(fileName));
+        try {
+          this.model.editCurrentLayer(ImageUtils.read(fileName));
+        } catch (IllegalStateException e) {
+          displayMessage("No layers created.");
+        } catch (IllegalArgumentException e) {
+          displayMessage("Image is not the right size.");
+        }
         break;
       case EXPORT:
         Image currentImage = model.getImage();
@@ -76,9 +87,13 @@ public class StandardFeatures implements Features {
   public void handleLayers(LayerAction action, String layerName) throws IllegalStateException {
     switch (action) {
       case ADD:
-        model.createLayer(layerName);
-        model.setCurrentLayer(layerName);
-        displayMessage("Layer \"" + layerName + "\" created");
+        try {
+          model.createLayer(layerName);
+          model.setCurrentLayer(layerName);
+          displayMessage("Layer \"" + layerName + "\" created");
+        } catch (IllegalArgumentException e) {
+          displayMessage("Layer with the same name already exists.");
+        }
         break;
       case REMOVE:
         try {
@@ -119,12 +134,17 @@ public class StandardFeatures implements Features {
 
   @Override
   public void show() throws IllegalStateException {
+    Color[] white = new LightColor[1];
+    white[0] = new LightColor(0);
     try {
-      view.displayImage(model.getImage());
-    } catch (IllegalArgumentException e) {
-
+      // set to the topmost visible?
+      Image toPass = model.getTopMostVisible();
+      view.displayImage(toPass);
+    } catch (IllegalStateException a) {
+      view.displayImage(new SimpleImage(white, 1, 1));
     }
   }
+
 
   /**
    * Sends the specified message to be displayed by the View.

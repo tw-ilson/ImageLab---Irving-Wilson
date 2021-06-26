@@ -26,6 +26,7 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -178,18 +179,20 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
     filter.add(sepia);
     this.sepia.addActionListener(this);
     sepia.setActionCommand("sepia");
-    file.add(invisible);
+    visibility.add(invisible);
     this.invisible.addActionListener(this);
     invisible.setActionCommand("invisible");
-    file.add(visible);
+    visibility.add(visible);
     this.visible.addActionListener(this);
     visible.setActionCommand("visible");
     toolBar.add(file);
     toolBar.add(layer);
     toolBar.add(filter);
+    toolBar.add(visibility);
     file.setVisible(true);
     layer.setVisible(true);
     filter.setVisible(true);
+    visibility.setVisible(true);
     toolBar.setVisible(true);
     return toolBar;
   }
@@ -230,15 +233,18 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
       case "addLayer": {
         String input = JOptionPane.showInputDialog(this, "Name for new Layer:",
             "layer name", JOptionPane.QUESTION_MESSAGE);
+        current = input;
         features.handleLayers(LayerAction.ADD, input);
-        layerListModel.addElement(input);
+        if (!layerListModel.contains(input)) {
+          layerListModel.addElement(input);
+        }
         break;
       }
       case "removeLayer": {
         String input = JOptionPane.showInputDialog(this, "Name of Layer to Remove:", "Layer Name",
             JOptionPane.QUESTION_MESSAGE);
         features.handleLayers(LayerAction.REMOVE, input);
-        //layerListModel.removeElement(input);
+        layerListModel.removeElement(input);
         break;
       }
       case "blur":
@@ -259,18 +265,28 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
       case "visible":
         features.handleLayers(LayerAction.VISIBLE, current);
     }
+    // should always show the top most visible
+
+    // bugs:
+    //
+
     features.show();
   }
 
   @Override
   public void displayImage(Image image) {
+    if (image == null) {
+      throw new IllegalStateException("Given image cannot be null.");
+    }
     BufferedImage buf = new BufferedImage(image.getWidth(), image.getHeight(),
         BufferedImage.TYPE_INT_RGB);
-    Dimension panelDimension = new Dimension(image.getWidth(), image.getHeight());
-    imageScrollPane.setPreferredSize(panelDimension);
-    this.ImagePanel.setSize(panelDimension);
-    setSize(panelDimension.width + layerList.getWidth(), panelDimension.height + topBar.getHeight());
-
+    if (!(image.pixArray().length == 1)) {
+      Dimension panelDimension = new Dimension(image.getWidth(), image.getHeight());
+      imageScrollPane.setPreferredSize(panelDimension);
+      this.ImagePanel.setSize(panelDimension);
+      setSize(panelDimension.width + layerList.getWidth(),
+          panelDimension.height + topBar.getHeight());
+    }
     int[] rgbArray = Arrays.stream(image.pixArray())
         .mapToInt(
             color -> color.getRGB() & 0xffffff) //extracts bytes from Colors ands sets Alpha to 100%
@@ -288,10 +304,7 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
   @Override
   public void valueChanged(ListSelectionEvent e) {
     // sets the current layer to the one selected
-    //features.handleLayers(LayerAction.SETCURRENT, this.layerList.getSelectedValue());
-
-    //current = this.layerList.getSelectedValue();
+    features.handleLayers(LayerAction.SETCURRENT, this.layerList.getSelectedValue());
+    current = this.layerList.getSelectedValue();
   }
-
-
 }
