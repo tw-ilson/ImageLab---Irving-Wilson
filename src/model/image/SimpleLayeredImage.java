@@ -173,7 +173,7 @@ public class SimpleLayeredImage implements LayeredImage {
     if (layerTable.size() == 0 || current == null) {
       throw new IllegalStateException("No layers created to change");
     }
-    for (String key: layerTable.keySet()) {
+    for (String key : layerTable.keySet()) {
       LayerInfo old = layerTable.get(key);
       layerTable.replace(key, new LayerInfo(old.inOrder, old.pixels.resize(w, h), old.visible));
     }
@@ -181,18 +181,17 @@ public class SimpleLayeredImage implements LayeredImage {
   }
 
   @Override
-  public Image mosaic(int numSeeds, String layerName) {
+  public Image mosaic(int numSeeds) throws IllegalStateException {
     SimpleLayeredImage toReturn = new SimpleLayeredImage();
     toReturn.layerTable.putAll(this.layerTable);
     toReturn.height = this.height;
     toReturn.width = this.width;
     toReturn.current = this.current;
-    if (layerTable.size() == 0 || current == null) {
+    if (layerTable.size() == 0 || current == null || layerTable.get(current).pixels == null) {
       throw new IllegalStateException("No layers created to change");
     }
-    LayerInfo oldInfo = layerTable.get(layerName);
-    Image newMosaic = oldInfo.pixels.mosaic(numSeeds, layerName);
-   // layerTable.replace(layerName, new LayerInfo(oldInfo.inOrder, newMosaic, oldInfo.visible));
+    LayerInfo oldInfo = layerTable.get(current);
+    Image newMosaic = oldInfo.pixels.mosaic(numSeeds);
     return newMosaic;
   }
 
@@ -213,15 +212,18 @@ public class SimpleLayeredImage implements LayeredImage {
 
   @Override
   public Image topMostVisibleLayer() throws IllegalStateException {
-    if (layerTable.size() == 0 || layerTable == null) {
+    if (layerTable.size() == 0) {
       throw new IllegalStateException("No layers created.");
     }
+    Image toSave = null;
     LayerInfo toReturn = new LayerInfo(0, null, true);
     for (LayerInfo info : this.layerTable.values()) {
-      if (info.inOrder > toReturn.inOrder && info.visible) {
-        toReturn = new LayerInfo(info.inOrder, info.pixels, info.visible);
+      if (info.inOrder > toReturn.inOrder && info.visible && info.pixels != null) {
+        toReturn = new LayerInfo(info.inOrder, info.pixels, true);
+        toSave = info.pixels;
       }
     }
+    toReturn.pixels = toSave;
     if (toReturn.pixels != null) {
       return toReturn.pixels;
     }
@@ -251,7 +253,6 @@ public class SimpleLayeredImage implements LayeredImage {
         throw new IllegalArgumentException("No visible images");
       }
     }
-    // this is returning null
     return layerTable.get(current).pixels;
   }
 
@@ -277,7 +278,6 @@ public class SimpleLayeredImage implements LayeredImage {
     if (layerTable.size() == 0 || current == null) {
       throw new IllegalStateException("No layers created");
     }
-
     if (this.width == -1 || this.height == -1) {
       this.width = img.getWidth();
       this.height = img.getHeight();

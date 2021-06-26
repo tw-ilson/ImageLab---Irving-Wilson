@@ -68,6 +68,7 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
   private final JMenuItem sharpen;
   private final JMenuItem greyscale;
   private final JMenuItem sepia;
+  private final JMenuItem mosaic;
   private final JMenu visibility;
   private final JMenuItem invisible;
   private final JMenuItem visible;
@@ -114,6 +115,7 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
     this.sharpen = new JMenuItem("Sharpen");
     this.greyscale = new JMenuItem("Greyscale");
     this.sepia = new JMenuItem("Sepia");
+    this.mosaic = new JMenuItem("Mosaic");
     this.visibility = new JMenu("Visibility");
     this.invisible = new JMenuItem("Invisible");
     this.visible = new JMenuItem("Visible");
@@ -188,6 +190,9 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
     filter.add(sepia);
     sepia.addActionListener(this);
     sepia.setActionCommand("sepia");
+    filter.add(mosaic);
+    mosaic.addActionListener(this);
+    mosaic.setActionCommand("mosaic");
     visibility.add(invisible);
     invisible.addActionListener(this);
     invisible.setActionCommand("invisible");
@@ -258,6 +263,7 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
       case "resize": {
         JDialog resizeDialog = new JDialog(this, "Set Dimensions");
       }
+        break;
       case "blur":
         features.handleFilter(FilterAction.BLUR);
         break;
@@ -270,11 +276,18 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
       case "sepia":
         features.handleFilter(FilterAction.SEPIA);
         break;
+      case "mosaic":
+        String anotherInput = JOptionPane.showInputDialog(this, "Enter the number"
+                + " of seeds you wish to see in the mosaic: ", "NumSeeds",
+            JOptionPane.QUESTION_MESSAGE);
+        features.handleLayers(LayerAction.MOSAIC, anotherInput);
+        break;
       case "invisible":
         features.handleLayers(LayerAction.INVISIBLE, current);
         break;
       case "visible":
         features.handleLayers(LayerAction.VISIBLE, current);
+        break;
       case "batch":
         String input = JOptionPane.showInputDialog(this, "Batch commands file:", "Batch Commands",
             JOptionPane.QUESTION_MESSAGE);
@@ -283,6 +296,7 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
         } catch (IOException ioException) {
           ioException.printStackTrace();
         }
+        break;
     }
     features.show();
   }

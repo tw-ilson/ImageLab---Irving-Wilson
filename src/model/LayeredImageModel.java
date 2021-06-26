@@ -54,6 +54,11 @@ public class LayeredImageModel extends AbstractImageProcessorModel implements
   }
 
   @Override
+  public void mosaic(int numSeeds) {
+    image.editCurrentLayer(image.mosaic(numSeeds));
+  }
+
+  @Override
   public void removeLayer(String layerName) throws IllegalArgumentException {
     if (layerName == null) {
       throw new IllegalArgumentException("Cannot remove null layer.");

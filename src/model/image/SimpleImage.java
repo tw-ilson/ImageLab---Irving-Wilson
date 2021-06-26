@@ -49,7 +49,7 @@ public class SimpleImage extends AbstractImage {
   }
 
   @Override
-  public Image mosaic(int numSeeds, String layerName) {
+  public Image mosaic(int numSeeds) {
     return new SimpleImage(imageMosaic(numSeeds), width, height);
   }
 }

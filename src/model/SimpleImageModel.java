@@ -59,4 +59,9 @@ public class SimpleImageModel extends AbstractImageProcessorModel {
     imageVersions.push(current);
   }
 
+  @Override
+  public void mosaic(int numSeeds) {
+    imageVersions.push(new SimpleImage(imageVersions.peek().mosaic(numSeeds)));
+  }
+
 }

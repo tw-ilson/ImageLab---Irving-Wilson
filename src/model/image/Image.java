@@ -43,6 +43,7 @@ public interface Image {
 
   /**
    * resizes this Image to the requested dimensions and returns the result.
+   *
    * @param w the requested width to resize to.
    * @param h the requested height to resize to.
    * @throws IllegalArgumentException if the dimensions requested are not valid.
@@ -50,5 +51,16 @@ public interface Image {
   Image resize(int w, int h) throws IllegalArgumentException;
 
 
-  Image mosaic(int numSeeds, String layerName);
+  /**
+   * alters the Image to rebuild it in a Mosaic format, which means selecting a number of seeds
+   * based on user input, changing the pixels which lie closest to that seed to the color of the
+   * seed. This creates the effect of a mosaic window pane, as one would see in a Church for
+   * instance.
+   *
+   * @param numSeeds (the number of seeds which the user wishes to spread the pixels over)
+   * @return Image (the newly altered Image).
+   * @throws IllegalStateException (if the integer is invalid, or the current layer has no image
+   *                               instantiated).
+   */
+  Image mosaic(int numSeeds) throws IllegalStateException;
 }

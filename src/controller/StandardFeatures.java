@@ -132,6 +132,14 @@ public class StandardFeatures implements Features {
         } catch (IllegalArgumentException j) {
           displayMessage("Layer does not exist");
         }
+        break;
+      case MOSAIC:
+        try {
+          int numSeeds = Integer.parseInt(layerName);
+          model.mosaic(numSeeds);
+        } catch (NumberFormatException n) {
+          displayMessage("Invalid seed input, please input a number.");
+        }
     }
   }
 
@@ -146,7 +154,6 @@ public class StandardFeatures implements Features {
     Color[] white = new LightColor[1];
     white[0] = new LightColor(0);
     try {
-      // set to the topmost visible?
       Image toPass = model.getTopMostVisible();
       view.displayImage(toPass);
     } catch (IllegalStateException a) {

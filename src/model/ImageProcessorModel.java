@@ -52,4 +52,12 @@ public interface ImageProcessorModel {
    *                                  the current size.
    */
   public void resize(int w, int h) throws IllegalStateException, IllegalArgumentException;
+
+  /**
+   * Applies the "mosaic" affect to the current image in the layeredImage. The number of seeds
+   * dictates how abstract the image is, meaning how many kernels the remaining pixels are
+   * clustered around.
+   * @param numSeeds (the number of kernels to cluster the image around)
+   */
+  public void mosaic(int numSeeds);
 }
