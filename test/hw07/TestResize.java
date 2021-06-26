@@ -22,7 +22,7 @@ public class TestResize {
 
   @Test
   public void testResizeSimpleImage() {
-    Image after = before.resize(before.getWidth()/2, before.getHeight()/2);
+    Image after = before.resize(321, 544);
     try {
       ImageUtils.write("png", "minisquid.png", after);
     } catch (IOException e) {
