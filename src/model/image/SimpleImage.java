@@ -42,4 +42,9 @@ public class SimpleImage extends AbstractImage {
       }
     }
   }
+
+  @Override
+  public Image resize(int w, int h) throws IllegalArgumentException {
+    return new SimpleImage(resizedRaster(w, h), w, h);
+  }
 }

@@ -1,6 +1,7 @@
 package model.image;
 
 
+import model.color.Color;
 import model.color.LightColor;
 
 /**
@@ -30,4 +31,17 @@ public class CheckerboardImage extends AbstractImage {
     }
   }
 
+  /**
+   * Helper constructor only to be used in resize.
+   */
+  private CheckerboardImage(Color[] pixarray, int w, int h) {
+    this.pixArray = pixarray;
+    this.width = w;
+    this.height = h;
+  }
+
+  @Override
+  public Image resize(int w, int h) throws IllegalArgumentException {
+    return new CheckerboardImage(resizedRaster(w, h), w, h);
+  }
 }

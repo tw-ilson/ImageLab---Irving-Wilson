@@ -162,6 +162,24 @@ public class SimpleLayeredImage implements LayeredImage {
     return this.topMostVisibleLayer().getHeight();
   }
 
+
+  @Override
+  public LayeredImage resize(int w, int h) throws IllegalStateException, IllegalArgumentException {
+    SimpleLayeredImage toReturn = new SimpleLayeredImage();
+    toReturn.layerTable.putAll(this.layerTable);
+    toReturn.height = h;
+    toReturn.width = w;
+    toReturn.current = this.current;
+    if (layerTable.size() == 0 || current == null) {
+      throw new IllegalStateException("No layers created to change");
+    }
+    for (String key: layerTable.keySet()) {
+      LayerInfo old = layerTable.get(key);
+      layerTable.replace(key, new LayerInfo(old.inOrder, old.pixels.resize(w, h), old.visible));
+    }
+    return toReturn;
+  }
+
   @Override
   public String[] listLayers() {
     return layerTable.keySet().toArray(new String[numLayers()]);

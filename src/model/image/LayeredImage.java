@@ -98,4 +98,14 @@ public interface LayeredImage extends Image {
    * @throws IllegalArgumentException (if the given layer is null or doesn't exist).
    */
   boolean getVisibility(String layerName) throws IllegalArgumentException;
+
+  /**
+   * Resizes all layers of the current layered image to the requested size.
+   * @param w the requested width to resize to.
+   * @param h the requested height to resize to.
+   * @return the new Layered Image.
+   * @throws IllegalStateException
+   * @throws IllegalArgumentException
+   */
+  LayeredImage resize(int w, int h) throws IllegalStateException, IllegalArgumentException;
 }

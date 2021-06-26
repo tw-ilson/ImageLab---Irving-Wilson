@@ -41,5 +41,11 @@ public interface Image {
    */
   public int getHeight();
 
-
+  /**
+   * resizes this Image to the requested dimensions and returns the result.
+   * @param w the requested width to resize to.
+   * @param h the requested height to resize to.
+   * @throws IllegalArgumentException if the dimensions requested are not valid.
+   */
+  Image resize(int w, int h) throws IllegalArgumentException;
 }

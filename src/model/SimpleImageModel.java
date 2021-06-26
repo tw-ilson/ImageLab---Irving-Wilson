@@ -49,4 +49,14 @@ public class SimpleImageModel extends AbstractImageProcessorModel {
     imageVersions.add(toApply.apply(nextImage));
   }
 
+  @Override
+  public void resize(int w, int h) throws IllegalStateException, IllegalArgumentException {
+    if (w < 1 || h < 1 || w > this.getImageWidth() | h > this.getImageHeight()) {
+      throw new IllegalArgumentException("Invalid Dimensions.");
+    }
+    Image current = new SimpleImage(this.getImage());
+    current.resize(w, h);
+    imageVersions.push(current);
+  }
+
 }

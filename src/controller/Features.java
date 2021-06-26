@@ -36,6 +36,7 @@ public interface Features {
    */
   void handleLayers(LayerAction action, String layerName) throws IllegalStateException;
 
+
   /**
    * Enables use of a view for this Application.
    * @param view the view to use
@@ -47,5 +48,4 @@ public interface Features {
    * @throws IllegalStateException if the application is not yet initialized.
    */
   void show() throws IllegalStateException;
-
 }
