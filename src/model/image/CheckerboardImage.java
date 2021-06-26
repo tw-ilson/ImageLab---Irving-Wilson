@@ -44,4 +44,9 @@ public class CheckerboardImage extends AbstractImage {
   public Image resize(int w, int h) throws IllegalArgumentException {
     return new CheckerboardImage(resizedRaster(w, h), w, h);
   }
+
+  @Override
+  public Image mosaic(int numSeeds, String layerName) {
+    return null;
+  }
 }

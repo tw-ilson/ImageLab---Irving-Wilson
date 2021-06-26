@@ -48,4 +48,7 @@ public interface Image {
    * @throws IllegalArgumentException if the dimensions requested are not valid.
    */
   Image resize(int w, int h) throws IllegalArgumentException;
+
+
+  Image mosaic(int numSeeds, String layerName);
 }

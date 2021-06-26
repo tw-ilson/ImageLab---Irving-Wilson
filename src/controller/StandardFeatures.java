@@ -1,6 +1,8 @@
 package controller;
 
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Objects;
@@ -67,6 +69,13 @@ public class StandardFeatures implements Features {
         } else {
           displayMessage("Cannot filter empty Image.");
         }
+      case BATCH:
+        // so run the commands from the other controller, which will modify the model
+        // that is passed, then runs the commands updating the model
+        Readable toRead = new FileReader(fileName);
+        SimpleImageController controller =
+            new SimpleImageController(model, toRead, new StringBuilder());
+        controller.run();
     }
   }
 

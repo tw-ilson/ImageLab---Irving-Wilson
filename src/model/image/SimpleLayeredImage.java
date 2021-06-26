@@ -181,6 +181,22 @@ public class SimpleLayeredImage implements LayeredImage {
   }
 
   @Override
+  public Image mosaic(int numSeeds, String layerName) {
+    SimpleLayeredImage toReturn = new SimpleLayeredImage();
+    toReturn.layerTable.putAll(this.layerTable);
+    toReturn.height = this.height;
+    toReturn.width = this.width;
+    toReturn.current = this.current;
+    if (layerTable.size() == 0 || current == null) {
+      throw new IllegalStateException("No layers created to change");
+    }
+    LayerInfo oldInfo = layerTable.get(layerName);
+    Image newMosaic = oldInfo.pixels.mosaic(numSeeds, layerName);
+   // layerTable.replace(layerName, new LayerInfo(oldInfo.inOrder, newMosaic, oldInfo.visible));
+    return newMosaic;
+  }
+
+  @Override
   public String[] listLayers() {
     return layerTable.keySet().toArray(new String[numLayers()]);
   }

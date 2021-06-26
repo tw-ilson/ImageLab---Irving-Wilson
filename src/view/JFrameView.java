@@ -17,6 +17,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,6 +58,7 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
   private final JMenu file;
   private final JMenuItem importButton;
   private final JMenuItem exportButton;
+  private final JMenuItem batch;
   private final JMenu layer;
   private final JMenuItem addLayer;
   private final JMenuItem rmLayer;
@@ -101,6 +103,7 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
     this.file = new JMenu("File");
     this.importButton = new JMenuItem("Import...");
     this.exportButton = new JMenuItem("Export...");
+    this.batch = new JMenuItem("Batch");
     this.layer = new JMenu("Layer");
     this.addLayer = new JMenuItem("Add");
     this.rmLayer = new JMenuItem("Remove");
@@ -161,6 +164,9 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
     file.add(exportButton);
     this.exportButton.addActionListener(this);
     exportButton.setActionCommand("load");
+    file.add(batch);
+    this.batch.addActionListener(this);
+    file.add(batch);
     layer.add(addLayer);
     this.addLayer.addActionListener(this);
     addLayer.setActionCommand("addLayer");
@@ -264,12 +270,15 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
         break;
       case "visible":
         features.handleLayers(LayerAction.VISIBLE, current);
+      case "batch":
+        String input = JOptionPane.showInputDialog(this, "Batch commands file:", "Batch Commands",
+            JOptionPane.QUESTION_MESSAGE);
+        try {
+          features.handleIO(IOAction.BATCH, input);
+        } catch (IOException ioException) {
+          ioException.printStackTrace();
+        }
     }
-    // should always show the top most visible
-
-    // bugs:
-    //
-
     features.show();
   }
 

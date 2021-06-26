@@ -9,7 +9,7 @@ import view.ImageProcessorView;
  */
 public interface Features {
 
-  enum IOAction { IMPORT, EXPORT };
+  enum IOAction { IMPORT, EXPORT, BATCH };
   enum FilterAction { BLUR, SHARPEN, GREYSCALE, SEPIA, CUSTOM };
   enum LayerAction { ADD, REMOVE, VISIBLE, INVISIBLE, SETCURRENT };
 

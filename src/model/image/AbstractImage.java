@@ -1,7 +1,9 @@
 package model.image;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.stream.Collectors;
 import model.color.Color;
 import model.color.LightColor;
@@ -59,5 +61,46 @@ public abstract class AbstractImage implements Image {
       }
     }
     return resizedRaster;
+  }
+
+
+  protected Color[] imageMosaic(int numSeeds) {
+    Random rand = new Random();
+    Color[] mosaic = new LightColor[this.pixArray.length];
+    ArrayList<Integer> coords = new ArrayList<>();
+    Color[] seeds = new LightColor[numSeeds];
+
+    // 1.) create list of random seeds
+    for (int i = 0; i < numSeeds; i++) {
+      boolean hasAdded = false;
+      while (!hasAdded) {
+        int x = rand.nextInt(width);
+        int y = rand.nextInt(height);
+        if (!new ArrayList(Arrays.asList(seeds)).contains(this.getPixel(x, y))) {
+          seeds[i] = this.getPixel(x, y);
+          coords.add(x);
+          coords.add(y);
+          hasAdded = true;
+        }
+      }
+    }
+
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        int minDist = width * height;
+        int distToCheck;
+        int z = 0;
+        for (int j = 0; j < seeds.length; j++) {
+          distToCheck = (int) (Math.pow((Math.pow(x - coords.get(z), 2) +
+              Math.pow(y - coords.get(z + 1), 2)), 0.5));
+          if (distToCheck < minDist) {
+            mosaic[width * y + x] = seeds[j];
+            minDist = distToCheck;
+          }
+          z += 2;
+        }
+      }
+    }
+    return mosaic;
   }
 }

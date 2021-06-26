@@ -47,4 +47,9 @@ public class SimpleImage extends AbstractImage {
   public Image resize(int w, int h) throws IllegalArgumentException {
     return new SimpleImage(resizedRaster(w, h), w, h);
   }
+
+  @Override
+  public Image mosaic(int numSeeds, String layerName) {
+    return new SimpleImage(imageMosaic(numSeeds), width, height);
+  }
 }
