@@ -24,8 +24,9 @@ public interface LayeredImage extends Image {
    * addLayer adds a new layer to the LayeredImage with the specified filename.
    *
    * @param layerName (the name of the new layer)
+   * @throws IllegalArgumentException if the layer of that name already exists.
    */
-  void addLayer(String layerName);
+  void addLayer(String layerName) throws IllegalArgumentException;
 
   /**
    * returnTopMostVisibleLayer returns a copy of the top most visible image in the LayeredImage.

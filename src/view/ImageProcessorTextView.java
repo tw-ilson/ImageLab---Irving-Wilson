@@ -22,7 +22,16 @@ public class ImageProcessorTextView implements ImageProcessorView {
   }
 
   @Override
-  public void displayImage(Image image) {
+  public void displayImage(Image image) throws IOException{
+    Objects.requireNonNull(image);
+    output.append("Image width" + image.getWidth() + "\n");
+    output.append("Image height" + image.getHeight() + "\n");
+  }
 
+  @Override
+  public void displayLayers(String[] layerNames) throws IOException {
+    for (String s: layerNames) {
+      output.append(s + "/n");
+    }
   }
 }

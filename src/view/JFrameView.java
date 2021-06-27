@@ -17,12 +17,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -65,9 +68,9 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
   private final JMenuBar topBar;
   private final JMenu file;
   private final JMenuItem importButton;
+  private final JMenuItem loadAll;
   private final JMenuItem exportButton;
   private final JMenuItem exportAll;
-  private final JMenuItem loadAll;
   private final JMenuItem quit;
   private final JMenuItem batch;
   private final JMenu layer;
@@ -83,8 +86,9 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
   private final JMenuItem invisible;
   private final JMenuItem visible;
   private final JMenuItem resize;
-  private final JList<String> layerList;
-  private DefaultListModel<String> layerListModel;
+  private JPanel layersPanel;
+  private JList<String> layerList;
+  //private DefaultListModel<String> layerListModel;
   private String current;
 
   private Features features;
@@ -115,9 +119,9 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
     //create toolbar
     this.file = new JMenu("File");
     this.importButton = new JMenuItem("Import...");
+    this.loadAll = new JMenuItem("Load all");
     this.exportButton = new JMenuItem("Export...");
     this.exportAll = new JMenuItem("Export all...");
-    this.loadAll = new JMenuItem("Load all");
     this.quit = new JMenuItem("Quit");
     this.batch = new JMenuItem("Batch");
     this.layer = new JMenu("Layer");
@@ -138,15 +142,15 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
 
     // align this panel to the right of the image that is being edited//
     // panel for the layers selection
-    JPanel layersPanel = new JPanel();
+    this.layersPanel = new JPanel();
     layersPanel.setBorder(BorderFactory.createTitledBorder("Layers"));
     layersPanel.setLayout(new BoxLayout(layersPanel, BoxLayout.X_AXIS));
 
     // then, on side panel, we will have the layers listed
     // selection list
 
-    layerListModel = new DefaultListModel<>();
-    layerList = new JList<>(layerListModel);
+    //layerListModel = new DefaultListModel<>();
+    layerList = new JList<>();
     layerList.setPreferredSize(new Dimension(100, 200));
     layerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     layerList.addListSelectionListener(this);
@@ -178,16 +182,16 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
     JMenuBar toolBar = new JMenuBar();
     file.add(importButton);
     importButton.addActionListener(this);
-    importButton.setActionCommand("save");
-    file.add(exportButton);
-    exportButton.addActionListener(this);
-    exportButton.setActionCommand("load");
-    exportAll.addActionListener(this);
-    exportAll.setActionCommand("save all");
-    file.add(exportAll);
+    importButton.setActionCommand("load");
     loadAll.addActionListener(this);
     loadAll.setActionCommand("load all");
     file.add(loadAll);
+    file.add(exportButton);
+    exportButton.addActionListener(this);
+    exportButton.setActionCommand("save");
+    exportAll.addActionListener(this);
+    exportAll.setActionCommand("save all");
+    file.add(exportAll);
     file.add(batch);
     batch.addActionListener(this);
     batch.setActionCommand("batch");
@@ -236,11 +240,15 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
   @Override
   public void actionPerformed(ActionEvent e) {
     switch (e.getActionCommand()) {
-      case "save": {
+      case "load": {
         final JFileChooser fchooser = new JFileChooser(".");
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-            "Supported Image Formats", ImageIO.getReaderFormatNames());
-        fchooser.setFileFilter(filter);
+        String[] formats = new String[ImageIO.getReaderFormatNames().length + 2];
+        formats[0] = "ppm";
+        formats[1] = ("PPM");
+        for (int i = 2; i < formats.length; i++) {
+          formats[i] = ImageIO.getReaderFormatNames()[i - 2];
+        }
+        fchooser.setFileFilter(new FileNameExtensionFilter("Supported Image types", formats));
         int retvalue = fchooser.showOpenDialog(this);
         if (retvalue == JFileChooser.APPROVE_OPTION) {
           File f = fchooser.getSelectedFile();
@@ -248,7 +256,7 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
         }
         break;
       }
-      case "load": {
+      case "save": {
         final JFileChooser fchooser = new JFileChooser(".");
         int retvalue = fchooser.showSaveDialog(this);
         if (retvalue == JFileChooser.APPROVE_OPTION) {
@@ -282,16 +290,12 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
             "layer name", JOptionPane.QUESTION_MESSAGE);
         current = input;
         features.handleLayers(LayerAction.ADD, input);
-        if (!layerListModel.contains(input)) {
-          layerListModel.addElement(input);
-        }
         break;
       }
       case "removeLayer": {
         String input = JOptionPane.showInputDialog(this, "Name of Layer to Remove:", "Layer Name",
             JOptionPane.QUESTION_MESSAGE);
         features.handleLayers(LayerAction.REMOVE, input);
-        layerListModel.removeElement(input);
         break;
       }
       case "resize": {
@@ -354,13 +358,30 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
         features.handleLayers(LayerAction.VISIBLE, current);
         break;
       case "batch":
-        String input = JOptionPane.showInputDialog(this, "Batch commands file:", "Batch Commands",
-            JOptionPane.QUESTION_MESSAGE);
-        features.handleIO(IOAction.BATCH, input);
+
+        final JFileChooser fchooser = new JFileChooser(".");
+
+        fchooser.setFileFilter(new FileNameExtensionFilter("Text Files", "txt"));
+        int retvalue = fchooser.showOpenDialog(this);
+        if (retvalue == JFileChooser.APPROVE_OPTION) {
+          File f = fchooser.getSelectedFile();
+          features.handleIO(IOAction.BATCH, f.getAbsolutePath());
+        }
         break;
+      case "quit":
+        int saveChoice = JOptionPane
+            .showConfirmDialog(this, "Save changes?", "Quit", JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+        if (saveChoice == JOptionPane.YES_OPTION) {
+          this.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "save all"));
+        } else if (saveChoice == JOptionPane.CANCEL_OPTION) {
+          break;
+        }
+        this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 
     features.show();
+    features.listLayers();
   }
 
   @Override
@@ -382,6 +403,11 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
     int[] rgbArray = Arrays.stream(image.pixArray()).mapToInt(Color::getRGB).toArray();
     buf.setRGB(0, 0, buf.getWidth(), buf.getHeight(), rgbArray, 0, buf.getWidth());
     imageToShow.setIcon(new ImageIcon(buf));
+  }
+
+  @Override
+  public void displayLayers(String[] layerNames) {
+    layerList.setListData(layerNames);
   }
 
 

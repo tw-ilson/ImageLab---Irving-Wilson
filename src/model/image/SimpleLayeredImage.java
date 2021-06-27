@@ -214,7 +214,7 @@ public class SimpleLayeredImage implements LayeredImage {
   }
 
   @Override
-  public void addLayer(String layerName) {
+  public void addLayer(String layerName) throws IllegalArgumentException{
     Objects.requireNonNull(layerName);
     if (layerTable.containsKey(layerName)) {
       throw new IllegalArgumentException("Layer with the given name already exists.");

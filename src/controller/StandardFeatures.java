@@ -205,6 +205,15 @@ public class StandardFeatures implements Features {
   }
 
   @Override
+  public void listLayers() {
+    try {
+      view.displayLayers(model.listLayers());
+    } catch (IOException e) {
+      this.displayMessage("An IO error occurred!");
+    }
+  }
+
+  @Override
   public void mosaic(int nSeeds) {
     try {
       model.mosaic(nSeeds);
@@ -237,9 +246,17 @@ public class StandardFeatures implements Features {
     white[0] = new LightColor(0);
     try {
       Image toPass = model.getTopMostVisible();
-      view.displayImage(toPass);
+      try {
+        view.displayImage(toPass);
+      } catch (IOException e) {
+        displayMessage("IO error occurred.");
+      }
     } catch (IllegalStateException a) {
-      view.displayImage(new SimpleImage(white, 1, 1));
+      try {
+        view.displayImage(new SimpleImage(white, 1, 1));
+      } catch (IOException e) {
+        displayMessage("IO error occurred.");
+      }
     }
   }
 

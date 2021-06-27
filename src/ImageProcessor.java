@@ -1,6 +1,8 @@
 
 import controller.ImageGUIController;
 import controller.ImageProcessorController;
+import controller.SimpleImageController;
+import java.io.InputStreamReader;
 import model.ImageProcessorLayerModel;
 import model.LayeredImageModel;
 
@@ -15,7 +17,12 @@ public class ImageProcessor {
    */
   public static void main(String[] args) {
     ImageProcessorLayerModel model = new LayeredImageModel();
-    ImageProcessorController controller = new ImageGUIController(model);
+    ImageProcessorController controller;
+    if (args[0].equals("gui")) {
+      controller = new ImageGUIController(model);
+    } else {
+      controller = new SimpleImageController(model, new InputStreamReader(System.in), System.out);
+    }
     controller.run();
   }
 }

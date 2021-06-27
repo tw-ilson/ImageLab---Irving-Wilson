@@ -14,8 +14,9 @@ public interface ImageProcessorLayerModel extends ImageProcessorModel {
    * Creates a new Layer.
    *
    * @param layerName (the distinct name of the new layer)
+   * @throws IllegalArgumentException if the layer of that name already exists.
    */
-  public void createLayer(String layerName);
+  public void createLayer(String layerName) throws IllegalArgumentException;
 
 
   /**

@@ -79,7 +79,7 @@ public class LayeredImageModel extends AbstractImageProcessorModel implements
 
 
   @Override
-  public void createLayer(String layerName) {
+  public void createLayer(String layerName) throws IllegalArgumentException {
     Objects.requireNonNull(layerName);
     image.addLayer(layerName);
   }
