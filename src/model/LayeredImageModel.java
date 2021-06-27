@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import model.image.Image;
 import model.image.LayeredImage;
@@ -103,5 +104,10 @@ public class LayeredImageModel extends AbstractImageProcessorModel implements
   @Override
   public Image getTopMostVisible() {
     return image.topMostVisibleLayer();
+  }
+
+  @Override
+  public ArrayList<Image> allVisibleImages() {
+    return image.allVisibleImages();
   }
 }

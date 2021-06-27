@@ -3,6 +3,7 @@ package controller;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 import javax.imageio.ImageIO;
@@ -55,7 +56,6 @@ public class StandardFeatures implements Features {
                     .anyMatch(name -> ext.substring(1).equals(name)) || ext.equals(".ppm")) {
                   displayMessage(
                       ImageUtils.write(ext.substring(1), fileName, currentImage));
-
                 } else {
                   displayMessage("Cannot recognize file type. Skipping.");
                 }
@@ -73,6 +73,46 @@ public class StandardFeatures implements Features {
           }
         } catch (IOException e) {
           displayMessage("IO error occurred on file export.");
+        }
+        break;
+      case SAVEALL:
+        ArrayList<Image> allImages = model.allVisibleImages();
+        if (allImages.size() == 0) {
+          displayMessage("No viable images to save.");
+        }
+        for (int i = 0; i < allImages.size(); i++) {
+          Image toProcess = allImages.get(i);
+          if (fileName != null) {
+            if (fileName.contains(".")) {
+              String ext = fileName.substring(fileName.lastIndexOf('.'));
+              if (Arrays.stream(ImageIO.getWriterFormatNames())
+                  .anyMatch(name -> ext.substring(1).equals(name)) || ext.equals(".ppm")) {
+                try {
+                  displayMessage(
+                      ImageUtils.write(ext.substring(1), i + fileName, toProcess));
+                } catch (IOException e) {
+                  e.printStackTrace();
+                }
+              } else {
+                displayMessage("Cannot recognize file type. Skipping.");
+              }
+            } else {
+              //defaults to jpeg
+              try {
+                displayMessage(
+                    ImageUtils.write("jpeg", i + fileName + ".jpeg", model.getImage()));
+              } catch (IOException e) {
+                e.printStackTrace();
+              }
+            }
+          } else {
+            try {
+              displayMessage(ImageUtils
+                  .write("jpeg", i + toProcess.toString() + ".jpeg", model.getImage()));
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+          }
         }
         break;
       case BATCH:

@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import model.image.Image;
 
 /**
@@ -71,4 +72,10 @@ public interface ImageProcessorLayerModel extends ImageProcessorModel {
    * @return
    */
   public Image getTopMostVisible();
+
+  /**
+   * Returns all of the visible images in the layered image.
+   * @return ArrayList of all of the visible images.
+   */
+  public ArrayList<Image> allVisibleImages();
 }

@@ -66,6 +66,7 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
   private final JMenu file;
   private final JMenuItem importButton;
   private final JMenuItem exportButton;
+  private final JMenuItem exportAll;
   private final JMenuItem quit;
   private final JMenuItem batch;
   private final JMenu layer;
@@ -114,6 +115,7 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
     this.file = new JMenu("File");
     this.importButton = new JMenuItem("Import...");
     this.exportButton = new JMenuItem("Export...");
+    this.exportAll = new JMenuItem("Export all...");
     this.quit = new JMenuItem("Quit");
     this.batch = new JMenuItem("Batch");
     this.layer = new JMenu("Layer");
@@ -178,6 +180,9 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
     file.add(exportButton);
     exportButton.addActionListener(this);
     exportButton.setActionCommand("load");
+    exportAll.addActionListener(this);
+    exportAll.setActionCommand("save all");
+    file.add(exportAll);
     file.add(batch);
     batch.addActionListener(this);
     batch.setActionCommand("batch");
@@ -244,8 +249,15 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
         if (retvalue == JFileChooser.APPROVE_OPTION) {
           File f = fchooser.getSelectedFile();
           features.handleIO(IOAction.EXPORT, f.getAbsolutePath());
-
         }
+        break;
+      }
+      case "save all": {
+        // need to do this for each individual image
+        String input = JOptionPane.showInputDialog(this, "Name of file to"
+                + "save: ",
+            "Save All", JOptionPane.QUESTION_MESSAGE);
+        features.handleIO(IOAction.SAVEALL, input);
         break;
       }
       case "addLayer": {

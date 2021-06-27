@@ -1,5 +1,6 @@
 package model.image;
 
+import java.util.ArrayList;
 import model.color.Color;
 
 /**
@@ -108,4 +109,10 @@ public interface LayeredImage extends Image {
    * @throws IllegalArgumentException
    */
   LayeredImage resize(int w, int h) throws IllegalStateException, IllegalArgumentException;
+
+  /**
+   * allVisibleImages returns a list of all the visible images in the layeredImage.
+   * @return ArrayList (Image) of all of the visible images in the layered image.
+   */
+  ArrayList<Image> allVisibleImages();
 }

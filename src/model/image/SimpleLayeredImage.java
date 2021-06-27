@@ -177,6 +177,19 @@ public class SimpleLayeredImage implements LayeredImage {
       LayerInfo old = layerTable.get(key);
       layerTable.replace(key, new LayerInfo(old.inOrder, old.pixels.resize(w, h), old.visible));
     }
+    width = w;
+    height = h;
+    return toReturn;
+  }
+
+  @Override
+  public ArrayList<Image> allVisibleImages() {
+    ArrayList<Image> toReturn = new ArrayList<>();
+    for (LayerInfo info: layerTable.values()) {
+      if (info.pixels != null && info.visible) {
+        toReturn.add(info.pixels);
+      }
+    }
     return toReturn;
   }
 
