@@ -73,6 +73,48 @@ We also moved all of our image handling to the controller level of the program, 
 handles the internal data and not the external data being fed into the controller. The model
 is the backend of our program, and as such should not be associated with the external data.
 
+
+// Homework 7 additions
+
+The primary changes from homework 6 to homework 7 was the addition of the Graphical interface
+view, through which the user can interact with the program.
+
+A new class was created, the JFrameView class, which holds all of the code that allows the user
+to interact with the program through the GUI. It builds the GUI, and communicates with the
+controller to display the correct data.
+
+We did make some changes to the ImageProcessorView interface to support this new view, particularly
+the displayImage method with allows the JFrameView to interpret image data, and the
+displayLayers method which allows the JFrameView to interpret the layers from the controller.
+This additional functionality ensures that Batch Commands update the view accordingly.
+
+To the controller, we made some drastic changes. We added a new interface, the Features interface,
+which represents the functionality that the controller has to handle through the
+GUI, in order to update the model along with what the client actually sees on the screen
+correctly.
+
+Implementing the interface was the StandardFeatures class, which actually implements
+the functionality dictated above. It holds the data from the model and the view, able to receive
+commands that the view "hears", and act upon them by updating the model on the backend.
+
+ImageGUIController is merely code which creates an instance of the GUI view, which is fed an
+instance of the features class containing the corresponding model and the view itself. This web of
+functionality allows for live-time updates of the view according with the data
+changes handled in the model.
+
+In terms of additional functionality, we also added the ability to resize an image. We added
+an additional method to the abstract image class, which handled the brunt of the actual resize
+image operation. Then we added a resize method to the image interface, which used this abstract
+method in all of the subsequent image classes. This functionality was then included in the GUI,
+along with the features class to handle this new alteration.
+
+We also added the ability to create a Mosaic image. The process of introducing this additional
+functionality was actually quite similar to that of resize. A method to handle the brunt of the
+calculations was added to the AbstractImage class (to be used by all subsequent image classes), and
+then a method which uses these calculations was added to the image interface, which allowed the
+implementation to vary from a simple image to a layered image, for instance.
+
+
 new images:
 
 "An Image of the Moon"
@@ -85,6 +127,9 @@ public domain
 taken 2018, screenshot
 Belongs to the Nickelodeon corporation.
 public domain, can be used for commerical use
+
+
+
 
 
 
