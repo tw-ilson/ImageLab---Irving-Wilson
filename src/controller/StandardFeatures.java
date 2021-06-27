@@ -13,16 +13,38 @@ import model.color.LightColor;
 import model.image.Image;
 import model.image.SimpleImage;
 import view.ImageProcessorView;
+import view.JFrameView;
 
+/**
+ * StandardFeatures is a class which represents the functionality that the user can enact upon the
+ * data through the model, by interacting with the GUI on the other end. This class serves as a node
+ * through which the model can communicate with the view, and vice versa.
+ */
 public class StandardFeatures implements Features {
 
-  ImageProcessorLayerModel model;
-  ImageProcessorView view;
-  String current;
+  private ImageProcessorLayerModel model;
+  private ImageProcessorView view;
 
+  /**
+   * Initializes a StandardFeatures Object.
+   *
+   * @param model (the model which the StandardFeatures Object will process data through).
+   */
   public StandardFeatures(ImageProcessorLayerModel model) {
     Objects.requireNonNull(model);
     this.model = model;
+  }
+
+  /**
+   * Alternate constructor which can be fed a view. Can be a textual view, or a JFrameView.
+   *
+   * @param model (the model which standardFeatures will access the data through)
+   * @param view  (the graphical user interface through which the user can interact with the data)
+   */
+  public StandardFeatures(ImageProcessorLayerModel model, ImageProcessorView view) {
+    Objects.requireNonNull(model);
+    this.model = model;
+    this.view = view;
   }
 
   @Override
@@ -89,7 +111,7 @@ public class StandardFeatures implements Features {
                   .anyMatch(name -> ext.substring(1).equals(name)) || ext.equals(".ppm")) {
                 try {
                   displayMessage(
-                      ImageUtils.write(ext.substring(1), i + fileName, toProcess));
+                      ImageUtils.write(ext.substring(1), fileName + i, toProcess));
                 } catch (IOException e) {
                   e.printStackTrace();
                 }
@@ -97,10 +119,9 @@ public class StandardFeatures implements Features {
                 displayMessage("Cannot recognize file type. Skipping.");
               }
             } else {
-              //defaults to jpeg
               try {
                 displayMessage(
-                    ImageUtils.write("jpeg", i + fileName + i + ".jpeg", model.getImage()));
+                    ImageUtils.write("jpeg", fileName + i + ".jpeg", model.getImage()));
               } catch (IOException e) {
                 e.printStackTrace();
               }
@@ -130,14 +151,14 @@ public class StandardFeatures implements Features {
         }
         break;
       case BATCH:
-        // so run the commands from the other controller, which will modify the model
-        // that is passed, then runs the commands updating the model
         Readable toRead = null;
+
         try {
           toRead = new FileReader(fileName);
         } catch (FileNotFoundException e) {
           displayMessage("File not found");
         }
+
         ImageProcessorController controller =
             new SimpleImageController(model, toRead, new StringBuilder());
         controller.run();

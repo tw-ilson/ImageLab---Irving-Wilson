@@ -61,6 +61,11 @@ import model.color.Color;
 import model.image.Image;
 import model.image.SimpleLayeredImage;
 
+/**
+ * JFrameView represents the graphical user interface for the application itself, presenting the
+ * image in a viewable format that allows the user to edit/transform the layered image, before
+ * saving the image to any location on the computer.
+ */
 public class JFrameView extends JFrame implements ActionListener, ListSelectionListener,
     ImageProcessorView {
 
@@ -97,10 +102,14 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
   private JPanel ImagePanel;
   private JScrollPane imageScrollPane;
 
-  // the image to be edited
-  // private final JLabel currentImage;
 
-
+  /**
+   * Initializes the JFrameView, building it from the components. Uses swing, most technical
+   * functionality revolves around the documentation in the Java Swing library.
+   *
+   * @param features (the "features" are the actions which the graphical user interface has to
+   *                 handle from the model itself).
+   */
   public JFrameView(Features features) {
 
     // constructs the frame that is initially visible
@@ -379,7 +388,6 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
         }
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
-
     features.show();
     features.listLayers();
   }
