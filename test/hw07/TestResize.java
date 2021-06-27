@@ -6,6 +6,9 @@ import model.image.Image;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ *
+ */
 public class TestResize {
 
   Image before;

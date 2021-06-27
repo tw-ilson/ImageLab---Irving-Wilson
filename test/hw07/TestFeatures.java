@@ -19,6 +19,11 @@ import org.junit.Before;
 import org.junit.Test;
 import view.JFrameView;
 
+/**
+ * Tests for the features class, confirming if all of the functionality that it passes to the model
+ * is correctly interpreted and executed by the "bridge" that the features class forms. Does so by
+ * observing changes in the model itself.
+ */
 public class TestFeatures {
 
   private ImageProcessorLayerModel model;
@@ -318,7 +323,7 @@ public class TestFeatures {
   }
 
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testSetCurrent() {
     features.handleLayers(LayerAction.ADD, "layer1");
     features.handleIO(IOAction.IMPORT, "photos/Moon.jpeg");
@@ -328,7 +333,7 @@ public class TestFeatures {
     assertEquals(model.getImage(), "");
   }
 
-  @Test (expected = NullPointerException.class)
+  @Test(expected = NullPointerException.class)
   public void testSetCurrentNull() {
     features.handleLayers(LayerAction.ADD, "layer1");
     features.handleIO(IOAction.IMPORT, "photos/Moon.jpeg");
@@ -346,6 +351,7 @@ public class TestFeatures {
     features.listLayers();
     assertEquals(view.toString(), "layer1 layer2 layer3");
   }
+
   @Test
   public void testListLayersNothing() {
     features.listLayers();

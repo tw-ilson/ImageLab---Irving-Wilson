@@ -4,14 +4,17 @@ import static org.junit.Assert.assertEquals;
 
 import controller.Features;
 import controller.StandardFeatures;
-import java.awt.event.ActionEvent;
 import model.ImageProcessorLayerModel;
-import model.ImageProcessorModel;
 import model.LayeredImageModel;
 import org.junit.Before;
 import org.junit.Test;
 import view.JFrameView;
 
+/**
+ * Tests for the JFrameView, specifically seeing if it responds correctly to events by observing
+ * changes in the appendable output in the model, which is tracking alterations to the current
+ * condition of the data, listening for events enacted by the user.
+ */
 public class TestJFrameView {
 
   private ImageProcessorLayerModel model;

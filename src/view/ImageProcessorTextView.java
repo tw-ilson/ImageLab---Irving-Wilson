@@ -5,7 +5,7 @@ import java.util.Objects;
 import model.image.Image;
 
 /**
- * A text view for an image processing model.
+ * A text view for an image processing model, which displays the user interaction in the console.
  */
 public class ImageProcessorTextView implements ImageProcessorView {
 

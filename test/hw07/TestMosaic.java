@@ -9,9 +9,15 @@ import model.image.SimpleImage;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Tests for the mosaic method, seeing if the seeds correctly populated the image and if the
+ * distances between pixels is found to be correct, in terms of the manner in which the various
+ * colors are altered.
+ */
 public class TestMosaic {
+
   private Image image1;
-  private LightColor[] toTest = new LightColor[9];
+  private final LightColor[] toTest = new LightColor[9];
 
 
   @Before
@@ -26,16 +32,16 @@ public class TestMosaic {
   public void testMosaic() {
     toTest[0] = new LightColor(2, 2, 2);
     Image toCheck = image1.mosaic(1);
-    assertEquals(toCheck.getPixel(0,0).getRed(), toCheck.getPixel(2,2).getRed());
+    assertEquals(toCheck.getPixel(0, 0).getRed(), toCheck.getPixel(2, 2).getRed());
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testMosaicWNegative() {
     toTest[0] = new LightColor(2, 2, 2);
     image1.mosaic(-2000);
   }
 
-  @Test (expected = NullPointerException.class)
+  @Test(expected = NullPointerException.class)
   public void testMosaicWStringInput() {
     toTest[0] = new LightColor(2, 2, 2);
     Image toCheck = image1.mosaic(0);
@@ -53,7 +59,7 @@ public class TestMosaic {
     }
     Image toCheck = new SimpleImage(oneMore, 5, 5);
     Image toConfirm = toCheck.mosaic(2);
-    assertEquals(toConfirm.getPixel(0,0).getRed(), toConfirm.getPixel(1, 1).getRed());
+    assertEquals(toConfirm.getPixel(0, 0).getRed(), toConfirm.getPixel(1, 1).getRed());
     assertNotEquals(toConfirm.getPixel(0, 0).getRed(),
         toConfirm.getPixel(4, 4).getRed());
   }

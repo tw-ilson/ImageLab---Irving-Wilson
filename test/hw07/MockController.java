@@ -6,6 +6,11 @@ import java.io.IOException;
 import java.util.Objects;
 import view.ImageProcessorView;
 
+/**
+ * A mock controller to allow for the testing of the event functionality within the view.
+ * How to stimulate the press of a button, while not being able to really interact with the GUI
+ * through the testing syntax itself? This class allows for this behaviour.
+ */
 public class MockController implements ImageProcessorController, Features {
 
   private final Appendable out;

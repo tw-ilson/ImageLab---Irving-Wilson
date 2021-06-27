@@ -7,6 +7,12 @@ import java.io.IOException;
 import model.image.Image;
 import view.ImageProcessorView;
 
+/**
+ * This is a mock view class which allows the client to interact with the inherent functionality of
+ * the program, specifically the events themselves. Thus, the client can test the responses through
+ * the appendable output of the mock controller, to ensure this communication is happening
+ * correctly.
+ */
 public class MockView implements ImageProcessorView {
 
   public MockController features;

@@ -12,7 +12,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests the proper functionality of Kernel filter
+ * Tests the proper functionality of Kernel filter, ensuring that it can work with images of all
+ * kinds.
  */
 public class TestKernelFilter {
   Image squidward;
