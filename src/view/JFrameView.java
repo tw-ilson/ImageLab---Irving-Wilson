@@ -67,6 +67,7 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
   private final JMenuItem importButton;
   private final JMenuItem exportButton;
   private final JMenuItem exportAll;
+  private final JMenuItem loadAll;
   private final JMenuItem quit;
   private final JMenuItem batch;
   private final JMenu layer;
@@ -116,6 +117,7 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
     this.importButton = new JMenuItem("Import...");
     this.exportButton = new JMenuItem("Export...");
     this.exportAll = new JMenuItem("Export all...");
+    this.loadAll = new JMenuItem("Load all");
     this.quit = new JMenuItem("Quit");
     this.batch = new JMenuItem("Batch");
     this.layer = new JMenu("Layer");
@@ -183,6 +185,9 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
     exportAll.addActionListener(this);
     exportAll.setActionCommand("save all");
     file.add(exportAll);
+    loadAll.addActionListener(this);
+    loadAll.setActionCommand("load all");
+    file.add(loadAll);
     file.add(batch);
     batch.addActionListener(this);
     batch.setActionCommand("batch");
@@ -258,6 +263,18 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
                 + "save: ",
             "Save All", JOptionPane.QUESTION_MESSAGE);
         features.handleIO(IOAction.SAVEALL, input);
+        break;
+      }
+      case "load all": {
+        final JFileChooser fchooser = new JFileChooser(".");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+            "Supported Image Formats", ImageIO.getReaderFormatNames());
+        fchooser.setFileFilter(filter);
+        int retvalue = fchooser.showOpenDialog(this);
+        if (retvalue == JFileChooser.APPROVE_OPTION) {
+          File f = fchooser.getSelectedFile();
+          features.handleIO(IOAction.LOADALL, f.getAbsolutePath());
+        }
         break;
       }
       case "addLayer": {

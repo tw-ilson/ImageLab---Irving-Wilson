@@ -100,7 +100,7 @@ public class StandardFeatures implements Features {
               //defaults to jpeg
               try {
                 displayMessage(
-                    ImageUtils.write("jpeg", i + fileName + ".jpeg", model.getImage()));
+                    ImageUtils.write("jpeg", i + fileName + i + ".jpeg", model.getImage()));
               } catch (IOException e) {
                 e.printStackTrace();
               }
@@ -108,10 +108,24 @@ public class StandardFeatures implements Features {
           } else {
             try {
               displayMessage(ImageUtils
-                  .write("jpeg", i + toProcess.toString() + ".jpeg", model.getImage()));
+                  .write("jpeg", toProcess.toString() + i + ".jpeg", model.getImage()));
             } catch (IOException e) {
               e.printStackTrace();
             }
+          }
+        }
+        break;
+      case LOADALL:
+        for (int i = 0; i < model.listLayers().length; i++) {
+          try {
+            this.model.setCurrentLayer(model.listLayers()[i]);
+            model.editCurrentLayer(ImageUtils.read(fileName));
+          } catch (IllegalStateException e) {
+            displayMessage("No layers created.");
+          } catch (IllegalArgumentException e) {
+            displayMessage("Image is not the right size.");
+          } catch (IOException e) {
+            displayMessage("IO error occurred on import.");
           }
         }
         break;
@@ -124,9 +138,10 @@ public class StandardFeatures implements Features {
         } catch (FileNotFoundException e) {
           displayMessage("File not found");
         }
-        SimpleImageController controller =
+        ImageProcessorController controller =
             new SimpleImageController(model, toRead, new StringBuilder());
         controller.run();
+
         break;
     }
 
