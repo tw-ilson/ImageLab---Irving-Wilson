@@ -106,6 +106,9 @@ public abstract class AbstractImage implements Image {
 
 
   protected Color[] imageMosaic(int numSeeds) {
+    if (numSeeds < 0) {
+      throw new IllegalArgumentException("Cannot pass a negative amount of seeds.");
+    }
     Random rand = new Random();
     Color[] mosaic = new LightColor[this.pixArray.length];
     ArrayList<Integer> coords = new ArrayList<>();

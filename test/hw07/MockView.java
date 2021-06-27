@@ -22,7 +22,6 @@ public class MockView implements ImageProcessorView {
 
   @Override
   public void displayImage(Image image) {
-
   }
 
   @Override

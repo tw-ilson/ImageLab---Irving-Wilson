@@ -187,5 +187,168 @@ public class TestFeatures {
         ImageUtils.read("photos/Moon.jpeg").getHeight());
   }
 
+  @Test
+  public void greyscale() throws IOException {
+    features.handleLayers(LayerAction.ADD, "layer1");
+    features.handleIO(IOAction.IMPORT, "photos/Moon.jpeg");
+    features.handleFilter(FilterAction.GREYSCALE);
+    assertNotEquals(model.getImage().getHeight(),
+        ImageUtils.read("photos/Moon.jpeg").getHeight());
+  }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void greyscalewrong() throws IOException {
+    features.handleLayers(LayerAction.ADD, "layer1");
+    features.handleIO(IOAction.IMPORT, "204920498209");
+    features.handleFilter(FilterAction.GREYSCALE);
+    assertNotEquals(model.getImage().getHeight(),
+        ImageUtils.read("photos/Moon.jpeg").getHeight());
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void greyscaleNull() throws IOException {
+    features.handleLayers(LayerAction.ADD, "layer1");
+    features.handleIO(IOAction.IMPORT, null);
+    features.handleFilter(FilterAction.GREYSCALE);
+    assertNotEquals(model.getImage().getHeight(),
+        ImageUtils.read("photos/Moon.jpeg").getHeight());
+  }
+
+  @Test
+  public void testAdd() throws IOException {
+    features.handleLayers(LayerAction.ADD, "layer1");
+    assertEquals(model.listLayers().length, 1);
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void testAddNull() throws IOException {
+    features.handleLayers(LayerAction.ADD, null);
+    assertEquals(model.listLayers().length, 1);
+  }
+
+  @Test
+  public void testRemove() throws IOException {
+    features.handleLayers(LayerAction.ADD, "layer1");
+    assertEquals(model.listLayers().length, 1);
+    features.handleLayers(LayerAction.REMOVE, "layer1");
+    assertEquals(model.listLayers().length, 0);
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void testRemoveNull() throws IOException {
+    features.handleLayers(LayerAction.ADD, "layer1");
+    assertEquals(model.listLayers().length, 1);
+    features.handleLayers(LayerAction.REMOVE, null);
+    assertEquals(model.listLayers().length, 0);
+  }
+
+  @Test
+  public void testInvisible() throws IOException {
+    features.handleLayers(LayerAction.ADD, "layer1");
+    features.handleIO(IOAction.IMPORT, "photos/Moon.jpeg");
+    features.handleFilter(FilterAction.GREYSCALE);
+    features.handleLayers(LayerAction.ADD, "layer2");
+    features.handleIO(IOAction.IMPORT, "photos/Moon.jpeg");
+    features.handleLayers(LayerAction.INVISIBLE, "layer2");
+    assertNotEquals(model.getImage(),
+        ImageUtils.read("photos/Moon.jpeg"));
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void testInvisibleNull() throws IOException {
+    features.handleLayers(LayerAction.ADD, "layer1");
+    features.handleIO(IOAction.IMPORT, "photos/Moon.jpeg");
+    features.handleFilter(FilterAction.GREYSCALE);
+    features.handleLayers(LayerAction.ADD, "layer2");
+    features.handleIO(IOAction.IMPORT, "photos/Moon.jpeg");
+    features.handleLayers(LayerAction.INVISIBLE, null);
+    assertNotEquals(model.getImage(),
+        ImageUtils.read("photos/Moon.jpeg"));
+  }
+
+  @Test
+  public void testInvisibleInvalid() throws IOException {
+    features.handleLayers(LayerAction.ADD, "layer1");
+    features.handleIO(IOAction.IMPORT, "photos/Moon.jpeg");
+    features.handleFilter(FilterAction.GREYSCALE);
+    features.handleLayers(LayerAction.ADD, "layer2");
+    features.handleIO(IOAction.IMPORT, "photos/Moon.jpeg");
+    features.handleLayers(LayerAction.INVISIBLE, "90823");
+    assertNotEquals(model.getImage(),
+        ImageUtils.read("photos/Moon.jpeg"));
+  }
+
+  @Test
+  public void testVisible() throws IOException {
+    features.handleLayers(LayerAction.ADD, "layer1");
+    features.handleIO(IOAction.IMPORT, "photos/Moon.jpeg");
+    features.handleFilter(FilterAction.GREYSCALE);
+    features.handleLayers(LayerAction.ADD, "layer2");
+    features.handleIO(IOAction.IMPORT, "photos/Moon.jpeg");
+    features.handleLayers(LayerAction.INVISIBLE, "layer2");
+    features.handleLayers(LayerAction.VISIBLE, "layer2");
+    assertEquals(model.getImage().getHeight(),
+        ImageUtils.read("photos/Moon.jpeg").getHeight());
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void testVisibleNull() throws IOException {
+    features.handleLayers(LayerAction.ADD, "layer1");
+    features.handleIO(IOAction.IMPORT, "photos/Moon.jpeg");
+    features.handleFilter(FilterAction.GREYSCALE);
+    features.handleLayers(LayerAction.ADD, "layer2");
+    features.handleIO(IOAction.IMPORT, "photos/Moon.jpeg");
+    features.handleLayers(LayerAction.INVISIBLE, "layer2");
+    features.handleLayers(LayerAction.VISIBLE, null);
+    assertEquals(model.getImage().getHeight(),
+        ImageUtils.read("photos/Moon.jpeg").getHeight());
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void testVisibleInvalid() throws IOException {
+    features.handleLayers(LayerAction.ADD, "layer1");
+    features.handleIO(IOAction.IMPORT, "photos/Moon.jpeg");
+    features.handleFilter(FilterAction.GREYSCALE);
+    features.handleLayers(LayerAction.ADD, "layer2");
+    features.handleIO(IOAction.IMPORT, "photos/Moon.jpeg");
+    features.handleLayers(LayerAction.INVISIBLE, "layer2");
+    features.handleLayers(LayerAction.VISIBLE, "29842#(*");
+    assertEquals(model.getImage(),
+        ImageUtils.read("photos/Moon.jpeg"));
+  }
+
+
+  @Test (expected = IllegalArgumentException.class)
+  public void testSetCurrent() {
+    features.handleLayers(LayerAction.ADD, "layer1");
+    features.handleIO(IOAction.IMPORT, "photos/Moon.jpeg");
+    features.handleLayers(LayerAction.ADD, "layer2");
+    features.handleLayers(LayerAction.SETCURRENT, "layer1");
+    features.handleLayers(LayerAction.INVISIBLE, "layer1");
+    assertEquals(model.getImage(), "");
+  }
+
+  @Test (expected = NullPointerException.class)
+  public void testSetCurrentNull() {
+    features.handleLayers(LayerAction.ADD, "layer1");
+    features.handleIO(IOAction.IMPORT, "photos/Moon.jpeg");
+    features.handleLayers(LayerAction.ADD, "layer2");
+    features.handleLayers(LayerAction.SETCURRENT, null);
+    features.handleLayers(LayerAction.INVISIBLE, "layer1");
+    assertEquals(model.getImage(), "");
+  }
+
+  @Test
+  public void testListLayers() {
+    features.handleLayers(LayerAction.ADD, "layer1");
+    features.handleLayers(LayerAction.ADD, "layer2");
+    features.handleLayers(LayerAction.ADD, "layer3");
+    features.listLayers();
+    assertEquals(view.toString(), "layer1 layer2 layer3");
+  }
+  @Test
+  public void testListLayersNothing() {
+    features.listLayers();
+    assertEquals(view.toString(), "");
+  }
 }
