@@ -50,11 +50,11 @@ public class LayeredImageModel extends AbstractImageProcessorModel implements
 
   @Override
   public void resize(int w, int h) throws IllegalStateException, IllegalArgumentException {
-
+    image.resize(w, h);
   }
 
   @Override
-  public void mosaic(int numSeeds) {
+  public void mosaic(int numSeeds) throws IllegalStateException, IllegalArgumentException{
     image.editCurrentLayer(image.mosaic(numSeeds));
   }
 

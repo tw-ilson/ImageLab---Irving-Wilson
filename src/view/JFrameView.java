@@ -6,8 +6,10 @@ import controller.Features.IOAction;
 import controller.Features.LayerAction;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,13 +43,18 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JSpinner.NumberEditor;
 import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import model.ImageProcessorLayerModel;
 import model.ImageProcessorModel;
 import model.LayeredImageModel;
+import model.color.Color;
 import model.image.Image;
 import model.image.SimpleLayeredImage;
 
@@ -59,6 +66,7 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
   private final JMenu file;
   private final JMenuItem importButton;
   private final JMenuItem exportButton;
+  private final JMenuItem quit;
   private final JMenuItem batch;
   private final JMenu layer;
   private final JMenuItem addLayer;
@@ -106,6 +114,7 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
     this.file = new JMenu("File");
     this.importButton = new JMenuItem("Import...");
     this.exportButton = new JMenuItem("Export...");
+    this.quit = new JMenuItem("Quit");
     this.batch = new JMenuItem("Batch");
     this.layer = new JMenu("Layer");
     this.addLayer = new JMenuItem("Add");
@@ -170,8 +179,11 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
     exportButton.addActionListener(this);
     exportButton.setActionCommand("load");
     file.add(batch);
-    this.batch.addActionListener(this);
-    file.add(batch);
+    batch.addActionListener(this);
+    batch.setActionCommand("batch");
+    file.add(quit);
+    quit.addActionListener(this);
+    quit.setActionCommand("quit");
     layer.add(addLayer);
     addLayer.addActionListener(this);
     addLayer.setActionCommand("addLayer");
@@ -222,11 +234,7 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
         int retvalue = fchooser.showOpenDialog(this);
         if (retvalue == JFileChooser.APPROVE_OPTION) {
           File f = fchooser.getSelectedFile();
-          try {
-            features.handleIO(IOAction.IMPORT, f.getAbsolutePath());
-          } catch (IOException ioException) {
-            ioException.printStackTrace();
-          }
+          features.handleIO(IOAction.IMPORT, f.getAbsolutePath());
         }
         break;
       }
@@ -235,11 +243,8 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
         int retvalue = fchooser.showSaveDialog(this);
         if (retvalue == JFileChooser.APPROVE_OPTION) {
           File f = fchooser.getSelectedFile();
-          try {
-            features.handleIO(IOAction.EXPORT, f.getAbsolutePath());
-          } catch (IOException ioException) {
-            ioException.printStackTrace();
-          }
+          features.handleIO(IOAction.EXPORT, f.getAbsolutePath());
+
         }
         break;
       }
@@ -261,9 +266,36 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
         break;
       }
       case "resize": {
-        JDialog resizeDialog = new JDialog(this, "Set Dimensions");
-      }
+        Container dialogPanel = new JPanel();
+        dialogPanel.setLayout(new GridLayout(0, 1));
+        dialogPanel.setSize(200, 200);
+        JLabel prompt = new JLabel("Enter new dimensions:");
+        JLabel wLabel = new JLabel("Width:");
+        JLabel hLabel = new JLabel("Height:");
+        JSpinner widthSpinner = new JSpinner(new SpinnerNumberModel());
+        widthSpinner.setValue(imageToShow.getWidth());
+        JSpinner heightSpinner = new JSpinner(new SpinnerNumberModel());
+        heightSpinner.setValue(imageToShow.getHeight());
+        dialogPanel.add(prompt);
+        dialogPanel.add(wLabel);
+        wLabel.setLabelFor(widthSpinner);
+        dialogPanel.add(widthSpinner);
+        dialogPanel.add(hLabel);
+        hLabel.setLabelFor(heightSpinner);
+        dialogPanel.add(heightSpinner);
+        int result = JOptionPane
+            .showConfirmDialog(this, dialogPanel, "Resize", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+          try {
+            features.resize((Integer) widthSpinner.getValue(), (Integer) heightSpinner.getValue());
+          } catch (IllegalStateException ise) {
+            safeMessage("No Image to resize!");
+          } catch (IllegalArgumentException iae) {
+            safeMessage("Invalid size.");
+          }
+        }
         break;
+      }
       case "blur":
         features.handleFilter(FilterAction.BLUR);
         break;
@@ -280,7 +312,11 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
         String anotherInput = JOptionPane.showInputDialog(this, "Enter the number"
                 + " of seeds you wish to see in the mosaic: ", "NumSeeds",
             JOptionPane.QUESTION_MESSAGE);
-        features.handleLayers(LayerAction.MOSAIC, anotherInput);
+        try {
+          features.mosaic(Integer.parseInt(anotherInput));
+        } catch (NumberFormatException nfe) {
+          safeMessage("Please provide a number for seed.");
+        }
         break;
       case "invisible":
         features.handleLayers(LayerAction.INVISIBLE, current);
@@ -291,13 +327,10 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
       case "batch":
         String input = JOptionPane.showInputDialog(this, "Batch commands file:", "Batch Commands",
             JOptionPane.QUESTION_MESSAGE);
-        try {
-          features.handleIO(IOAction.BATCH, input);
-        } catch (IOException ioException) {
-          ioException.printStackTrace();
-        }
+        features.handleIO(IOAction.BATCH, input);
         break;
     }
+
     features.show();
   }
 
@@ -312,13 +345,12 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
       Dimension panelDimension = new Dimension(image.getWidth(), image.getHeight());
       imageScrollPane.setPreferredSize(panelDimension);
       this.ImagePanel.setSize(panelDimension);
-      setSize(panelDimension.width + layerList.getWidth(),
-          panelDimension.height + topBar.getHeight());
+      Dimension appDimension = new Dimension();
+      appDimension.setSize(panelDimension.width * 1.2 + layerList.getWidth(),
+          panelDimension.height * 1.2 + topBar.getHeight());
+      setSize(appDimension);
     }
-    int[] rgbArray = Arrays.stream(image.pixArray())
-        .mapToInt(
-            color -> color.getRGB() & 0xffffff) //extracts bytes from Colors ands sets Alpha to 100%
-        .toArray();
+    int[] rgbArray = Arrays.stream(image.pixArray()).mapToInt(Color::getRGB).toArray();
     buf.setRGB(0, 0, buf.getWidth(), buf.getHeight(), rgbArray, 0, buf.getWidth());
     imageToShow.setIcon(new ImageIcon(buf));
   }
@@ -334,5 +366,18 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
     // sets the current layer to the one selected
     features.handleLayers(LayerAction.SETCURRENT, this.layerList.getSelectedValue());
     current = this.layerList.getSelectedValue();
+  }
+
+  /**
+   * So I don't have to repeat catch blocks
+   *
+   * @param text the text to display
+   */
+  private void safeMessage(String text) {
+    try {
+      giveMessage(text);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }

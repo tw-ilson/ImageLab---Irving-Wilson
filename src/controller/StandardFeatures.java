@@ -1,10 +1,9 @@
 package controller;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.Objects;
 import javax.imageio.ImageIO;
 import model.ImageProcessorLayerModel;
@@ -12,7 +11,6 @@ import model.color.Color;
 import model.color.LightColor;
 import model.image.Image;
 import model.image.SimpleImage;
-import model.image.SimpleLayeredImage;
 import view.ImageProcessorView;
 
 public class StandardFeatures implements Features {
@@ -27,7 +25,7 @@ public class StandardFeatures implements Features {
   }
 
   @Override
-  public void handleIO(IOAction action, String fileName) throws IOException, IllegalStateException {
+  public void handleIO(IOAction action, String fileName) {
     if (model == null || view == null) {
       throw new IllegalStateException("Application not initialized");
     }
@@ -42,45 +40,60 @@ public class StandardFeatures implements Features {
           displayMessage("No layers created.");
         } catch (IllegalArgumentException e) {
           displayMessage("Image is not the right size.");
+        } catch (IOException e) {
+          displayMessage("IO error occurred on import.");
         }
         break;
       case EXPORT:
         Image currentImage = model.getImage();
-        if (currentImage != null) {
-          if (fileName != null) {
-            if (fileName.contains(".")) {
-              String ext = fileName.substring(fileName.lastIndexOf('.'));
-              if (Arrays.stream(ImageIO.getWriterFormatNames())
-                  .anyMatch(name -> ext.substring(1).equals(name)) || ext.equals(".ppm")) {
-                displayMessage(
-                    ImageUtils.write(ext.substring(1), fileName, currentImage));
+        try {
+          if (currentImage != null) {
+            if (fileName != null) {
+              if (fileName.contains(".")) {
+                String ext = fileName.substring(fileName.lastIndexOf('.'));
+                if (Arrays.stream(ImageIO.getWriterFormatNames())
+                    .anyMatch(name -> ext.substring(1).equals(name)) || ext.equals(".ppm")) {
+                  displayMessage(
+                      ImageUtils.write(ext.substring(1), fileName, currentImage));
+
+                } else {
+                  displayMessage("Cannot recognize file type. Skipping.");
+                }
               } else {
-                displayMessage("Cannot recognize file type. Skipping.");
+                //defaults to jpeg
+                displayMessage(
+                    ImageUtils.write("jpeg", fileName + ".jpeg", model.getImage()));
               }
             } else {
-              //defaults to jpeg
-              displayMessage(
-                  ImageUtils.write("jpeg", fileName + ".jpeg", model.getImage()));
+              displayMessage(ImageUtils
+                  .write("jpeg", currentImage.toString() + ".jpeg", model.getImage()));
             }
           } else {
-            displayMessage(ImageUtils
-                .write("jpeg", currentImage.toString() + ".jpeg", model.getImage()));
+            displayMessage("Cannot filter empty Image.");
           }
-        } else {
-          displayMessage("Cannot filter empty Image.");
+        } catch (IOException e) {
+          displayMessage("IO error occurred on file export.");
         }
+        break;
       case BATCH:
         // so run the commands from the other controller, which will modify the model
         // that is passed, then runs the commands updating the model
-        Readable toRead = new FileReader(fileName);
+        Readable toRead = null;
+        try {
+          toRead = new FileReader(fileName);
+        } catch (FileNotFoundException e) {
+          displayMessage("File not found");
+        }
         SimpleImageController controller =
             new SimpleImageController(model, toRead, new StringBuilder());
         controller.run();
+        break;
     }
+
   }
 
   @Override
-  public void handleFilter(FilterAction action) throws IllegalStateException {
+  public void handleFilter(FilterAction action) {
     String filter = action.toString().toLowerCase();
     try {
       model.applyFilter(filter);
@@ -93,7 +106,7 @@ public class StandardFeatures implements Features {
   }
 
   @Override
-  public void handleLayers(LayerAction action, String layerName) throws IllegalStateException {
+  public void handleLayers(LayerAction action, String layerName) {
     switch (action) {
       case ADD:
         try {
@@ -133,15 +146,29 @@ public class StandardFeatures implements Features {
           displayMessage("Layer does not exist");
         }
         break;
-      case MOSAIC:
-        try {
-          int numSeeds = Integer.parseInt(layerName);
-          model.mosaic(numSeeds);
-        } catch (NumberFormatException n) {
-          displayMessage("Invalid seed input, please input a number.");
-        }
     }
   }
+
+  @Override
+  public void mosaic(int nSeeds) {
+    try {
+      model.mosaic(nSeeds);
+    } catch (IllegalStateException e) {
+      displayMessage("No image to apply filter to.");
+    }
+  }
+
+  @Override
+  public void resize(int w, int h) {
+    try {
+      model.resize(w, h);
+    } catch (IllegalArgumentException iea) {
+      displayMessage("Invalid dimensions provided.");
+    } catch (IllegalStateException e) {
+      displayMessage("No Image to resize.");
+    }
+  }
+
 
   @Override
   public void addView(ImageProcessorView view) {
@@ -150,7 +177,7 @@ public class StandardFeatures implements Features {
   }
 
   @Override
-  public void show() throws IllegalStateException {
+  public void show() {
     Color[] white = new LightColor[1];
     white[0] = new LightColor(0);
     try {

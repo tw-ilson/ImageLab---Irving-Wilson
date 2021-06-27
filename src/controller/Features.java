@@ -11,30 +11,39 @@ public interface Features {
 
   enum IOAction { IMPORT, EXPORT, BATCH };
   enum FilterAction { BLUR, SHARPEN, GREYSCALE, SEPIA, CUSTOM };
-  enum LayerAction { ADD, REMOVE, VISIBLE, INVISIBLE, SETCURRENT, MOSAIC };
+  enum LayerAction { ADD, REMOVE, VISIBLE, INVISIBLE, SETCURRENT };
 
   /**
    * Handles the IO features of the Image processing Application. see {@link IOAction}.
    * @param action the IO action to perform.
    * @param fileName the file on which to perform the IO operation.
-   * @throws IllegalStateException if application is not yet initialized
-   * @throws IOException if an IO error occurs
    */
-  void handleIO(IOAction action, String fileName) throws IOException, IllegalStateException;
+  void handleIO(IOAction action, String fileName) ;
 
   /**
    * Handles the Image filtering features supported by the application. see {@link FilterAction}.
-   * @param action the filtering action to perform.
-   * @throws IllegalStateException if application is not yet initialized.
    */
-  void handleFilter(FilterAction action) throws IllegalStateException;
+  void handleFilter(FilterAction action) ;
 
   /**
    * Handles the features of the program related to the management of a specific layer. see {@link LayerAction}
    * @param action the layer action to perform.
-   * @throws IllegalStateException if application is not yet initialized.
    */
-  void handleLayers(LayerAction action, String layerName) throws IllegalStateException;
+  void handleLayers(LayerAction action, String layerName);
+
+  /**
+   * Makes a mosaic of the current image with the requested number of seeds.
+   * @param nSeeds the number of "tiles" that the mosaic will have
+   */
+  void mosaic(int nSeeds);
+
+  /**
+   * Resizes the image model.
+   *
+   * @param w the new width
+   * @param h the new height
+   */
+  void resize(int w, int h) ;
 
 
   /**
@@ -45,7 +54,6 @@ public interface Features {
 
   /**
    * Utilizes the main functionality of user interface
-   * @throws IllegalStateException if the application is not yet initialized.
    */
-  void show() throws IllegalStateException;
+  void show() ;
 }
