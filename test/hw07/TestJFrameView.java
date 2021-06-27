@@ -195,5 +195,10 @@ public class TestJFrameView {
     assertEquals("mosaic on model with 1000 seeds", out.toString());
   }
 
+  @Test
+  public void testDisplayImage() {
+
+  }
+
 
 }

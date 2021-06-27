@@ -351,4 +351,9 @@ public class TestFeatures {
     features.listLayers();
     assertEquals(view.toString(), "");
   }
+
+  @Test
+  public void testShow() {
+
+  }
 }

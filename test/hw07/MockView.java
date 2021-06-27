@@ -1,14 +1,11 @@
 package hw07;
 
-import controller.Features;
 import controller.Features.FilterAction;
 import controller.Features.IOAction;
 import controller.Features.LayerAction;
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import model.image.Image;
 import view.ImageProcessorView;
-import view.JFrameView;
 
 public class MockView implements ImageProcessorView {
 
@@ -17,7 +14,6 @@ public class MockView implements ImageProcessorView {
 
   @Override
   public void giveMessage(String text) throws IOException {
-
   }
 
   @Override
@@ -26,7 +22,6 @@ public class MockView implements ImageProcessorView {
 
   @Override
   public void displayLayers(String[] layerNames) throws IOException {
-
   }
 
   public void saveEvent() {
@@ -96,6 +91,5 @@ public class MockView implements ImageProcessorView {
   public void greyscaleEvent() {
     features.handleFilter(FilterAction.GREYSCALE);
   }
-
 
 }

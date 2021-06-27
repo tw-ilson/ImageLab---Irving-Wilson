@@ -164,11 +164,19 @@ public class MockController implements ImageProcessorController, Features {
 
   @Override
   public void addView(ImageProcessorView view) {
-
+    try {
+      out.append("Add view.");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
   public void show() {
-
+    try {
+      out.append("show image.");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }

@@ -409,7 +409,7 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
   }
 
   /**
-   * So I don't have to repeat catch blocks
+   * So I don't have to repeat catch blocks.
    *
    * @param text the text to display
    */
