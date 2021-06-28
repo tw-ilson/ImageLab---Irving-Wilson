@@ -7,9 +7,9 @@ import java.util.Objects;
 import view.ImageProcessorView;
 
 /**
- * A mock controller to allow for the testing of the event functionality within the view.
- * How to stimulate the press of a button, while not being able to really interact with the GUI
- * through the testing syntax itself? This class allows for this behaviour.
+ * A mock controller to allow for the testing of the event functionality within the view. How to
+ * stimulate the press of a button, while not being able to really interact with the GUI through the
+ * testing syntax itself? This class allows for this behaviour.
  */
 public class MockController implements ImageProcessorController, Features {
 
@@ -21,7 +21,7 @@ public class MockController implements ImageProcessorController, Features {
 
   @Override
   public void run() throws IllegalArgumentException, IllegalStateException {
-
+    // empty
   }
 
   @Override
@@ -58,6 +58,12 @@ public class MockController implements ImageProcessorController, Features {
       case BATCH:
         try {
           out.append("batch");
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      default:
+        try {
+          out.append("Nothing.");
         } catch (IOException e) {
           e.printStackTrace();
         }
@@ -101,6 +107,12 @@ public class MockController implements ImageProcessorController, Features {
         } catch (IOException e) {
           e.printStackTrace();
         }
+      default:
+        try {
+          out.append("Nothing.");
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
     }
   }
 
@@ -141,12 +153,18 @@ public class MockController implements ImageProcessorController, Features {
         } catch (IOException e) {
           e.printStackTrace();
         }
+      default:
+        try {
+          out.append("nothing");
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
     }
   }
 
   @Override
   public void listLayers() {
-
+    // empty
   }
 
   @Override

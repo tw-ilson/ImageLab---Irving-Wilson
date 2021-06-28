@@ -9,7 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- *
+ * Tests for the resize class, observing if the images are correctly resized while still maintaining
+ * the correct makeup of the image.
  */
 public class TestResize {
 
@@ -39,6 +40,6 @@ public class TestResize {
 
   @Test//no exception
   public void test1by1Resize() {
-    before.resize(1,1);
+    assertEquals(before.resize(1, 1).getHeight(), 1);
   }
 }

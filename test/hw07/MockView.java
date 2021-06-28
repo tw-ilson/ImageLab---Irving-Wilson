@@ -20,14 +20,17 @@ public class MockView implements ImageProcessorView {
 
   @Override
   public void giveMessage(String text) throws IOException {
+    //empty
   }
 
   @Override
   public void displayImage(Image image) {
+    //empty
   }
 
   @Override
   public void displayLayers(String[] layerNames) throws IOException {
+    // empty
   }
 
   public void saveEvent() {

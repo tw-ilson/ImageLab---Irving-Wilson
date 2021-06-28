@@ -2,13 +2,8 @@ package hw07;
 
 import static org.junit.Assert.assertEquals;
 
-import controller.Features;
-import controller.StandardFeatures;
-import model.ImageProcessorLayerModel;
-import model.LayeredImageModel;
-import org.junit.Before;
 import org.junit.Test;
-import view.JFrameView;
+
 
 /**
  * Tests for the JFrameView, specifically seeing if it responds correctly to events by observing
@@ -17,16 +12,6 @@ import view.JFrameView;
  */
 public class TestJFrameView {
 
-  private ImageProcessorLayerModel model;
-  private Features toTest;
-  private JFrameView view;
-
-  @Before
-  public void init() {
-    model = new LayeredImageModel();
-    toTest = new StandardFeatures(model);
-    view = new JFrameView(toTest);
-  }
 
   @Test
   public void testSaveButton() {
@@ -196,11 +181,6 @@ public class TestJFrameView {
     view.features = features;
     view.mosaicEvent();
     assertEquals("mosaic on model with 1000 seeds", out.toString());
-  }
-
-  @Test
-  public void testDisplayImage() {
-
   }
 
 

@@ -2,7 +2,7 @@ package hw07;
 
 import static controller.ImageUtils.read;
 import static controller.ImageUtils.write;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.io.IOException;
 import model.color.Color;
@@ -17,6 +17,7 @@ import org.junit.Test;
  */
 public class TestKernelFilter {
   Image squidward;
+
   @Before
   public void setup() {
     try {
@@ -38,5 +39,6 @@ public class TestKernelFilter {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    assertNotEquals(before, after);
   }
 }

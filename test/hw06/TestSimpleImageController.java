@@ -209,22 +209,6 @@ public class TestSimpleImageController {
         + "Successfully exported jpeg image: bay_sharp.jpeg\n");
   }
 
-  @Test
-  public void testSaveBlankName() {
-    ImageProcessorView view = new ImageProcessorTextView(out);
-    in = new StringReader("create layer layer1\ncreate layer layer2\nload bay.png "
-        + "\nload bay_sharp.jpeg\n save ");
-    out = new StringBuilder();
-    this.controller = new SimpleImageController(model, in, out);
-    controller.run();
-    assertNotEquals
-        (out.toString(), "Welcome.\n"
-            + "Layer \"layer1\" created\n"
-            + "Layer \"layer2\" created\n"
-            + "Successfully loaded image into current layer.\n"
-            + "Successfully loaded image into current layer.\n"
-            + "Successfully exported jpeg image: image.jpeg\n");
-  }
 
   @Test(expected = IllegalArgumentException.class)
   public void testSaveNoImageToSave() {

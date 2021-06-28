@@ -27,7 +27,6 @@ import view.JFrameView;
 public class TestFeatures {
 
   private ImageProcessorLayerModel model;
-  private Image image1;
   private Features features;
   private JFrameView view;
 
@@ -36,7 +35,6 @@ public class TestFeatures {
   public void init() {
     this.model = new LayeredImageModel();
     LightColor[] toTest = new LightColor[9];
-    this.image1 = new SimpleImage(toTest, 3, 3);
     this.features = new StandardFeatures(model, view);
     this.view = new JFrameView(features);
   }
@@ -197,8 +195,8 @@ public class TestFeatures {
     features.handleLayers(LayerAction.ADD, "layer1");
     features.handleIO(IOAction.IMPORT, "photos/Moon.jpeg");
     features.handleFilter(FilterAction.GREYSCALE);
-    assertNotEquals(model.getImage().getHeight(),
-        ImageUtils.read("photos/Moon.jpeg").getHeight());
+    assertNotEquals(model.getImage().getPixel(1, 1),
+        ImageUtils.read("photos/Moon.jpeg").getPixel(1, 1));
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -259,7 +257,7 @@ public class TestFeatures {
         ImageUtils.read("photos/Moon.jpeg"));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void testInvisibleNull() throws IOException {
     features.handleLayers(LayerAction.ADD, "layer1");
     features.handleIO(IOAction.IMPORT, "photos/Moon.jpeg");
@@ -356,10 +354,5 @@ public class TestFeatures {
   public void testListLayersNothing() {
     features.listLayers();
     assertEquals(view.toString(), "");
-  }
-
-  @Test
-  public void testShow() {
-
   }
 }
