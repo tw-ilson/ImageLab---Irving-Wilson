@@ -13,8 +13,6 @@ import java.io.IOException;
 import model.ImageProcessorLayerModel;
 import model.LayeredImageModel;
 import model.color.LightColor;
-import model.image.Image;
-import model.image.SimpleImage;
 import org.junit.Before;
 import org.junit.Test;
 import view.JFrameView;

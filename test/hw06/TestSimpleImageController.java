@@ -1,7 +1,6 @@
 package hw06;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 import controller.ImageProcessorController;
 import controller.SimpleImageController;

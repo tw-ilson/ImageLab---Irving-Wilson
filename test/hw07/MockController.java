@@ -61,6 +61,7 @@ public class MockController implements ImageProcessorController, Features {
         } catch (IOException e) {
           e.printStackTrace();
         }
+        break;
       default:
         try {
           out.append("Nothing.");
@@ -107,6 +108,7 @@ public class MockController implements ImageProcessorController, Features {
         } catch (IOException e) {
           e.printStackTrace();
         }
+        break;
       default:
         try {
           out.append("Nothing.");
@@ -153,6 +155,7 @@ public class MockController implements ImageProcessorController, Features {
         } catch (IOException e) {
           e.printStackTrace();
         }
+        break;
       default:
         try {
           out.append("nothing");
