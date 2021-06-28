@@ -36,7 +36,7 @@ public abstract class AbstractImage implements Image {
   @Override
   public Color getPixel(int x, int y) throws IllegalArgumentException {
     if (x > width - 1 || x < 0 || y > height - 1 || y < 0) {
-      throw new IllegalArgumentException("Invalid width or height.");
+      throw new IllegalArgumentException("Invalid dimensions.");
     }
     return pixArray[width * y + x];
   }
@@ -93,6 +93,9 @@ public abstract class AbstractImage implements Image {
   }
 
   protected Color[] resizedRaster(int w, int h) throws IllegalArgumentException {
+    if (w > width - 1 || w < 1 || h > height - 1 || h < 1) {
+      throw new IllegalArgumentException("Invalid dimensions.");
+    }
     Color[] resizedRaster = new LightColor[w * h];
     for (int y = 0; y < h; y++) {
       for (int x = 0; x < w; x++) {

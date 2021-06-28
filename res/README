@@ -1,0 +1,137 @@
+Tom Wilson and Ben Irving - IME processing
+
+The general purpose of this assignment is to successfully process images of all different formats,
+and perform various transformations to those files. In this assignment, we handled the blurring
+and sharpening of images, and support for monochrome and sepia images. The image format that we
+primarily worked with was the PPM format, though we ensured that we had support for other formats,
+should the need arise.
+
+Then, our ImageProcessorModel extends this ImageProcessorIO. The purpose of this interface is to
+represent the model which can perform the desired imager alterations. The abstractImageProcessor'
+model implements this interface. The general purpose of this class is to handle the import and
+export functionality itself, and to leave the possibility for different implementations
+of the model itself open.
+
+Our simpleImageProcessorModel is a simple instance of this class, extending AbstractImageProcessor
+Model, supporting the basic functionality for taking and working with a single image.
+It also stores all versions of the provided image. This class serves to perform the basic
+operations described above.
+
+The fileType enum serves to represent the possible filetypes, which for this class was simply the
+PPM filetype.
+
+The images themselves are represented by our Image interface, which represents an Image with a
+width, height, and an array of pixels, where each value in array represents the color of that pixel.
+
+The abstractImage class implements the Image interface, which provides the functionality for
+the simple image operations. The abstract class allows for further extension on the image
+functionality.
+The SimpleImage class extends the abstractImage class, holding a copy constructor which serves
+to create a copy of the image provided. The simpleImage class does not hold any additional
+functionality beyond this, but serves as a benchmark for possible future implementations.
+
+For the Colors represented within the pixels, we created a Color interface, which represents a
+color with a red, blue and green channel. We made this an interface so that we could create
+multiple possible implementations of the Color data type in the future.
+We then created a light color class, which utilizes a 32 bit number to represent its RGB values.
+
+For the filters themselves, we created a Filter interface, which represents the filter that
+can be applied to the image. Separately from this interface, we created a FilterBuilder
+class, which allows us to construct the filters and add them to a general purpose hashmap which
+stores all of the types of filters. This would be the class that we would add future filters to,
+so as not to disturb any other functionality. It contains support for two types of filters, a
+color filter, and a kernel filter, supporting the required types for this assignment.
+
+The kernel filter class implements our filter interface, and supports the construction of a new
+image with the given kernel filter applied to it. The ColorFilter implements our filter interface
+as well, and supports the construction of a new image with the given color filter applied to it.
+
+"bay.ppm" and "glacier.ppm" are the property of Benjamin Irving and Thomas Wilson.
+We approve of their use for this project.
+
+/// Homework 6 additions
+
+The primary changes to this project were in the SimpleLayeredImage class, which stemmed from the
+layeredImage interface. The layeredImage interface extended the image interface, but added
+new functionality which allowed our image to behave like a stack of individual images. These
+images could ideally be manipulated and changed at the clients whim. The SimpleLayeredImage
+itself is the layered image object, and all the associated functionality (adding/removing
+a layer, loading an image into the layer, editing a layer, retrieving the topMostVisible layer).
+
+On top of the previous functionality, we have added the ImageProcessorController interface, which
+represents the controller functionality for this project. It handles the batch commands, or the
+image-processing commands that the user wishes to handle. The ImageUtils class is an instance
+of the ImageProcessorController, and allows the client to load, save, and manipulate images.
+
+The SimpleImageController itself handles this functionality, reading the commands from the user
+and handling them with the new LayeredImageModel, which is a model that is quite similar to the
+SimpleImageModel, but instead can handle the functionality associated with a layered image, which
+includes the editing of individual layers, the adding/removing of layers, the changing of the
+invisibility, etc.)
+
+We also moved all of our image handling to the controller level of the program, as the model
+handles the internal data and not the external data being fed into the controller. The model
+is the backend of our program, and as such should not be associated with the external data.
+
+
+// Homework 7 additions
+
+The primary changes from homework 6 to homework 7 was the addition of the Graphical interface
+view, through which the user can interact with the program.
+
+A new class was created, the JFrameView class, which holds all of the code that allows the user
+to interact with the program through the GUI. It builds the GUI, and communicates with the
+controller to display the correct data.
+
+We did make some changes to the ImageProcessorView interface to support this new view, particularly
+the displayImage method with allows the JFrameView to interpret image data, and the
+displayLayers method which allows the JFrameView to interpret the layers from the controller.
+This additional functionality ensures that Batch Commands update the view accordingly.
+
+To the controller, we made some drastic changes. We added a new interface, the Features interface,
+which represents the functionality that the controller has to handle through the
+GUI, in order to update the model along with what the client actually sees on the screen
+correctly.
+
+Implementing the interface was the StandardFeatures class, which actually implements
+the functionality dictated above. It holds the data from the model and the view, able to receive
+commands that the view "hears", and act upon them by updating the model on the backend.
+
+ImageGUIController is merely code which creates an instance of the GUI view, which is fed an
+instance of the features class containing the corresponding model and the view itself. This web of
+functionality allows for live-time updates of the view according with the data
+changes handled in the model.
+
+In terms of additional functionality, we also added the ability to resize an image. We added
+an additional method to the abstract image class, which handled the brunt of the actual resize
+image operation. Then we added a resize method to the image interface, which used this abstract
+method in all of the subsequent image classes. This functionality was then included in the GUI,
+along with the features class to handle this new alteration.
+
+We also added the ability to create a Mosaic image. The process of introducing this additional
+functionality was actually quite similar to that of resize. A method to handle the brunt of the
+calculations was added to the AbstractImage class (to be used by all subsequent image classes), and
+then a method which uses these calculations was added to the image interface, which allowed the
+implementation to vary from a simple image to a layered image, for instance.
+
+
+new images:
+
+"An Image of the Moon"
+Moon.jpeg
+taken July 22, 2020 on a cannon EOS D60
+Author: OldakQuill
+public domain
+
+"Squidward.png"
+taken 2018, screenshot
+Belongs to the Nickelodeon corporation.
+public domain, can be used for commerical use
+
+
+
+
+
+
+
+

@@ -229,7 +229,7 @@ public class SimpleLayeredImage implements LayeredImage {
       throw new IllegalStateException("No layers created.");
     }
     Image toSave = null;
-    LayerInfo toReturn = new LayerInfo(0, null, true);
+    LayerInfo toReturn = new LayerInfo(-1, null, false);
     for (LayerInfo info : this.layerTable.values()) {
       if (info.inOrder > toReturn.inOrder && info.visible && info.pixels != null) {
         toReturn = new LayerInfo(info.inOrder, info.pixels, true);

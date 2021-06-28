@@ -1,0 +1,36 @@
+create layer bay
+load ../photos/bay.ppm
+create layer glacier
+load ../photos/glacier.ppm
+current bay
+filter blur
+filter greyscale
+current glacier
+filter sharpen
+filter sepia
+create layer clarinet
+load ../photos/squidward.png
+filter blur
+filter blur
+filter sepia
+filter sharpen
+filter sharpen
+filter sharpen
+filter sharpen
+filter sepia
+save squid_man_deep_fried
+remove clarinet
+create                     layer                   photoshopped_by_NASA
+load ../photos/Moon.jpeg
+invisible photoshopped_by_NASA
+save exposing_government_lies.ppm
+
+
+
+
+current bay
+save bay_greyblur.png
+current glacier
+save glacier_sharpsep.jpeg
+visible photoshopped_by_NASA
+quit

@@ -105,7 +105,7 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
     //create toolbar
     this.file = new JMenu("File");
     this.importButton = new JMenuItem("Import...");
-    this.loadAll = new JMenuItem("Load all");
+    this.loadAll = new JMenuItem("Import all...");
     this.exportButton = new JMenuItem("Export...");
     this.exportAll = new JMenuItem("Export all...");
     this.quit = new JMenuItem("Quit");
@@ -149,6 +149,8 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
     errorMessage = new JLabel();
     imageToShow = new JLabel();
     imageScrollPane = new JScrollPane(imageToShow);
+    imageScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    imageScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
     imageScrollPane.setPreferredSize(new Dimension(500, 500));
     ImagePanel.add(imageScrollPane);
     ImagePanel.add(errorMessage, BorderLayout.NORTH);
@@ -291,9 +293,8 @@ public class JFrameView extends JFrame implements ActionListener, ListSelectionL
         JLabel prompt = new JLabel("Enter new dimensions:");
         JLabel wLabel = new JLabel("Width:");
         JLabel hLabel = new JLabel("Height:");
-        JSpinner widthSpinner = new JSpinner(new SpinnerNumberModel());
-        widthSpinner.setValue(imageToShow.getWidth());
-        JSpinner heightSpinner = new JSpinner(new SpinnerNumberModel());
+        JSpinner widthSpinner = new JSpinner(new SpinnerNumberModel(imageToShow.getWidth(), 1, imageToShow.getWidth(), 1));
+        JSpinner heightSpinner = new JSpinner(new SpinnerNumberModel(imageToShow.getHeight(), 1, imageToShow.getHeight(), 1));
         heightSpinner.setValue(imageToShow.getHeight());
         dialogPanel.add(prompt);
         dialogPanel.add(wLabel);

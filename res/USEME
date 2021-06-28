@@ -1,0 +1,81 @@
+****************************************** HOW TO USE **********************************************
+When run with 'java ImageProcessor -interactive' :
+
+ * Primary navigation of the program can be done with the menu bar at top. Major categories are
+ 'File', 'Layer', and 'Filter'.
+
+ * In the 'File' menu, 'Import...' will bring up a dialog to choose what image to load in the
+ current layer. The current layer defaults to the most recently added layer, otherwise it can be
+ selected in the list of layers at right. 'Import all...' saves the selected image into all
+ currently working layers.
+   'Export...' will bring up the dialog to choose a path to save the current image on-screen.
+ The format in which to save the image can be selected by adding the desired file extension to the
+ end of the path. 'Export all...' saves all currently visible images with the provided name. For
+ Example, if the name "save.png" was provided and there are four layers, the files save0.png,
+ save1.png, save2.png, and save3.png would be saved.
+
+ * 'Batch' will bring up a dialog to select a text file to load as a set of commands to complete, in
+ the format of the commands used int the text interface. Note that resizing and mosaic are not
+ supported as text commands
+
+ * 'Quit' will attempt to quit the program, bringing up a prompt to save changes. if 'Yes' is
+ selected, 'Export all...' is executed. This is the preferred way to quit the program.
+
+ * In the 'Layer' menu, options are provided to add or remove a layer to the program, for which a
+ name is requested.
+
+ * In the 'Filter' menu, several options for filters can be applied to the current layer. The
+ options are 'Blur', 'Sharpen', 'Sepia', and 'Greyscale', as well as the newly added 'Mosaic' option.
+ Support for custom filters is on the way.
+
+ * Additionally, the Visibility menu tab allows the user to set the visibility of the currently
+ selected layer.
+
+ * the "Resize" item on the top bar can be used to resize the image to a smaller size.
+
+ * On the right, the list of layers can be seen. Order is not necessarily indicated by the order in
+ which they appear. The current layer appears in blue if manually selected.
+
+When run with 'java ImageProcessor -text' :
+
+                                      -- List of commands --
+Use:
+    > create layer <name_of_layer>
+to create a new layer with the given name. A new layer becomes the 'current' layer upon creation.
+
+Use:
+    > current <name_of_layer>
+to set the specified layer as the current layer, if a layer with such a name exists.
+
+Use:
+    > filter <name_of_filter>
+to apply the specified filter the the image stored at the current layer.
+
+Use:
+    > load <path_to_file>
+to load the specified image into the layer that is selected as 'current'
+
+Use:
+    > save <file_to_create.ext>
+to save the current file (or if the current file is invisible, the top-most visible layer) to the
+file path specified as argument. The format of the file created can be specified by the extension
+supplied with the argument, and if no extension is specified, format defaults to JPEG, and .jpeg
+is appended to the name of the file.
+
+Use:
+    > invisible <name_of_layer>
+to set the specified layer to be invisible, meaning that it cannot be saved.
+
+Use:
+    > visible <name_of_layer>
+to set the specified layer to be visible, meaning that it can be saved.
+
+Use:
+    > list
+to list the names of all layers.
+
+Use:
+    > q
+or
+    > quit
+to end the program run.
